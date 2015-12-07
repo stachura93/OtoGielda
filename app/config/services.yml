@@ -1,0 +1,61 @@
+# Learn more about services, parameters and containers at
+# http://symfony.com/doc/current/book/service_container.html
+parameters:
+#    parameter_name: value
+
+services:
+    admin.auction:
+        class: AppBundle\Admin\AuctionAdmin
+        arguments: [~, AppBundle\Entity\Auction, ~]
+        tags:
+            - { name: sonata.admin, manager_type: orm, label: Auction }
+    admin.bidding:
+        class: AppBundle\Admin\BiddingAdmin
+        arguments: [~, AppBundle\Entity\bidding, ~]
+        tags:
+            - { name: sonata.admin, manager_type: orm, label: Bidding }
+    admin.category:
+        class: AppBundle\Admin\CategoryAdmin
+        arguments: [~, AppBundle\Entity\Category, ~]
+        tags:
+            - { name: sonata.admin, manager_type: orm, label: Category }
+    admin.message:
+        class: AppBundle\Admin\MessageAdmin
+        arguments: [~, AppBundle\Entity\Message, ~]
+        tags:
+            - { name: sonata.admin, manager_type: orm, label: Message }
+    admin.payment:
+        class: AppBundle\Admin\PaymentAdmin
+        arguments: [~, AppBundle\Entity\Payment, ~]
+        tags:
+            - { name: sonata.admin, manager_type: orm, label: Payment }
+    admin.product:
+      class: AppBundle\Admin\ProductAdmin
+      arguments: [~, AppBundle\Entity\Product, ~]
+      tags:
+        - { name: sonata.admin, manager_type: orm, label: Product }
+    admin.shipping:
+        class: AppBundle\Admin\ShippingAdmin
+        arguments: [~, AppBundle\Entity\Shipping, ~]
+        tags:
+            - { name: sonata.admin, manager_type: orm, label: Shipping }
+    admin.comment:
+        class: AppBundle\Admin\CommentAdmin
+        arguments: [~, AppBundle\Entity\Comment, ~]
+        tags:
+            - { name: sonata.admin, manager_type: orm, label: Comment }
+
+
+    # admin.blog_post:
+    #     class: AppBundle\Admin\BlogPostAdmin
+    #     arguments: [~, AppBundle\Entity\BlogPost, ~]
+    #     tags:
+    #         - { name: sonata.admin, manager_type: orm, label: Blog post }
+#    service_name:
+#        class: AppBundle\Directory\ClassName
+#        arguments: ["@another_service_name", "plain_value", "%parameter_name%"]
+  # acme_user.registration.form.type:
+  #       class: UserBundle\Form\Type\RegistrationFormType
+  #       arguments: [%fos_user.model.user.class%]
+  #       tags:
+  #           - { name: form.type, alias: acme_user_registration }
