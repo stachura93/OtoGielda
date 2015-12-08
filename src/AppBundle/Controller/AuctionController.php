@@ -13,10 +13,30 @@ use AppBundle\Form\AuctionType;
 /**
  * Auction controller.
  *
- * @Route("/auction")
+ * @Route("auction")
  */
 class AuctionController extends Controller
 {
+
+   /**
+     * Finds and displays a Auction entity.
+     *
+     * @Route("/{category}", name="auction_in_category")
+     * @Method("GET")
+     * @Template()
+     */
+    public function in_categoryAction($category)
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        $id  = $em->getRepository('AppBundle:Category')->findBy(array('name' => $category));
+        $entity = $em->getRepository('AppBundle:Auction')->findBy(array('category' => $id));
+
+        return array(
+            'entities'      => $entity,
+        );
+    }
+
 
     /**
      * Lists all Auction entities.
@@ -99,30 +119,30 @@ class AuctionController extends Controller
         );
     }
 
-    /**
-     * Finds and displays a Auction entity.
-     *
-     * @Route("/{id}", name="auction_show")
-     * @Method("GET")
-     * @Template()
-     */
-    public function showAction($id)
-    {
-        $em = $this->getDoctrine()->getManager();
+    // /**
+    //  * Finds and displays a Auction entity.
+    //  *
+    //  * @Route("/{id}", name="auction_show")
+    //  * @Method("GET")
+    //  * @Template()
+    //  */
+    // public function showAction($id)
+    // {
+    //     $em = $this->getDoctrine()->getManager();
 
-        $entity = $em->getRepository('AppBundle:Auction')->find($id);
+    //     $entity = $em->getRepository('AppBundle:Auction')->find($id);
 
-        if (!$entity) {
-            throw $this->createNotFoundException('Unable to find Auction entity.');
-        }
+    //     if (!$entity) {
+    //         throw $this->createNotFoundException('Unable to find Auction entity.');
+    //     }
 
-        $deleteForm = $this->createDeleteForm($id);
+    //     $deleteForm = $this->createDeleteForm($id);
 
-        return array(
-            'entity'      => $entity,
-            'delete_form' => $deleteForm->createView(),
-        );
-    }
+    //     return array(
+    //         'entity'      => $entity,
+    //         'delete_form' => $deleteForm->createView(),
+    //     );
+    // }
 
     /**
      * Displays a form to edit an existing Auction entity.

@@ -12,10 +12,6 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Auction
 {
-    /**
-     * @ORM\OneToOne(targetEntity="Product", mappedBy="auction")
-     */
-    private $product;
 
     /**
      * @var integer
@@ -56,14 +52,14 @@ class Auction
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="start_auction", type="date", nullable=false)
+     * @ORM\Column(name="start_auction", type="datetime", nullable=false)
      */
     private $startAuction;
 
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="end_auction", type="date", nullable=false)
+     * @ORM\Column(name="end_auction", type="datetime", nullable=false)
      */
     private $endAuction;
 
@@ -105,6 +101,33 @@ class Auction
      * @ORM\OneToMany(targetEntity="Message", mappedBy="auction")
      */
     private $message;
+
+     /**
+     * @ORM\ManyToOne(targetEntity="Category", inversedBy="auction")
+     * @ORM\JoinColumn(name="category", referencedColumnName="id")
+     */
+    private $category;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="product_amount", type="integer", nullable=false)
+     */
+    private $productAmount;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="product_price", type="integer", nullable=false)
+     */
+    private $productPrice;
+
+    /**
+     * @var boolean
+     *
+     * @ORM\Column(name="new_product", type="boolean", nullable=true)
+     */
+    private $newProduct;
     /**
      * Constructor
      */
@@ -114,30 +137,6 @@ class Auction
         $this->shipping = new \Doctrine\Common\Collections\ArrayCollection();
         $this->bidding = new \Doctrine\Common\Collections\ArrayCollection();
         $this->message = new \Doctrine\Common\Collections\ArrayCollection();
-    }
-
-    /**
-     * Set user
-     *
-     * @param integer $user
-     *
-     * @return Auction
-     */
-    public function setUser($user)
-    {
-        $this->user = $user;
-
-        return $this;
-    }
-
-    /**
-     * Get user
-     *
-     * @return integer
-     */
-    public function getUser()
-    {
-        return $this->user;
     }
 
     /**
@@ -295,27 +294,99 @@ class Auction
     }
 
     /**
-     * Set product
+     * Set productAmount
      *
-     * @param \AppBundle\Entity\Product $product
+     * @param integer $productAmount
      *
      * @return Auction
      */
-    public function setProduct(\AppBundle\Entity\Product $product = null)
+    public function setProductAmount($productAmount)
     {
-        $this->product = $product;
+        $this->productAmount = $productAmount;
 
         return $this;
     }
 
     /**
-     * Get product
+     * Get productAmount
      *
-     * @return \AppBundle\Entity\Product
+     * @return integer
      */
-    public function getProduct()
+    public function getProductAmount()
     {
-        return $this->product;
+        return $this->productAmount;
+    }
+
+    /**
+     * Set productPrice
+     *
+     * @param integer $productPrice
+     *
+     * @return Auction
+     */
+    public function setProductPrice($productPrice)
+    {
+        $this->productPrice = $productPrice;
+
+        return $this;
+    }
+
+    /**
+     * Get productPrice
+     *
+     * @return integer
+     */
+    public function getProductPrice()
+    {
+        return $this->productPrice;
+    }
+
+    /**
+     * Set newProduct
+     *
+     * @param boolean $newProduct
+     *
+     * @return Auction
+     */
+    public function setNewProduct($newProduct)
+    {
+        $this->newProduct = $newProduct;
+
+        return $this;
+    }
+
+    /**
+     * Get newProduct
+     *
+     * @return boolean
+     */
+    public function getNewProduct()
+    {
+        return $this->newProduct;
+    }
+
+    /**
+     * Set user
+     *
+     * @param \Application\Sonata\UserBundle\Entity\User $user
+     *
+     * @return Auction
+     */
+    public function setUser(\Application\Sonata\UserBundle\Entity\User $user = null)
+    {
+        $this->user = $user;
+
+        return $this;
+    }
+
+    /**
+     * Get user
+     *
+     * @return \Application\Sonata\UserBundle\Entity\User
+     */
+    public function getUser()
+    {
+        return $this->user;
     }
 
     /**
@@ -500,5 +571,29 @@ class Auction
     public function getMessage()
     {
         return $this->message;
+    }
+
+    /**
+     * Set category
+     *
+     * @param \AppBundle\Entity\Category $category
+     *
+     * @return Auction
+     */
+    public function setCategory(\AppBundle\Entity\Category $category = null)
+    {
+        $this->category = $category;
+
+        return $this;
+    }
+
+    /**
+     * Get category
+     *
+     * @return \AppBundle\Entity\Category
+     */
+    public function getCategory()
+    {
+        return $this->category;
     }
 }

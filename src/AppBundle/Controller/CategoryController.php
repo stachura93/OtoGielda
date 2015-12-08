@@ -19,6 +19,26 @@ class CategoryController extends Controller
 {
 
     /**
+     * Finds and displays a Category entity.
+     *
+     * @Route("/{name}", name="parent_category")
+     * @Method("GET")
+     * @Template()
+     */
+    public function show_parentAction($name) {
+      $em = $this->getDoctrine()->getManager();
+
+      $id = $em->getRepository('AppBundle:Category')->findBy(array('name' => $name ));
+      $entities = $em->getRepository('AppBundle:Category')->findBy(array('parent' => $id ));
+
+      // $auction
+       return  array(
+            'entities' => $entities,
+        );
+    }
+
+
+    /**
      * Lists all Category entities.
      *
      * @Route("/", name="category")
@@ -28,7 +48,6 @@ class CategoryController extends Controller
     public function indexAction()
     {
         $em = $this->getDoctrine()->getManager();
-
         $entities = $em->getRepository('AppBundle:Category')->findAll();
 
         return array(
@@ -99,30 +118,30 @@ class CategoryController extends Controller
         );
     }
 
-    /**
-     * Finds and displays a Category entity.
-     *
-     * @Route("/{id}", name="category_show")
-     * @Method("GET")
-     * @Template()
-     */
-    public function showAction($id)
-    {
-        $em = $this->getDoctrine()->getManager();
+    // /**
+    //  * Finds and displays a Category entity.
+    //  *
+    //  * @Route("/{id}", name="category_show")
+    //  * @Method("GET")
+    //  * @Template()
+    //  */
+    // public function showAction($id)
+    // {
+    //     $em = $this->getDoctrine()->getManager();
 
-        $entity = $em->getRepository('AppBundle:Category')->find($id);
+    //     $entity = $em->getRepository('AppBundle:Category')->find($id);
 
-        if (!$entity) {
-            throw $this->createNotFoundException('Unable to find Category entity.');
-        }
+    //     if (!$entity) {
+    //         throw $this->createNotFoundException('Unable to find Category entity.');
+    //     }
 
-        $deleteForm = $this->createDeleteForm($id);
+    //     $deleteForm = $this->createDeleteForm($id);
 
-        return array(
-            'entity'      => $entity,
-            'delete_form' => $deleteForm->createView(),
-        );
-    }
+    //     return array(
+    //         'entity'      => $entity,
+    //         'delete_form' => $deleteForm->createView(),
+    //     );
+    // }
 
     /**
      * Displays a form to edit an existing Category entity.

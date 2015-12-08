@@ -6,47 +6,28 @@
     <table class="record_properties">
         <tbody>
             <tr>
-                <th>Enabled</th>
-                <td>{{ entity.enabled }}</td>
-            </tr>
-            <tr>
                 <th>Title</th>
                 <td>{{ entity.title }}</td>
             </tr>
             <tr>
                 <th>Content</th>
-                <td>{{ entity.content }}</td>
+                <td>{{ entity.content|raw }}</td>
             </tr>
             <tr>
                 <th>Picturepath</th>
                 <td>{{ entity.picturePath }}</td>
             </tr>
             <tr>
-                <th>Startauction</th>
-                <td>{{ entity.startAuction|date('Y-m-d H:i:s') }}</td>
-            </tr>
-            <tr>
-                <th>Endauction</th>
+                <th>End auction</th>
                 <td>{{ entity.endAuction|date('Y-m-d H:i:s') }}</td>
             </tr>
-            <tr>
-                <th>Id</th>
-                <td>{{ entity.id }}</td>
-            </tr>
+
         </tbody>
     </table>
 
-        <ul class="record_actions">
-    <li>
-        <a href="{{ path('auction') }}">
-            Back to the list
-        </a>
-    </li>
-    <li>
-        <a href="{{ path('auction_edit', { 'id': entity.id }) }}">
-            Edit
-        </a>
-    </li>
-    <li>{{ form(delete_form) }}</li>
+ {{ entity.endAuction.diff(entity.startAuction).days }}
+
+
+
 </ul>
 {% endblock %}

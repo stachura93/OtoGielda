@@ -1,0 +1,31 @@
+{% extends '::base.html.twig' %}
+
+{% block body -%}
+
+    {% if entities != null  %}
+        <h1>Auction list</h1>
+
+        <table class="records_list">
+            <thead>
+                <tr>
+                    <th>Picturepath</th>
+                    <th>Title</th>
+                    <th>Left</th>
+                    <th>Price</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for entity in entities %}
+                <tr>
+                    <td>{{ entity.picturePath }}</td>
+                    <td>{{ entity.title }}</td>
+                    <td>{{ entity.endAuction.diff(entity.startAuction).days }}</td>
+                    <td>{{ entity.productPrice }}</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+
+
+    {% endif %}
+    {% endblock %}

@@ -10,13 +10,14 @@ use Doctrine\Common\Collections\ArrayCollection;
  *
  * @ORM\Table(name="category", uniqueConstraints={@ORM\UniqueConstraint(name="id", columns={"id"})})
  * @ORM\Entity
+ *
  */
 class Category
 {
     /**
      * @var string
      * @ORM\OneToMany(targetEntity="Category", mappedBy="parent")
-     * @ORM\Column(name="name", type="string", length=20, nullable=false)
+     * @ORM\Column(name="name", type="string", length=20, nullable=false, unique=true)
      */
     private $name;
 
@@ -31,9 +32,9 @@ class Category
     private $id;
 
      /**
-     * @ORM\OneToOne(targetEntity="Product", mappedBy="category")
+     * @ORM\OneToMany(targetEntity="Auction", mappedBy="category")
      */
-    private $product;
+    private $auction;
 
     /**
      *
@@ -41,14 +42,12 @@ class Category
      * @ORM\JoinColumn(name="parent", referencedColumnName="id", nullable=true)
      */
     private $parent;
-
-
     /**
      * Constructor
      */
     public function __construct()
     {
-        $this->name = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->auction = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
     /**
@@ -86,37 +85,37 @@ class Category
     }
 
     /**
-     * Add product
+     * Add auction
      *
-     * @param \AppBundle\Entity\Product $product
+     * @param \AppBundle\Entity\Auction $auction
      *
      * @return Category
      */
-    public function addProduct(\AppBundle\Entity\Product $product)
+    public function addAuction(\AppBundle\Entity\Auction $auction)
     {
-        $this->product[] = $product;
+        $this->auction[] = $auction;
 
         return $this;
     }
 
     /**
-     * Remove product
+     * Remove auction
      *
-     * @param \AppBundle\Entity\Product $product
+     * @param \AppBundle\Entity\Auction $auction
      */
-    public function removeProduct(\AppBundle\Entity\Product $product)
+    public function removeAuction(\AppBundle\Entity\Auction $auction)
     {
-        $this->product->removeElement($product);
+        $this->auction->removeElement($auction);
     }
 
     /**
-     * Get product
+     * Get auction
      *
      * @return \Doctrine\Common\Collections\Collection
      */
-    public function getProduct()
+    public function getAuction()
     {
-        return $this->product;
+        return $this->auction;
     }
 
     /**

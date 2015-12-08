@@ -14,9 +14,9 @@ class ProductAdmin extends Admin
                    ->add('amount', 'integer')
                    ->add('price', 'integer')
                    ->add('newProduct', 'checkbox', array('required' => false))
-                   ->add('category', 'entity', array(
-                        'class' => 'AppBundle\Entity\Category',
-                        'property' => 'name',
+                   ->add('auction', 'entity', array(
+                        'class' => 'AppBundle\Entity\Auction',
+                        'property' => 'title',
                     ))
                    ;
     }

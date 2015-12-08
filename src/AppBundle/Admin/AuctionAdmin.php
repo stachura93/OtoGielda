@@ -8,14 +8,23 @@ use Sonata\AdminBundle\Form\FormMapper;
 
 class AuctionAdmin extends Admin
 {
+
     protected function configureFormFields(FormMapper $formMapper)
     {
         $formMapper->add('enabled', 'checkbox', array('required' => false))
                    ->add('title', 'text')
                    ->add('content', 'text')
+                   ->add('product_price', 'integer')
+                 
+                    ->add('product_amount', 'integer')
+                   ->add('new_product', 'checkbox')
                    ->add('picturePath', 'text', array('required' => false))
-                   ->add('startAuction', 'datetime')
-                   ->add('endAuction', 'datetime')
+                   ->add('startAuction', 'sonata_type_datetime_picker', array(
+                        'format' => 'dd.MM.yyyy, HH:mm',
+                      ))
+                   ->add('endAuction', 'sonata_type_datetime_picker', array(
+                        'format' => 'dd.MM.yyyy, HH:mm',
+                      ))
                    ->add('user', 'entity', array(
                         'class' => 'Application\Sonata\UserBundle\Entity\User',
                         'property' => 'username',
@@ -30,6 +39,12 @@ class AuctionAdmin extends Admin
                         'property' => 'description',
                         'required' => false,
                     ))
+                    ->add('category', 'entity', array(
+                        'class' => 'AppBundle\Entity\Category',
+                        'property' => 'name',
+                        'required' => false,
+                    ))
+                    
                    ;
     }
 

@@ -21,7 +21,6 @@ class AuctionType extends AbstractType
             ->add('picturePath')
             ->add('startAuction')
             ->add('endAuction')
-            ->add('product')
             ->add('user')
             ->add('commentFromBuyer')
             ->add('commentFromSeller')

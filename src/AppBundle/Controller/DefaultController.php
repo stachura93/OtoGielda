@@ -27,28 +27,10 @@ class DefaultController extends Controller
       ->where('c.parent IS NULL')
       ->getQuery();
 
-        $entities = $query->getResult();
-      // replace this example code with whatever you need
-        return $this->render('default/index.html.twig', array('entities' => $entities));
+         $entities = $query->getResult();
+      // // replace this example code with whatever you need
+         return $this->render('default/index.html.twig', array('entities' => $entities));
     }
 
-    /**
-     * Finds and displays a Category entity.
-     *
-     * @Route("/{name}", name="parent_category")
-     * @Method("GET")
-     * @Template()
-     */
-    public function showAction($name) {
-      $em = $this->getDoctrine()->getManager();
-
-      $id = $em->getRepository('AppBundle:Category')->findBy(array('name' => $name ));
-
-      $cat = $em->getRepository('AppBundle:Category')->findBy(array('parent' => $id ));
-
-
-      return $this->render('default/index.html.twig', array('entities' => $cat,
-        ));
-    }
 
 }

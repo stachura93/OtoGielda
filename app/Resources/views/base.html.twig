@@ -35,25 +35,21 @@
         <li>
           <a href="{{path('homepage')}}">Home</a>
         </li>
+        {% if app.user %}
         <li>
           <a href="#sec">Edit</a>
         </li>
-        <li>
-          <a href="#sec">Visualize</a>
-        </li>
-        <li>
-          <a href="#sec">Prototype</a>
-        </li>
+        {% endif %}
       </ul>
     <nav class="nav navbar-nav navbar-right">
 
-              <a href="{{path('homepage')}}profile">
-      <li class="navbar-brand">
-              {% if app.user %}
-              {{app.user.username}}
-              {% endif %}
-      </li>
-              </a>
+      <a href="{{path('homepage')}}profile">
+        <li class="navbar-brand">
+                {% if app.user %}
+                {{app.user.username}}
+                {% endif %}
+        </li>
+      </a>
     </nav>
     </nav>
   </div>
