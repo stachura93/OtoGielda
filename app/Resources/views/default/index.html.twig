@@ -3,11 +3,24 @@
 {% block leftMenu %}
 
 
-
-
 {% endblock %}
 
 {% block body %}
+
+    <table class="records_list">
+        <thead>
+            <tr>
+                <th>Name</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for entity in entities %}
+            <tr>
+                <td><a href="{{ path('parent_category', { 'name': entity.name }) }}">{{ entity.name }}</a></td>
+             </tr>
+        {% endfor %}
+        </tbody>
+    </table>
 
 
 {% endblock %}
