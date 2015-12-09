@@ -8,42 +8,37 @@ services:
         class: AppBundle\Admin\AuctionAdmin
         arguments: [~, AppBundle\Entity\Auction, ~]
         tags:
-            - { name: sonata.admin, manager_type: orm, label: Auction }
+            - { name: sonata.admin, manager_type: orm, label: Auction, group: "Auction" }
     admin.bidding:
         class: AppBundle\Admin\BiddingAdmin
         arguments: [~, AppBundle\Entity\bidding, ~]
         tags:
-            - { name: sonata.admin, manager_type: orm, label: Bidding }
+            - { name: sonata.admin, manager_type: orm, label: Bidding, group: "Auction"}
     admin.category:
         class: AppBundle\Admin\CategoryAdmin
         arguments: [~, AppBundle\Entity\Category, ~]
         tags:
-            - { name: sonata.admin, manager_type: orm, label: Category }
+            - { name: sonata.admin, manager_type: orm, label: Category, group: "Product" }
     admin.message:
         class: AppBundle\Admin\MessageAdmin
         arguments: [~, AppBundle\Entity\Message, ~]
         tags:
-            - { name: sonata.admin, manager_type: orm, label: Message }
+            - { name: sonata.admin, manager_type: orm, label: Message, group: "User" }
     admin.payment:
         class: AppBundle\Admin\PaymentAdmin
         arguments: [~, AppBundle\Entity\Payment, ~]
         tags:
-            - { name: sonata.admin, manager_type: orm, label: Payment }
-    admin.product:
-      class: AppBundle\Admin\ProductAdmin
-      arguments: [~, AppBundle\Entity\Product, ~]
-      tags:
-        - { name: sonata.admin, manager_type: orm, label: Product }
+            - { name: sonata.admin, manager_type: orm, label: Payment, group: "Product" }
     admin.shipping:
         class: AppBundle\Admin\ShippingAdmin
         arguments: [~, AppBundle\Entity\Shipping, ~]
         tags:
-            - { name: sonata.admin, manager_type: orm, label: Shipping }
+            - { name: sonata.admin, manager_type: orm, label: Shipping, group: "User"  }
     admin.comment:
         class: AppBundle\Admin\CommentAdmin
         arguments: [~, AppBundle\Entity\Comment, ~]
         tags:
-            - { name: sonata.admin, manager_type: orm, label: Comment }
+            - { name: sonata.admin, manager_type: orm, label: Comment, group: "User"  }
 
 
     # admin.blog_post:

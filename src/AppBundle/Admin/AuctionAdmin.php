@@ -15,9 +15,8 @@ class AuctionAdmin extends Admin
                    ->add('title', 'text')
                    ->add('content', 'text')
                    ->add('product_price', 'integer')
-                 
-                    ->add('product_amount', 'integer')
-                   ->add('new_product', 'checkbox')
+                   ->add('product_amount', 'integer')
+                   ->add('new_product', 'checkbox', array('required' => false ))
                    ->add('picturePath', 'text', array('required' => false))
                    ->add('startAuction', 'sonata_type_datetime_picker', array(
                         'format' => 'dd.MM.yyyy, HH:mm',
@@ -44,7 +43,7 @@ class AuctionAdmin extends Admin
                         'property' => 'name',
                         'required' => false,
                     ))
-                    
+            
                    ;
     }
 

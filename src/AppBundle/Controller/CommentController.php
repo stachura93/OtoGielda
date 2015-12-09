@@ -18,6 +18,25 @@ use AppBundle\Form\CommentType;
 class CommentController extends Controller
 {
 
+
+    /**
+     * Return user comments by ID
+     *
+     * @Route("/user/{id}", name="user_comment")
+     * @Method("GET")
+     * @Template()
+     */
+    public function userCommentsAction($id)
+    {
+      $em = $this->getDoctrine()->getManager();
+      $entities = $em->getRepository('AppBundle:Comment')->findBy(array('user' => $id ));
+
+      // // replace this example code with whatever you need
+         return array(
+            'entities' => $entities,
+        );
+    }
+
     /**
      * Lists all Comment entities.
      *

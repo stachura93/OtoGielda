@@ -127,7 +127,7 @@ class Auction
      *
      * @ORM\Column(name="new_product", type="boolean", nullable=true)
      */
-    private $newProduct;
+    private $newProduct = false;
     /**
      * Constructor
      */

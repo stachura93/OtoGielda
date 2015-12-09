@@ -18,6 +18,25 @@ use AppBundle\Form\BiddingType;
 class BiddingController extends Controller
 {
 
+
+     /**
+     * Return user by ID
+     *
+     * @Route("/auction/{id}", name="bidding_in_auction")
+     * @Method("GET")
+     * @Template()
+     */
+    public function in_auctionAction($id)
+    {
+      $em = $this->getDoctrine()->getManager();
+      $entities = $em->getRepository('AppBundle:Bidding')->findBy(array('auction' => $id ));
+
+      // // replace this example code with whatever you need
+         return array(
+            'entities' => $entities,
+        );
+    }
+
     /**
      * Lists all Bidding entities.
      *

@@ -7,22 +7,21 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
-use AppBundle\Entity\Auction;
-use AppBundle\Form\AuctionType;
+use AppBundle\Entity\Shipping;
+use AppBundle\Form\ShippingType;
 
 /**
- * Auction controller.
+ * Shipping controller.
  *
- * @Route("auction")
+ * @Route("/shipping")
  */
-class AuctionController extends Controller
+class ShippingController extends Controller
 {
 
-
     /**
-     * Lists all Auction entities.
+     * Lists all Shipping entities.
      *
-     * @Route("/", name="auction")
+     * @Route("/", name="shipping")
      * @Method("GET")
      * @Template()
      */
@@ -30,22 +29,22 @@ class AuctionController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
 
-        $entities = $em->getRepository('AppBundle:Auction')->findAll();
+        $entities = $em->getRepository('AppBundle:Shipping')->findAll();
 
         return array(
             'entities' => $entities,
         );
     }
     /**
-     * Creates a new Auction entity.
+     * Creates a new Shipping entity.
      *
-     * @Route("/", name="auction_create")
+     * @Route("/", name="shipping_create")
      * @Method("POST")
-     * @Template("AppBundle:Auction:new.html.twig")
+     * @Template("AppBundle:Shipping:new.html.twig")
      */
     public function createAction(Request $request)
     {
-        $entity = new Auction();
+        $entity = new Shipping();
         $form = $this->createCreateForm($entity);
         $form->handleRequest($request);
 
@@ -54,7 +53,7 @@ class AuctionController extends Controller
             $em->persist($entity);
             $em->flush();
 
-            return $this->redirect($this->generateUrl('auction_show', array('id' => $entity->getId())));
+            return $this->redirect($this->generateUrl('shipping_show', array('id' => $entity->getId())));
         }
 
         return array(
@@ -64,16 +63,16 @@ class AuctionController extends Controller
     }
 
     /**
-     * Creates a form to create a Auction entity.
+     * Creates a form to create a Shipping entity.
      *
-     * @param Auction $entity The entity
+     * @param Shipping $entity The entity
      *
      * @return \Symfony\Component\Form\Form The form
      */
-    private function createCreateForm(Auction $entity)
+    private function createCreateForm(Shipping $entity)
     {
-        $form = $this->createForm(new AuctionType(), $entity, array(
-            'action' => $this->generateUrl('auction_create'),
+        $form = $this->createForm(new ShippingType(), $entity, array(
+            'action' => $this->generateUrl('shipping_create'),
             'method' => 'POST',
         ));
 
@@ -83,15 +82,15 @@ class AuctionController extends Controller
     }
 
     /**
-     * Displays a form to create a new Auction entity.
+     * Displays a form to create a new Shipping entity.
      *
-     * @Route("/new", name="auction_new")
+     * @Route("/new", name="shipping_new")
      * @Method("GET")
      * @Template()
      */
     public function newAction()
     {
-        $entity = new Auction();
+        $entity = new Shipping();
         $form   = $this->createCreateForm($entity);
 
         return array(
@@ -101,9 +100,9 @@ class AuctionController extends Controller
     }
 
     /**
-     * Finds and displays a Auction entity.
+     * Finds and displays a Shipping entity.
      *
-     * @Route("/{id}", name="auction_show")
+     * @Route("/{id}", name="shipping_show")
      * @Method("GET")
      * @Template()
      */
@@ -111,10 +110,10 @@ class AuctionController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
 
-        $entity = $em->getRepository('AppBundle:Auction')->find($id);
+        $entity = $em->getRepository('AppBundle:Shipping')->find($id);
 
         if (!$entity) {
-            throw $this->createNotFoundException('Unable to find Auction entity.');
+            throw $this->createNotFoundException('Unable to find Shipping entity.');
         }
 
         $deleteForm = $this->createDeleteForm($id);
@@ -126,9 +125,9 @@ class AuctionController extends Controller
     }
 
     /**
-     * Displays a form to edit an existing Auction entity.
+     * Displays a form to edit an existing Shipping entity.
      *
-     * @Route("/{id}/edit", name="auction_edit")
+     * @Route("/{id}/edit", name="shipping_edit")
      * @Method("GET")
      * @Template()
      */
@@ -136,10 +135,10 @@ class AuctionController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
 
-        $entity = $em->getRepository('AppBundle:Auction')->find($id);
+        $entity = $em->getRepository('AppBundle:Shipping')->find($id);
 
         if (!$entity) {
-            throw $this->createNotFoundException('Unable to find Auction entity.');
+            throw $this->createNotFoundException('Unable to find Shipping entity.');
         }
 
         $editForm = $this->createEditForm($entity);
@@ -153,16 +152,16 @@ class AuctionController extends Controller
     }
 
     /**
-    * Creates a form to edit a Auction entity.
+    * Creates a form to edit a Shipping entity.
     *
-    * @param Auction $entity The entity
+    * @param Shipping $entity The entity
     *
     * @return \Symfony\Component\Form\Form The form
     */
-    private function createEditForm(Auction $entity)
+    private function createEditForm(Shipping $entity)
     {
-        $form = $this->createForm(new AuctionType(), $entity, array(
-            'action' => $this->generateUrl('auction_update', array('id' => $entity->getId())),
+        $form = $this->createForm(new ShippingType(), $entity, array(
+            'action' => $this->generateUrl('shipping_update', array('id' => $entity->getId())),
             'method' => 'PUT',
         ));
 
@@ -171,20 +170,20 @@ class AuctionController extends Controller
         return $form;
     }
     /**
-     * Edits an existing Auction entity.
+     * Edits an existing Shipping entity.
      *
-     * @Route("/{id}", name="auction_update")
+     * @Route("/{id}", name="shipping_update")
      * @Method("PUT")
-     * @Template("AppBundle:Auction:edit.html.twig")
+     * @Template("AppBundle:Shipping:edit.html.twig")
      */
     public function updateAction(Request $request, $id)
     {
         $em = $this->getDoctrine()->getManager();
 
-        $entity = $em->getRepository('AppBundle:Auction')->find($id);
+        $entity = $em->getRepository('AppBundle:Shipping')->find($id);
 
         if (!$entity) {
-            throw $this->createNotFoundException('Unable to find Auction entity.');
+            throw $this->createNotFoundException('Unable to find Shipping entity.');
         }
 
         $deleteForm = $this->createDeleteForm($id);
@@ -194,7 +193,7 @@ class AuctionController extends Controller
         if ($editForm->isValid()) {
             $em->flush();
 
-            return $this->redirect($this->generateUrl('auction_edit', array('id' => $id)));
+            return $this->redirect($this->generateUrl('shipping_edit', array('id' => $id)));
         }
 
         return array(
@@ -204,9 +203,9 @@ class AuctionController extends Controller
         );
     }
     /**
-     * Deletes a Auction entity.
+     * Deletes a Shipping entity.
      *
-     * @Route("/{id}", name="auction_delete")
+     * @Route("/{id}", name="shipping_delete")
      * @Method("DELETE")
      */
     public function deleteAction(Request $request, $id)
@@ -216,21 +215,21 @@ class AuctionController extends Controller
 
         if ($form->isValid()) {
             $em = $this->getDoctrine()->getManager();
-            $entity = $em->getRepository('AppBundle:Auction')->find($id);
+            $entity = $em->getRepository('AppBundle:Shipping')->find($id);
 
             if (!$entity) {
-                throw $this->createNotFoundException('Unable to find Auction entity.');
+                throw $this->createNotFoundException('Unable to find Shipping entity.');
             }
 
             $em->remove($entity);
             $em->flush();
         }
 
-        return $this->redirect($this->generateUrl('auction'));
+        return $this->redirect($this->generateUrl('shipping'));
     }
 
     /**
-     * Creates a form to delete a Auction entity by id.
+     * Creates a form to delete a Shipping entity by id.
      *
      * @param mixed $id The entity id
      *
@@ -239,7 +238,7 @@ class AuctionController extends Controller
     private function createDeleteForm($id)
     {
         return $this->createFormBuilder()
-            ->setAction($this->generateUrl('auction_delete', array('id' => $id)))
+            ->setAction($this->generateUrl('shipping_delete', array('id' => $id)))
             ->setMethod('DELETE')
             ->add('submit', 'submit', array('label' => 'Delete'))
             ->getForm()

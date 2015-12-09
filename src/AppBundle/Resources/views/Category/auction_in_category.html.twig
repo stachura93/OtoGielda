@@ -10,7 +10,7 @@
                 <tr>
                     <th>Picturepath</th>
                     <th>Title</th>
-                    <th>Left</th>
+                    <th>Days</th>
                     <th>Price</th>
                 </tr>
             </thead>
@@ -18,7 +18,7 @@
             {% for entity in entities %}
                 <tr>
                     <td>{{ entity.picturePath }}</td>
-                    <td>{{ entity.title }}</td>
+                    <td><a href="{{path('auction_show', {'id': entity.id })}}"> {{ entity.title }} </a></td>
                     <td>{{ entity.endAuction.diff(entity.startAuction).days }}</td>
                     <td>{{ entity.productPrice }}</td>
                 </tr>

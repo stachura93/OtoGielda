@@ -1,0 +1,36 @@
+{% extends '::base.html.twig' %}
+
+{% block body -%}
+    <h1>User</h1>
+
+    <table class="record_properties">
+        <tbody>
+            <tr>
+                <th>Login</th>
+                <td>{{ entity.username }}</td>
+            </tr>
+
+            <tr>
+                <th>City</th>
+                <td>{{ entity.city }}</td>
+            </tr>
+            <tr>
+                <th>Street</th>
+                <td>{{ entity.street }}</td>
+            </tr>
+
+            <tr>
+                <th>Home number</th>
+                <td>{{ entity.homenumber }}</td>
+            </tr>
+            <tr>
+                <th>More information about person</th>
+                <td>{{ entity.otherdescription }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+
+{{ render(controller('AppBundle:Comment:userComments', { 'id': entity.id })) }}
+
+{% endblock %}

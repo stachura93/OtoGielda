@@ -33,4 +33,23 @@ class DefaultController extends Controller
     }
 
 
+  /**
+     * Return user by ID
+     *
+     * @Route("/userinformation/{id}", name="userinformation")
+     * @Method("GET")
+     * @Template()
+     */
+    public function showAction($id)
+    {
+      $em = $this->getDoctrine()->getManager();
+      $entity = $em->getRepository('ApplicationSonataUserBundle:User')->find($id);
+
+      // // replace this example code with whatever you need
+         return array(
+            'entity' => $entity,
+        );
+    }
+
+
 }

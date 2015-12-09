@@ -14,6 +14,10 @@
                 <td>{{ entity.content|raw }}</td>
             </tr>
             <tr>
+                <th>User</th>
+                <td>{{ entity.user }}</td>
+            </tr>
+            <tr>
                 <th>Picturepath</th>
                 <td>{{ entity.picturePath }}</td>
             </tr>
@@ -22,12 +26,38 @@
                 <td>{{ entity.endAuction|date('Y-m-d H:i:s') }}</td>
             </tr>
 
+            <tr>
+                <th>Product amount</th>
+                <td>{{ entity.productAmount }}</td>
+            </tr>
+            <tr>
+                <th>Product price</th>
+                <td>{{ entity.productPrice }}</td>
+            </tr>
+            <tr>
+                <th>Product is new</th>
+                {% if entity.newProduct == 0 %}
+                <td> No </td>
+                {% else %}
+                <td> Yes </td>
+                {% endif %}
+            </tr>
+
         </tbody>
     </table>
 
- {{ entity.endAuction.diff(entity.startAuction).days }}
+  Time left: {{ entity.endAuction.diff(entity.startAuction).days }}
+
+ {{ render(controller('AppBundle:Shipping:show', { 'id': entity.id })) }}
+
+ {{ render(controller('AppBundle:Payment:show', { 'id': entity.id })) }}
 
 
 
-</ul>
+ <a href="{{ path('userinformation', { 'id': entity.user.id }) }}"> Read more about: {{ entity.user }}</a>
+
+ {{ render(controller('AppBundle:Bidding:in_auction', { 'id': entity.id })) }}
+
+
+
 {% endblock %}

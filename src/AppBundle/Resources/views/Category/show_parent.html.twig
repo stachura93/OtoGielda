@@ -21,7 +21,7 @@
         </tbody>
     </table>
 
-{{ render(controller('AppBundle:Auction:in_category', { 'category': app.request.get('name') })) }}
+{{ render(controller('AppBundle:Category:auction_in_category', { 'category': app.request.get('name') })) }}
 
 {% endblock %}
 

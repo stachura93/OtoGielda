@@ -70,6 +70,8 @@ class User extends BaseUser
      */
     protected $comment;
 
+
+
     /**
      * @ORM\PostLoad
      */
@@ -137,18 +139,6 @@ class User extends BaseUser
     {
         $this->comment->removeElement($auction);
     }
-
-    // *
-    //  * Get auction
-    //  *
-    //  * @return \Doctrine\Common\Collections\Collection
-     
-    // public function getAuction()
-    // {
-    //     return $this->auction;
-    // }
-
-
 
     /**
     * Get city

@@ -5,15 +5,20 @@
 
     <table class="record_properties">
         <tbody>
+        {% for entity in entities %}
             <tr>
                 <th>Description</th>
                 <td>{{ entity.description }}</td>
             </tr>
             <tr>
                 <th>Buyer</th>
-                <td>{{ entity.buyer }}</td>
+                {% if entity.buyer == 1 %}
+                <td> Yes </td>
+                {% else %}
+                <td> No </td>
+                {% endif %}
             </tr>
+        {% endfor %}
         </tbody>
     </table>
-
 {% endblock %}

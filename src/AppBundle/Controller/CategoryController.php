@@ -18,6 +18,25 @@ use AppBundle\Form\CategoryType;
 class CategoryController extends Controller
 {
 
+      /**
+     * Finds and displays a Auction entity.
+     *
+     * @Route("/{category}/auctions", name="search_auction_in_category")
+     * @Method("GET")
+     * @Template()
+     */
+    public function auction_in_categoryAction($category)
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        $id  = $em->getRepository('AppBundle:Category')->findBy(array('name' => $category));
+        $entity = $em->getRepository('AppBundle:Auction')->findBy(array('category' => $id));
+
+        return array(
+            'entities'      => $entity,
+        );
+    }
+
     /**
      * Finds and displays a Category entity.
      *
