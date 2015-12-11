@@ -16,11 +16,14 @@ class MessageAdmin extends Admin
                         'class' => 'AppBundle\Entity\Auction',
                         'property' => 'title',
                     ))
-                    ->add('User', 'entity', array(
+                    ->add('userRecipient', 'entity', array(
                         'class' => 'Application\Sonata\UserBundle\Entity\User',
                         'property' => 'username',
                     ))
-                    ->add('questioner', 'checkbox')
+                    ->add('userSender', 'entity', array(
+                        'class' => 'Application\Sonata\UserBundle\Entity\User',
+                        'property' => 'username',
+                    ))
                    ;
     }
 

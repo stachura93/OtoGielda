@@ -13,7 +13,6 @@ use AppBundle\Form\CommentType;
 /**
  * Comment controller.
  *
- * @Route("/comment")
  */
 class CommentController extends Controller
 {
@@ -22,7 +21,8 @@ class CommentController extends Controller
     /**
      * Return user comments by ID
      *
-     * @Route("/user/{id}", name="user_comment")
+     * @Route("/comment/user/{id}", name="user_comment")
+     * @Route("/profile/comments/{id}", name="profile_comments")
      * @Method("GET")
      * @Template()
      */
@@ -30,17 +30,23 @@ class CommentController extends Controller
     {
       $em = $this->getDoctrine()->getManager();
       $entities = $em->getRepository('AppBundle:Comment')->findBy(array('user' => $id ));
-
-      // // replace this example code with whatever you need
-         return array(
+      $request = $this->container->get('request');
+      $routeName = $request->get('_route');
+      if($routeName == 'profile_comments') {
+        return $this->render('AppBundle:Comment:user_comments_profile.html.twig', array(
             'entities' => $entities,
-        );
+        ));
+      }
+
+      return $this->render('AppBundle:Comment:user_comments_defaults.html.twig', array(
+            'entities' => $entities,
+      ));
     }
 
     /**
      * Lists all Comment entities.
      *
-     * @Route("/", name="comment")
+     * @Route("/comment/", name="comment")
      * @Method("GET")
      * @Template()
      */
@@ -57,7 +63,7 @@ class CommentController extends Controller
     /**
      * Creates a new Comment entity.
      *
-     * @Route("/", name="comment_create")
+     * @Route("/comment/", name="comment_create")
      * @Method("POST")
      * @Template("AppBundle:Comment:new.html.twig")
      */
@@ -103,7 +109,7 @@ class CommentController extends Controller
     /**
      * Displays a form to create a new Comment entity.
      *
-     * @Route("/new", name="comment_new")
+     * @Route("/comment/new", name="comment_new")
      * @Method("GET")
      * @Template()
      */
@@ -121,7 +127,7 @@ class CommentController extends Controller
     /**
      * Finds and displays a Comment entity.
      *
-     * @Route("/{id}", name="comment_show")
+     * @Route("/comment/{id}", name="comment_show")
      * @Method("GET")
      * @Template()
      */
@@ -146,7 +152,7 @@ class CommentController extends Controller
     /**
      * Displays a form to edit an existing Comment entity.
      *
-     * @Route("/{id}/edit", name="comment_edit")
+     * @Route("/comment/{id}/edit", name="comment_edit")
      * @Method("GET")
      * @Template()
      */
@@ -191,7 +197,7 @@ class CommentController extends Controller
     /**
      * Edits an existing Comment entity.
      *
-     * @Route("/{id}", name="comment_update")
+     * @Route("/comment/{id}", name="comment_update")
      * @Method("PUT")
      * @Template("AppBundle:Comment:edit.html.twig")
      */
@@ -224,7 +230,7 @@ class CommentController extends Controller
     /**
      * Deletes a Comment entity.
      *
-     * @Route("/{id}", name="comment_delete")
+     * @Route("/comment/{id}", name="comment_delete")
      * @Method("DELETE")
      */
     public function deleteAction(Request $request, $id)

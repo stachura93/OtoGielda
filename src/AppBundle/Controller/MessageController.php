@@ -13,15 +13,46 @@ use AppBundle\Form\MessageType;
 /**
  * Message controller.
  *
- * @Route("/message")
  */
 class MessageController extends Controller
 {
+     /**
+     * Finds user message by ID.
+     *
+     * @Route("/profile/messages/sender/{id}", name="profile_messages_sender")
+     * @Route("/profile/messages/recipient/{id}", name="profile_messages_recipient")
+     * @Method("GET")
+     * @Template()
+     */
+    public function find_by_userAction($id)
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        $request = $this->container->get('request');
+        $routeName = $request->get('_route');
+
+        if($routeName == 'profile_messages_sender')
+        {
+            $entities = $em->getRepository('AppBundle:Message')->findBy(array('userSender' => $id ));
+            return $this->render('AppBundle:Message:show_sender_message_by_user.html.twig', array(
+            'entities' => $entities,
+        ));
+        } else {
+            $entities = $em->getRepository('AppBundle:Message')->findBy(array('userRecipient' => $id ));
+        }
+
+        return $this->render('AppBundle:Message:show_recipient_message_by_user.html.twig', array(
+            'entities' => $entities,
+        ));
+    }
+
+
+
 
     /**
      * Lists all Message entities.
      *
-     * @Route("/", name="message")
+     * @Route("/message/", name="message")
      * @Method("GET")
      * @Template()
      */
@@ -38,7 +69,7 @@ class MessageController extends Controller
     /**
      * Creates a new Message entity.
      *
-     * @Route("/", name="message_create")
+     * @Route("/message/", name="message_create")
      * @Method("POST")
      * @Template("AppBundle:Message:new.html.twig")
      */
@@ -84,7 +115,7 @@ class MessageController extends Controller
     /**
      * Displays a form to create a new Message entity.
      *
-     * @Route("/new", name="message_new")
+     * @Route("/message/new", name="message_new")
      * @Method("GET")
      * @Template()
      */
@@ -102,7 +133,7 @@ class MessageController extends Controller
     /**
      * Finds and displays a Message entity.
      *
-     * @Route("/{id}", name="message_show")
+     * @Route("/message/{id}", name="message_show")
      * @Method("GET")
      * @Template()
      */
@@ -127,7 +158,7 @@ class MessageController extends Controller
     /**
      * Displays a form to edit an existing Message entity.
      *
-     * @Route("/{id}/edit", name="message_edit")
+     * @Route("/message/{id}/edit", name="message_edit")
      * @Method("GET")
      * @Template()
      */
@@ -172,7 +203,7 @@ class MessageController extends Controller
     /**
      * Edits an existing Message entity.
      *
-     * @Route("/{id}", name="message_update")
+     * @Route("/message/{id}", name="message_update")
      * @Method("PUT")
      * @Template("AppBundle:Message:edit.html.twig")
      */
@@ -205,7 +236,7 @@ class MessageController extends Controller
     /**
      * Deletes a Message entity.
      *
-     * @Route("/{id}", name="message_delete")
+     * @Route("/message/{id}", name="message_delete")
      * @Method("DELETE")
      */
     public function deleteAction(Request $request, $id)

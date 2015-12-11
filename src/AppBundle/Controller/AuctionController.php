@@ -13,16 +13,42 @@ use AppBundle\Form\AuctionType;
 /**
  * Auction controller.
  *
- * @Route("auction")
  */
 class AuctionController extends Controller
 {
+
+    /**
+     * Finds all user Auction.
+     *
+     * @Route("/auction/user/{id}", name="auction_by_user")
+     * @Route("/profile/auctions/{id}", name="profile_auctions")
+     * @Method("GET")
+     * @Template()
+     */
+    public function find_by_userAction($id)
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        $entities = $em->getRepository('AppBundle:Auction')->findBy(array('user' => $id ));
+
+        $request = $this->container->get('request');
+        $routeName = $request->get('_route');
+        if($routeName == 'profile_auctions')
+        {
+            return $this->render('AppBundle:Auction:find_by_user_profile.html.twig', array(
+            'entities' => $entities,
+        ));
+        }
+        return $this->render('AppBundle:Auction:find_by_user.html.twig', array(
+            'entities' => $entities,
+        ));
+    }
 
 
     /**
      * Lists all Auction entities.
      *
-     * @Route("/", name="auction")
+     * @Route("/auction/", name="auction")
      * @Method("GET")
      * @Template()
      */
@@ -39,7 +65,7 @@ class AuctionController extends Controller
     /**
      * Creates a new Auction entity.
      *
-     * @Route("/", name="auction_create")
+     * @Route("/auction/", name="auction_create")
      * @Method("POST")
      * @Template("AppBundle:Auction:new.html.twig")
      */
@@ -85,7 +111,7 @@ class AuctionController extends Controller
     /**
      * Displays a form to create a new Auction entity.
      *
-     * @Route("/new", name="auction_new")
+     * @Route("/auction/new", name="auction_new")
      * @Method("GET")
      * @Template()
      */
@@ -103,7 +129,7 @@ class AuctionController extends Controller
     /**
      * Finds and displays a Auction entity.
      *
-     * @Route("/{id}", name="auction_show")
+     * @Route("/auction/{id}", name="auction_show")
      * @Method("GET")
      * @Template()
      */
@@ -128,7 +154,7 @@ class AuctionController extends Controller
     /**
      * Displays a form to edit an existing Auction entity.
      *
-     * @Route("/{id}/edit", name="auction_edit")
+     * @Route("/auction/{id}/edit", name="auction_edit")
      * @Method("GET")
      * @Template()
      */
@@ -173,7 +199,7 @@ class AuctionController extends Controller
     /**
      * Edits an existing Auction entity.
      *
-     * @Route("/{id}", name="auction_update")
+     * @Route("/auction/{id}", name="auction_update")
      * @Method("PUT")
      * @Template("AppBundle:Auction:edit.html.twig")
      */
@@ -206,7 +232,7 @@ class AuctionController extends Controller
     /**
      * Deletes a Auction entity.
      *
-     * @Route("/{id}", name="auction_delete")
+     * @Route("/auction/{id}", name="auction_delete")
      * @Method("DELETE")
      */
     public function deleteAction(Request $request, $id)

@@ -36,9 +36,7 @@
           <a href="{{path('homepage')}}">Home</a>
         </li>
         {% if app.user %}
-        <li>
-          <a href="#sec">Edit</a>
-        </li>
+
         {% endif %}
       </ul>
     <nav class="nav navbar-nav navbar-right">
@@ -62,10 +60,14 @@
 </div>
     <div class="container">
         <div class="row">
-          <div class="col-md-8">
+            <div class="row">
+              <div class="col-md-4">
                 {% block leftMenu %}{% endblock %}
+              </div>
+              <div class="col-md-8">
                 {% block body %}{% endblock %}
-          </div>
+              </div>
+            </div>
         </div>
     </div>
         {% block javascripts %}{% endblock %}

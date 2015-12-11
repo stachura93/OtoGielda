@@ -24,9 +24,17 @@ class Message
      * @var integer
      *
      * @ORM\ManyToOne(targetEntity="Application\Sonata\UserBundle\Entity\User", inversedBy="message")
-     * @ORM\JoinColumn(name="user_id", referencedColumnName="id")
+     * @ORM\JoinColumn(name="user_sender_id", referencedColumnName="id")
      */
-    private $user;
+    private $userSender;
+
+    /**
+     * @var integer
+     *
+     * @ORM\ManyToOne(targetEntity="Application\Sonata\UserBundle\Entity\User", inversedBy="message")
+     * @ORM\JoinColumn(name="user_recipient_id", referencedColumnName="id")
+     */
+    private $userRecipient;
 
     /**
      * @var string
@@ -51,62 +59,6 @@ class Message
      */
     private $id;
 
-    /**
-     * @var boolean
-     *
-     * @ORM\Column(name="questioner", type="boolean", nullable=true)
-     */
-    private $questioner;
-
-
-
-    /**
-     * Set auctionId
-     *
-     * @param integer $auctionId
-     *
-     * @return Message
-     */
-    public function setAuctionId($auctionId)
-    {
-        $this->auctionId = $auctionId;
-
-        return $this;
-    }
-
-    /**
-     * Get auctionId
-     *
-     * @return integer
-     */
-    public function getAuctionId()
-    {
-        return $this->auctionId;
-    }
-
-    /**
-     * Set fromUserId
-     *
-     * @param integer $fromUserId
-     *
-     * @return Message
-     */
-    public function setFromUserId($fromUserId)
-    {
-        $this->fromUserId = $fromUserId;
-
-        return $this;
-    }
-
-    /**
-     * Get fromUserId
-     *
-     * @return integer
-     */
-    public function getFromUserId()
-    {
-        return $this->fromUserId;
-    }
 
     /**
      * Set content
@@ -167,37 +119,13 @@ class Message
     }
 
     /**
-     * Set questioner
-     *
-     * @param boolean $questioner
-     *
-     * @return Message
-     */
-    public function setQuestioner($questioner)
-    {
-        $this->questioner = $questioner;
-
-        return $this;
-    }
-
-    /**
-     * Get questioner
-     *
-     * @return boolean
-     */
-    public function getQuestioner()
-    {
-        return $this->questioner;
-    }
-
-    /**
      * Set auction
      *
-     * @param integer $auction
+     * @param \AppBundle\Entity\Auction $auction
      *
      * @return Message
      */
-    public function setAuction($auction)
+    public function setAuction(\AppBundle\Entity\Auction $auction = null)
     {
         $this->auction = $auction;
 
@@ -207,7 +135,7 @@ class Message
     /**
      * Get auction
      *
-     * @return integer
+     * @return \AppBundle\Entity\Auction
      */
     public function getAuction()
     {
@@ -215,26 +143,50 @@ class Message
     }
 
     /**
-     * Set user
+     * Set userSender
      *
-     * @param integer $user
+     * @param \Application\Sonata\UserBundle\Entity\User $userSender
      *
      * @return Message
      */
-    public function setUser($user)
+    public function setUserSender(\Application\Sonata\UserBundle\Entity\User $userSender = null)
     {
-        $this->user = $user;
+        $this->userSender = $userSender;
 
         return $this;
     }
 
     /**
-     * Get user
+     * Get userSender
      *
-     * @return integer
+     * @return \Application\Sonata\UserBundle\Entity\User
      */
-    public function getUser()
+    public function getUserSender()
     {
-        return $this->user;
+        return $this->userSender;
+    }
+
+    /**
+     * Set userRecipient
+     *
+     * @param \Application\Sonata\UserBundle\Entity\User $userRecipient
+     *
+     * @return Message
+     */
+    public function setUserRecipient(\Application\Sonata\UserBundle\Entity\User $userRecipient = null)
+    {
+        $this->userRecipient = $userRecipient;
+
+        return $this;
+    }
+
+    /**
+     * Get userRecipient
+     *
+     * @return \Application\Sonata\UserBundle\Entity\User
+     */
+    public function getUserRecipient()
+    {
+        return $this->userRecipient;
     }
 }
