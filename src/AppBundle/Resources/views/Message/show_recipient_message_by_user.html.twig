@@ -1,0 +1,24 @@
+{% extends '::profileBase.html.twig' %}
+
+{% block body -%}
+  <h1>Message recipient</h1>
+ 	<table class="records_list">
+        <thead>
+            <tr>
+                <th>Auction</th>
+                <th>Content</th>
+                <th>Postdate</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for entity in entities %}
+            <tr>
+                <td>{{ entity.auction.id }}</td>
+                <td>{{ entity.content }}</a></td>
+                <td>{% if entity.postDate %}{{ entity.postDate|date('Y-m-d H:i:s') }}{% endif %}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+{% endblock %}
