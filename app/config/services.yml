@@ -40,6 +40,10 @@ services:
         tags:
             - { name: sonata.admin, manager_type: orm, label: Comment, group: "User"  }
 
+    app.form.registration:
+        class: Application\Sonata\UserBundle\Form\Type\RegisterType
+        tags:
+            - { name: form.type, alias: app_user_registration }
 
     # admin.blog_post:
     #     class: AppBundle\Admin\BlogPostAdmin

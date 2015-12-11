@@ -38,7 +38,7 @@ class User extends BaseUser
     /**
      * @var string
      *
-     * @ORM\Column(name="home_number", type="string", length=128, nullable=false)
+     * @ORM\Column(name="home_number", type="string", length=10, nullable=false)
      */
     protected $home_number;
 
