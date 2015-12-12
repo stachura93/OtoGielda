@@ -26,7 +26,7 @@ class Auction
      *
      * @ORM\Column(name="enabled", type="boolean", nullable=false)
      */
-    private $enabled;
+    private $enabled = true;
 
     /**
      * @var string
@@ -88,7 +88,7 @@ class Auction
     private $payment;
 
     /**
-     * @ORM\OneToMany(targetEntity="Shipping", mappedBy="auction")
+     * @ORM\OneToMany(targetEntity="Shipping", mappedBy="auction",  cascade={"persist"})
      */
     private $shipping;
 

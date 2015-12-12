@@ -6,6 +6,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
+
 class PaymentType extends AbstractType
 {
     /**
@@ -17,11 +18,13 @@ class PaymentType extends AbstractType
         $builder
             ->add('methodName')
             ->add('description')
-            ->add('auction')
-            ->add('bidding')
+            ->add('Auction', 'entity', array(
+                         'class' => 'AppBundle\Entity\Auction',
+                         'property' => 'title',
+            ));
         ;
     }
-    
+
     /**
      * @param OptionsResolverInterface $resolver
      */

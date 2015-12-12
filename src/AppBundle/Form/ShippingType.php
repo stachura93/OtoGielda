@@ -6,6 +6,8 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
+use AppBundle\Form\AuctionType;
+
 class ShippingType extends AbstractType
 {
     /**
@@ -19,11 +21,20 @@ class ShippingType extends AbstractType
             ->add('price')
             ->add('waitingTimeToSendDays')
             ->add('approximateWaitingTimeDays')
-            ->add('auction')
-            ->add('bidding')
-        ;
+            // ->add('Auction', 'entity', array(
+            //             'class' => 'AppBundle\Entity\Auction',
+            //             'property' => 'title',
+            // ));
+         
+
+            //       'allow_add' => true,
+            //         'prototype' => true,
+            //         // Post update
+            //         'by_reference' => false,
+            // ))        ;
+            ;
     }
-    
+
     /**
      * @param OptionsResolverInterface $resolver
      */

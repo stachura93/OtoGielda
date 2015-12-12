@@ -50,7 +50,7 @@ class Shipping
     private $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Auction", inversedBy="shipping")
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Auction", inversedBy="shipping",  cascade={"persist"})
      * @ORM\JoinColumn(name="auction_id", referencedColumnName="id")
      */
     private $auction;
