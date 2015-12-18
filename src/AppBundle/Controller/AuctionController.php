@@ -10,6 +10,8 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use AppBundle\Entity\Auction;
 use AppBundle\Form\AuctionType;
 
+use AppBundle\Entity\Shipping;
+
 /**
  * Auction controller.
  *

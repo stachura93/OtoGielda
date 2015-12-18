@@ -88,7 +88,7 @@ class Auction
     private $payment;
 
     /**
-     * @ORM\OneToMany(targetEntity="Shipping", mappedBy="auction",  cascade={"persist"})
+     * @ORM\OneToMany(targetEntity="Shipping", mappedBy="auction")
      */
     private $shipping;
 

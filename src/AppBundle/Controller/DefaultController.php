@@ -30,7 +30,7 @@ class DefaultController extends Controller
       ->getQuery();
 
          $entities = $query->getResult();
-      // // replace this example code with whatever you need
+
          return $this->render('default/index.html.twig', array('entities' => $entities));
     }
 
@@ -47,39 +47,8 @@ class DefaultController extends Controller
       $em = $this->getDoctrine()->getManager();
       $entity = $em->getRepository('ApplicationSonataUserBundle:User')->find($id);
 
-      // // replace this example code with whatever you need
          return array(
             'entity' => $entity,
-        );
-    }
-
-     /**
-     * Return user by ID
-     *
-     * @Route("/newAuction/", name="new_auction")
-     * @Method("GET")
-     * @Template()
-     */
-    public function create_auctionAction(Request $request)
-    {
-    $auction = new Auction();
-    $shipping1 = new Shipping();
-
-    $auction->addShipping($shipping1);
-
-    $form = $this->createForm(new AuctionType(), $auction);
-
-    $form->handleRequest($request);
-
-    if ($form->isValid()) {
-
-        $em = $this->getDoctrine()->getManager();
-        $em->persist($auction);
-        $em->flush();
-
-    }
-        return array(
-            'form' => $form->createView(),
         );
     }
 

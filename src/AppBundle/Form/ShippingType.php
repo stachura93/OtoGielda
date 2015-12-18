@@ -21,17 +21,6 @@ class ShippingType extends AbstractType
             ->add('price')
             ->add('waitingTimeToSendDays')
             ->add('approximateWaitingTimeDays')
-            // ->add('Auction', 'entity', array(
-            //             'class' => 'AppBundle\Entity\Auction',
-            //             'property' => 'title',
-            // ));
-         
-
-            //       'allow_add' => true,
-            //         'prototype' => true,
-            //         // Post update
-            //         'by_reference' => false,
-            // ))        ;
             ;
     }
 
