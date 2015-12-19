@@ -54,6 +54,9 @@ class Payment
         $this->auction = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
+    public function __toString() {
+        return $this->methodName;
+    }
     /**
      * Set methodName
      *

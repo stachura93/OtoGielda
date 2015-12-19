@@ -50,8 +50,8 @@ class Shipping
     private $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Auction", inversedBy="shipping")
-     * @ORM\JoinColumn(name="auction_id", referencedColumnName="id")
+     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Auction", inversedBy="shipping")
+     * @ORM\JoinTable(name="auction_auction_shipping")
      */
     private $auction;
 
@@ -59,6 +59,19 @@ class Shipping
      * @ORM\OneToOne(targetEntity="Bidding", mappedBy="shipping")
      */
     private $bidding;
+
+
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->auction = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
+    public function __toString() {
+        return $this->title;
+    }
 
     /**
      * Set title
@@ -167,22 +180,33 @@ class Shipping
     }
 
     /**
-     * Set auction
+     * Add auction
      *
      * @param \AppBundle\Entity\Auction $auction
      *
      * @return Shipping
      */
-    public function setAuction(\AppBundle\Entity\Auction $auction = null)
+    public function addAuction(\AppBundle\Entity\Auction $auction)
     {
-        $this->auction = $auction;
+        $this->auction[] = $auction;
+
         return $this;
+    }
+
+    /**
+     * Remove auction
+     *
+     * @param \AppBundle\Entity\Auction $auction
+     */
+    public function removeAuction(\AppBundle\Entity\Auction $auction)
+    {
+        $this->auction->removeElement($auction);
     }
 
     /**
      * Get auction
      *
-     * @return \AppBundle\Entity\Auction
+     * @return \Doctrine\Common\Collections\Collection
      */
     public function getAuction()
     {

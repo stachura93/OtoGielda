@@ -14,10 +14,7 @@ class ShippingAdmin extends Admin
                    ->add('price', 'integer')
                    ->add('waitingTimeToSendDays', 'text')
                    ->add('approximateWaitingTimeDays', 'text')
-                   ->add('Auction', 'entity', array(
-                        'class' => 'AppBundle\Entity\Auction',
-                        'property' => 'title',
-                    ));
+                   ;
     }
 
     protected function configureDatagridFilters(DatagridMapper $datagridMapper)

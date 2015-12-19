@@ -4,8 +4,14 @@
         <meta charset="UTF-8" />
         <title>{% block title %}Welcome!{% endblock %}</title>
         <link rel="stylesheet" href="{{ asset('assets/vendor/bootstrap/dist/css/bootstrap.min.css') }}">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+         <link rel="stylesheet" href="{{ asset('assets/vendor/MyCss/search.css') }}">
 
         {% javascripts '@AppBundle/Resources/vendor/jquery/dist/jquery.js' %}
+          <script type="text/javascript" src="{{ asset_url }}"></script>
+        {% endjavascripts %}
+
+         {% javascripts '@AppBundle/Resources/vendor/symfony-collection/jquery.collection.js' %}
           <script type="text/javascript" src="{{ asset_url }}"></script>
         {% endjavascripts %}
 
@@ -42,7 +48,7 @@
         </li>
         {% if app.user %}
         <li>
-          <a href="{{path('auction_new')}}">New Auction</a>
+          <a href="{{ path('newAuction') }}">New Auction</a>
         </li>
         {% endif %}
       </ul>

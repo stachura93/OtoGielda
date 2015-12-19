@@ -83,12 +83,12 @@ class Auction
     private $id;
 
     /**
-     * @ORM\ManyToMany(targetEntity="Payment", mappedBy="auction")
+     * @ORM\ManyToMany(targetEntity="Payment", mappedBy="auction",  cascade={"persist", "remove"})
      */
     private $payment;
 
     /**
-     * @ORM\OneToMany(targetEntity="Shipping", mappedBy="auction", cascade={"persist", "remove"})
+     * @ORM\ManyToMany(targetEntity="Shipping", mappedBy="auction", cascade={"persist", "remove"})
      */
     private $shipping;
 
@@ -447,7 +447,7 @@ class Auction
     public function addPayment(\AppBundle\Entity\Payment $payment)
     {
         $this->payment[] = $payment;
-
+        $payment->addAuction($this);
         return $this;
     }
 
@@ -481,7 +481,7 @@ class Auction
     public function addShipping(\AppBundle\Entity\Shipping $shipping)
     {
         $this->shipping[] = $shipping;
-        $shipping->setAuction($this);
+        $shipping->addAuction($this);
         return $this;
     }
 

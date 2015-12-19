@@ -5,7 +5,7 @@ namespace AppBundle\Form;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
-
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 
 class PaymentType extends AbstractType
 {
@@ -18,10 +18,6 @@ class PaymentType extends AbstractType
         $builder
             ->add('methodName')
             ->add('description')
-            ->add('Auction', 'entity', array(
-                         'class' => 'AppBundle\Entity\Auction',
-                         'property' => 'title',
-            ));
         ;
     }
 

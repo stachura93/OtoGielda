@@ -60,8 +60,17 @@ class DefaultController extends Controller
      */
     public function createAuctionAction(Request $request)
     {
+
+      if(!$this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_FULLY')) {
+       return $this->render('AppBundle:Default:error_page.html.twig');
+      }
+      $user = $this->get('security.token_storage')->getToken()->getUser();
+
       $auction = new Auction();
+      $auction->setUser($user);
+
       $form = $this->createForm(new AuctionType(), $auction);
+      $form->add('submit', 'submit', array('label' => 'Create'));
 
       if($request->getMethod() === 'POST') {
         $form->bind($request);
@@ -70,11 +79,10 @@ class DefaultController extends Controller
           $em->persist($auction);
           $em->flush();
 
-          return $this->redirect($this->generateUrl('myAuction',
+          return $this->redirect($this->generateUrl('auction_show',
            array('id' => $auction->getId() )));
         }
       }
-
       return $this->render('AppBundle:Default:create_auction.html.twig', array(
         'form' => $form->createView(),
       ));
