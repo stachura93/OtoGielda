@@ -60,8 +60,6 @@ class Shipping
      */
     private $bidding;
 
-
-
     /**
      * Set title
      *
@@ -178,7 +176,6 @@ class Shipping
     public function setAuction(\AppBundle\Entity\Auction $auction = null)
     {
         $this->auction = $auction;
-
         return $this;
     }
 

@@ -10,6 +10,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\Request;
 
 use FOS\UserBundle\Model\UserManagerInterface;
+
 use AppBundle\Entity\Auction;
 use AppBundle\Entity\Shipping;
 use AppBundle\Form\AuctionType;
@@ -50,6 +51,33 @@ class DefaultController extends Controller
          return array(
             'entity' => $entity,
         );
+    }
+
+
+    /**
+     * @Route("/newAuction", name="newAuction")
+     *
+     */
+    public function createAuctionAction(Request $request)
+    {
+      $auction = new Auction();
+      $form = $this->createForm(new AuctionType(), $auction);
+
+      if($request->getMethod() === 'POST') {
+        $form->bind($request);
+        if($form->isValid()) {
+          $em = $this->getDoctrine()->getManager();
+          $em->persist($auction);
+          $em->flush();
+
+          return $this->redirect($this->generateUrl('myAuction',
+           array('id' => $auction->getId() )));
+        }
+      }
+
+      return $this->render('AppBundle:Default:create_auction.html.twig', array(
+        'form' => $form->createView(),
+      ));
     }
 
 

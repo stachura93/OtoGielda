@@ -88,7 +88,7 @@ class Auction
     private $payment;
 
     /**
-     * @ORM\OneToMany(targetEntity="Shipping", mappedBy="auction")
+     * @ORM\OneToMany(targetEntity="Shipping", mappedBy="auction", cascade={"persist", "remove"})
      */
     private $shipping;
 
@@ -481,7 +481,7 @@ class Auction
     public function addShipping(\AppBundle\Entity\Shipping $shipping)
     {
         $this->shipping[] = $shipping;
-
+        $shipping->setAuction($this);
         return $this;
     }
 

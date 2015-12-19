@@ -100,11 +100,11 @@ class AuctionController extends Controller
      */
     private function createCreateForm(Auction $entity)
     {
+
         $form = $this->createForm(new AuctionType(), $entity, array(
             'action' => $this->generateUrl('auction_create'),
             'method' => 'POST',
         ));
-
         $form->add('submit', 'submit', array('label' => 'Create'));
 
         return $form;

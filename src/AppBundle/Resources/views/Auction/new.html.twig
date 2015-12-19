@@ -1,10 +1,24 @@
 {% extends '::base.html.twig' %}
 
-{% block body -%}
-    <h1>Auction creation</h1>
+{% block body %}
 
-    {{ form(form) }}
 
-        <ul class="record_actions">
+
+
+  <form method="post" {{ form_enctype(form) }}>
+
+	<ul class="collection" data-prototype="{{ form_widget(form.Shipping.vars.prototype)|e }}">
+
+	{{ form_row(form) }}
+	</ul>
+    <input type="submit" class="btn btn-primary" />
+    </form>
 
 {% endblock %}
+
+{% block javascripts %}
+
+    <script src="{{ asset('assets/vendor/MyJS/test.js') }}"></script>
+
+{% endblock %}
+

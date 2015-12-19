@@ -30,10 +30,13 @@ class AuctionType extends AbstractType
                         'class' => 'AppBundle\Entity\Category',
                         'property' => 'name',
             ))
-            // ->add('Shipping', 'collection', array(
-            //      'type' => new ShippingType(),
-            //      'allow_add'    => true,
-            //     ))
+            ->add('Shipping', 'collection', array(
+                  'type' => new ShippingType(),
+                  'allow_add' => true,
+                  'allow_delete' => true,
+                  'by_reference' => false,
+                  //'prototype' => true
+                ))
             // ->add('Shipping', 'entity', array(
             //             'class' => 'AppBundle\Entity\Shipping',
             //             'property' => 'title',
