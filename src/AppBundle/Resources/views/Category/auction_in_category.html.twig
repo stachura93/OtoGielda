@@ -3,29 +3,35 @@
 {% block body -%}
 
     {% if entities != null  %}
-        <h1>Auction list</h1>
+    <div class="row">
+        <div class="col-md-9">
+            <h1>Auction list</h1>
 
-        <table class="records_list">
-            <thead>
-                <tr>
-                    <th>Picturepath</th>
-                    <th>Title</th>
-                    <th>Days</th>
-                    <th>Price</th>
-                </tr>
-            </thead>
-            <tbody>
-            {% for entity in entities %}
-                <tr>
-                    <td>{{ entity.picturePath }}</td>
-                    <td><a href="{{path('auction_show', {'id': entity.id })}}"> {{ entity.title }} </a></td>
-                    <td>{{ entity.endAuction.diff(entity.startAuction).days }}</td>
-                    <td>{{ entity.productPrice }}</td>
-                </tr>
-            {% endfor %}
-            </tbody>
-        </table>
-
-
-    {% endif %}
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Picturepath</th>
+                        <th>Title</th>
+                        <th>Days</th>
+                        <th>Price</th>
+                    </tr>
+                </thead>
+                <tbody>
+                {% for entity in entities %}
+                    <tr>
+                        <td>{{ entity.picturePath }}</td>
+                        <td><a href="{{path('auction_show', {'id': entity.id })}}"> {{ entity.title }} </a></td>
+                        <td>{{ entity.endAuction.diff(entity.startAuction).days }}</td>
+                        <td>{{ entity.productPrice }}</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+         {% else %}
+            <h2> Nothing here! </h2>
+            </br>
+            <a href="{{path('homepage')}}" class="btn btn-danger"> Back </a>
+        </div>
+    </div>
+        {% endif %}
     {% endblock %}

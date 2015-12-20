@@ -68,6 +68,8 @@ class DefaultController extends Controller
 
       $auction = new Auction();
       $auction->setUser($user);
+      $auction->setStartAuction(new \DateTime('now'));
+      $auction->setEndAuction(new \DateTime('now'));
 
       $form = $this->createForm(new AuctionType(), $auction);
       $form->add('submit', 'submit', array('label' => 'Create'));

@@ -1,6 +1,7 @@
 {% extends '::base.html.twig' %}
 
 {% block body -%}
+{% if entity != null %}
     <h1>Shipping</h1>
 
     <table class="record_properties">
@@ -23,5 +24,5 @@
             </tr>
         </tbody>
     </table>
-
+{% endif %}
 {% endblock %}

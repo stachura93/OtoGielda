@@ -46,9 +46,16 @@ class Bidding
     private $amount;
 
     /**
+     * @var integer
+     *
+     * @ORM\Column(name="price", type="decimal",  precision=12, scale=2, nullable=false)
+     */
+    private $price;
+
+    /**
      * @var \DateTime
      *
-     * @ORM\Column(name="bidding_date", type="date", nullable=false)
+     * @ORM\Column(name="bidding_date", type="datetime", nullable=false)
      */
     private $biddingDate;
 
@@ -58,7 +65,7 @@ class Bidding
      *
      * @ORM\Column(name="winning", type="boolean", nullable=true)
      */
-    private $winning;
+    private $winning = false;
 
 
     /**
@@ -69,6 +76,7 @@ class Bidding
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
     private $id;
+
 
 
     /**
@@ -93,6 +101,30 @@ class Bidding
     public function getAmount()
     {
         return $this->amount;
+    }
+
+    /**
+     * Set price
+     *
+     * @param string $price
+     *
+     * @return Bidding
+     */
+    public function setPrice($price)
+    {
+        $this->price = $price;
+
+        return $this;
+    }
+
+    /**
+     * Get price
+     *
+     * @return string
+     */
+    public function getPrice()
+    {
+        return $this->price;
     }
 
     /**
@@ -154,102 +186,6 @@ class Bidding
     }
 
     /**
-     * Set paymentId
-     *
-     * @param \AppBundle\Entity\Payment $paymentId
-     *
-     * @return Bidding
-     */
-    public function setPaymentId(\AppBundle\Entity\Payment $paymentId = null)
-    {
-        $this->paymentId = $paymentId;
-
-        return $this;
-    }
-
-    /**
-     * Get paymentId
-     *
-     * @return \AppBundle\Entity\Payment
-     */
-    public function getPaymentId()
-    {
-        return $this->paymentId;
-    }
-
-    /**
-     * Set userId
-     *
-     * @param \Application\Sonata\UserBundle\Entity\User $userId
-     *
-     * @return Bidding
-     */
-    public function setUserId(\Application\Sonata\UserBundle\Entity\User $userId = null)
-    {
-        $this->userId = $userId;
-
-        return $this;
-    }
-
-    /**
-     * Get userId
-     *
-     * @return \Application\Sonata\UserBundle\Entity\User
-     */
-    public function getUserId()
-    {
-        return $this->userId;
-    }
-
-    /**
-     * Set auctionId
-     *
-     * @param \AppBundle\Entity\Auction $auctionId
-     *
-     * @return Bidding
-     */
-    public function setAuctionId(\AppBundle\Entity\Auction $auctionId = null)
-    {
-        $this->auctionId = $auctionId;
-
-        return $this;
-    }
-
-    /**
-     * Get auctionId
-     *
-     * @return \AppBundle\Entity\Auction
-     */
-    public function getAuctionId()
-    {
-        return $this->auctionId;
-    }
-
-    /**
-     * Set shippingId
-     *
-     * @param \AppBundle\Entity\Shipping $shippingId
-     *
-     * @return Bidding
-     */
-    public function setShippingId(\AppBundle\Entity\Shipping $shippingId = null)
-    {
-        $this->shippingId = $shippingId;
-
-        return $this;
-    }
-
-    /**
-     * Get shippingId
-     *
-     * @return \AppBundle\Entity\Shipping
-     */
-    public function getShippingId()
-    {
-        return $this->shippingId;
-    }
-
-    /**
      * Set payment
      *
      * @param \AppBundle\Entity\Payment $payment
@@ -304,7 +240,7 @@ class Bidding
      *
      * @return Bidding
      */
-    public function setUser(\Application\Sonata\UserBundle\Entity\User $user)
+    public function setUser(\Application\Sonata\UserBundle\Entity\User $user = null)
     {
         $this->user = $user;
 
@@ -328,7 +264,7 @@ class Bidding
      *
      * @return Bidding
      */
-    public function setAuction(\AppBundle\Entity\Auction $auction)
+    public function setAuction(\AppBundle\Entity\Auction $auction = null)
     {
         $this->auction = $auction;
 

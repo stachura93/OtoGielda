@@ -1,63 +1,160 @@
 {% extends '::base.html.twig' %}
+{% block leftMenu %}
+    <div class="row">
+     <div class="span10">
+        <h3>
+            <span class="inline">Salesman</span>
+            <a href="{{ path('userinformation', { 'id': auction.user.id }) }}" class="inline"> {{ auction.user }}</a>
+        </h3>
+        </div>
+    </div>
+
+    {% if(app.user != auction.user) %}
+       <form id="buy" method="POST" action="{{ path('auction_buy') }}"
+        >
+                <div class="input-append span12">
+                    <input id="auctionName" name="auction" type="text" placeholder="Auction" value="{{auction.id}}">
+                    <input id="auctionBuyer" name="buyer" type="text" placeholder="Buyer" value="{{app.user}}">
+                    <input id="auctionProductAmount" name="amount" type="number" placeholder="Amount">
+                    <input id="auctionProductPrice" name="price" type="number" placeholder="Price" name="price" pattern="[0-9]+([\.,][0-9]+)?" step="0.1"  >
+                    <button type="submit" onSubmit="return buy()" class="btn">
+                   </button>
+                </div>
+            </form>
+        </div>
+
+    {% endif %}
+
+{% endblock %}
+
 
 {% block body -%}
-    <h1>Auction</h1>
+    <div class="panel-group">
+      <div class="panel panel-default">
+      <div class="panel-heading">
+        <div class="row">
+            <div class="col-md-4">Aucrion</div>
+           <div class="col-md-4 col-md-offset-1">
+                  {{ auction.title }}
+       </div>
+            <div class="col-md-3"><span class="pull-right">
+                  Time left: {{ auction.endAuction.diff(auction.startAuction).days }}
+            </span></div>
+          </div>
+      </div>
+      <div class="panel-body">
+            {{ auction.content|raw }}
+      </div>
+    </div>
 
-    <table class="record_properties">
-        <tbody>
-            <tr>
-                <th>Title</th>
-                <td>{{ entity.title }}</td>
-            </tr>
-            <tr>
-                <th>Content</th>
-                <td>{{ entity.content|raw }}</td>
-            </tr>
-            <tr>
-                <th>User</th>
-                <td>{{ entity.user }}</td>
-            </tr>
-            <tr>
-                <th>Picturepath</th>
-                <td>{{ entity.picturePath }}</td>
-            </tr>
-            <tr>
-                <th>End auction</th>
-                <td>{{ entity.endAuction|date('Y-m-d H:i:s') }}</td>
-            </tr>
 
-            <tr>
-                <th>Product amount</th>
-                <td>{{ entity.productAmount }}</td>
-            </tr>
-            <tr>
-                <th>Product price</th>
-                <td>{{ entity.productPrice }}</td>
-            </tr>
-            <tr>
+
+
+                <td>{{ auction.picturePath }}</td>
+                <td>{{ auction.endAuction|date('Y-m-d H:i:s') }}</td>
+
+                <td>{{ auction.productAmount }}</td>
+                <td>{{ auction.productPrice }}</td>
+     
                 <th>Product is new</th>
-                {% if entity.newProduct == 0 %}
+                {% if auction.newProduct == 0 %}
                 <td> No </td>
                 {% else %}
                 <td> Yes </td>
                 {% endif %}
             </tr>
 
+
         </tbody>
     </table>
 
-  Time left: {{ entity.endAuction.diff(entity.startAuction).days }}
-
- {{ render(controller('AppBundle:Shipping:show', { 'id': entity.id })) }}
-
- {{ render(controller('AppBundle:Payment:show', { 'id': entity.id })) }}
 
 
+   <div class="panel-group">
+      <div class="panel panel-default">
+      <div class="panel-heading">
+        <div class="row">
+            <div class="col-md-4">Information</div>
+           <div class="col-md-4 col-md-offset-1">
 
- <a href="{{ path('userinformation', { 'id': entity.user.id }) }}"> Read more about: {{ entity.user }}</a>
+           </div>
+            <div class="col-md-3"><span class="pull-right">
 
- {{ render(controller('AppBundle:Bidding:in_auction', { 'id': entity.id })) }}
+            </span></div>
+          </div>
+      </div>
+      <div class="panel-body">
 
+<div class="row">
+  <div class="col-md-6">
+
+    <h3> Payment </h3>
+    {% for entity in payments %}
+           Method name: {{ entity.methodName }} </br>
+           Description: {{ entity.description }} </br>
+    {% endfor %}
+
+  </div>
+  <div class="col-md-6"> <span class="pull-right">
+
+  <h3> Shipping </h3>
+  {% for entity in shippings %}
+        Title: {{ entity.title }} </br>
+        Price: {{ entity.price }} </br>
+        Time to send: {{ entity.waitingTimeToSendDays }} </br>
+        Approximate waiting time: {{ entity.approximateWaitingTimeDays }} </br></br>
+  {% endfor %}
+
+    </span>
+  </div>
+</div>
+
+      </div>
+    </div>
+
+ {% if biddings != null %}
+   <div class="panel-group">
+      <div class="panel panel-default">
+      <div class="panel-heading">
+        <div class="row">
+            <div class="col-md-4">Bidding</div>
+           <div class="col-md-4 col-md-offset-1">
+
+           </div>
+            <div class="col-md-3"><span class="pull-right">
+            </span></div>
+          </div>
+      </div>
+      <div class="panel-body">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>User</th>
+                    <th>Date</th>
+                    <th>Amount</th>
+                    <th>Price</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for entity in biddings %}
+                <tr>
+                <td> {{ entity.user }} </td>
+                <td> {% if entity.biddingDate %}{{ entity.biddingDate|date('Y-m-d H:i:s') }}{% endif %} </td>
+                <td> {{ entity.amount }} </td>
+                <td> {{ entity.price }} </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+      </div>
+    </div>
+  {% endif %}
 
 
 {% endblock %}
+
+{% block javascripts %}
+     <script src="{{ asset('assets/vendor/MyJS/test.js') }}"></script>
+{% endblock %}
+
+

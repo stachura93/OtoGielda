@@ -11,6 +11,8 @@ use AppBundle\Entity\Auction;
 use AppBundle\Form\AuctionType;
 
 use AppBundle\Entity\Shipping;
+use AppBundle\Entity\Bidding;
+
 
 /**
  * Auction controller.
@@ -18,6 +20,65 @@ use AppBundle\Entity\Shipping;
  */
 class AuctionController extends Controller
 {
+     /**
+     * Finds all Auction using title.
+     *
+     * @Route("/auction/buy", name="auction_buy")
+     * @Method("POST")
+     * @Template()
+     */
+    public function buyAction(Request $request)
+    {
+        $auction = $request->request->get('auction');
+        $amount = $request->request->get('amount');
+        $price = $request->request->get('price');
+
+        $em = $this->getDoctrine()->getManager();
+        $auctionOb= $em->getRepository('AppBundle:Auction')->find($auction);
+        $buyerOb = $this->get('security.token_storage')->getToken()->getUser();
+
+
+        $bidding = new Bidding();
+        $bidding->setUser($buyerOb);
+        $bidding->setAuction($auctionOb);
+        $bidding->setAmount($amount);
+        $bidding->setPrice($price);
+        $bidding->setBiddingDate(new \DateTime('now'));
+
+        $em->persist($bidding);
+        $em->flush();
+
+        return $this->render('AppBundle:Auction:buy.html.twig'
+            , array(
+            'bidding' => $bidding,
+        ));
+    }
+
+
+    /**
+     * Finds all Auction using title.
+     *
+     * @Route("/auction/search/", name="auction_by_title")
+     * @Method("GET")
+     * @Template()
+     */
+    public function find_using_titleAction(Request $request)
+    {
+        $title = $request->query->get('title');
+        $em = $this->getDoctrine()->getManager();
+        $repository = $em->getRepository('AppBundle:Auction');
+
+        $query = $repository->createQueryBuilder('a')
+        ->andWhere('a.title LIKE :title')
+        ->setParameter('title', '%'.$title.'%')
+        ->getQuery();
+
+        $entities = $query->getResult();
+
+        return $this->render('AppBundle:Auction:index.html.twig', array(
+            'entities' => $entities,
+        ));
+    }
 
     /**
      * Finds all user Auction.
@@ -138,17 +199,23 @@ class AuctionController extends Controller
     public function showAction($id)
     {
         $em = $this->getDoctrine()->getManager();
+        $auction = $em->getRepository('AppBundle:Auction')->find($id);
 
-        $entity = $em->getRepository('AppBundle:Auction')->find($id);
+        $shippings = $auction->getShipping();
+        $payments = $auction->getPayment();
+        $biddings = $auction->getBidding();
 
-        if (!$entity) {
+        if (!$auction) {
             throw $this->createNotFoundException('Unable to find Auction entity.');
         }
 
         $deleteForm = $this->createDeleteForm($id);
 
         return array(
-            'entity'      => $entity,
+            'auction'     => $auction,
+            'shippings'   => $shippings,
+            'payments'    => $payments,
+            'biddings'    => $biddings,
             'delete_form' => $deleteForm->createView(),
         );
     }

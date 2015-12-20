@@ -14,6 +14,12 @@ class ShippingAdmin extends Admin
                    ->add('price', 'integer')
                    ->add('waitingTimeToSendDays', 'text')
                    ->add('approximateWaitingTimeDays', 'text')
+                   ->add('Auction', 'entity', array(
+                        'class' => 'AppBundle\Entity\Auction',
+                        'property' => 'title',
+                        'multiple' => 'true',
+                        'required' => false,
+                    ));
                    ;
     }
 

@@ -93,7 +93,7 @@ class Auction
     private $shipping;
 
     /**
-     * @ORM\OneToMany(targetEntity="Bidding", mappedBy="auction")
+     * @ORM\OneToMany(targetEntity="Bidding", mappedBy="auction", cascade={"persist", "remove"})
      */
     private $bidding;
 
@@ -118,7 +118,7 @@ class Auction
     /**
      * @var integer
      *
-     * @ORM\Column(name="product_price", type="integer", nullable=false)
+     * @ORM\Column(name="product_price", type="decimal", precision=12, scale=2, nullable=false)
      */
     private $productPrice;
 
@@ -515,7 +515,7 @@ class Auction
     public function addBidding(\AppBundle\Entity\Bidding $bidding)
     {
         $this->bidding[] = $bidding;
-
+        $bidding->setAuction($this);
         return $this;
     }
 

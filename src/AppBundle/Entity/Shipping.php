@@ -22,7 +22,7 @@ class Shipping
     /**
      * @var integer
      *
-     * @ORM\Column(name="price", type="integer", nullable=false)
+     * @ORM\Column(name="price", type="decimal", precision=7, scale=2, nullable=false)
      */
     private $price;
 

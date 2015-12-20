@@ -18,11 +18,9 @@ class AuctionType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('enabled')
             ->add('title')
             ->add('content')
             ->add('picturePath')
-            ->add('startAuction')
             ->add('endAuction')
             ->add('product_amount')
             ->add('product_price')

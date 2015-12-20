@@ -20,8 +20,8 @@ class BiddingType extends AbstractType
             ->add('winning')
             ->add('payment')
             ->add('shipping')
-            ->add('user')
-            ->add('auction')
+            // ->add('user')
+            // ->add('auction')
         ;
     }
     
