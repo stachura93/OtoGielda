@@ -1,3 +1,15 @@
+onload=function(){
+    var e=document.getElementById("refreshed");
+    if(e.value=="no")e.value="yes";
+        else{e.value="no";location.reload();
+    }
+}
+$( document ).ready(function() {
+    // var productPrice = auction.productPrice
+    // var wio = $('#auctionProductPrice').val("2");
+    // alert(wio);
+});
+
 $('#newAuction').submit(function() {
 var date = new Date();
 var day = date.getDate();
@@ -50,3 +62,6 @@ $('#buy').submit(function() {
      return false;
     }
 });
+
+
+

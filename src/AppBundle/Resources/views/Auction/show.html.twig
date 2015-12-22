@@ -1,34 +1,66 @@
 {% extends '::base.html.twig' %}
 {% block leftMenu %}
-    <div class="row">
-     <div class="span10">
-        <h3>
+       <input type="hidden" id="refreshed" value="no">
+        <h4>
             <span class="inline">Salesman</span>
             <a href="{{ path('userinformation', { 'id': auction.user.id }) }}" class="inline"> {{ auction.user }}</a>
-        </h3>
-        </div>
-    </div>
+        </h4>
+
+        <h3> Product: </h3>
+         <h5>price: {{ maxPriceInBiddingVsProductPrice }}</h5>
+         <h5>amount: {{ auction.productAmount }}</h5>
+         <h5>new
+                {% if auction.newProduct == 0 %}
+                <td> no </td>
+                {% else %}
+                <td> yes </td>
+                {% endif %}
+          </h5>
 
     {% if(app.user != auction.user) %}
-       <form id="buy" method="POST" action="{{ path('auction_buy') }}"
-        >
-                <div class="input-append span12">
-                    <input id="auctionName" name="auction" type="text" placeholder="Auction" value="{{auction.id}}">
-                    <input id="auctionBuyer" name="buyer" type="text" placeholder="Buyer" value="{{app.user}}">
-                    <input id="auctionProductAmount" name="amount" type="number" placeholder="Amount">
-                    <input id="auctionProductPrice" name="price" type="number" placeholder="Price" name="price" pattern="[0-9]+([\.,][0-9]+)?" step="0.1"  >
-                    <button type="submit" onSubmit="return buy()" class="btn">
-                   </button>
-                </div>
-            </form>
-        </div>
+       <form id="buy" method="POST" action="{{ path('auction_buy') }}" >
 
+                <div class="form-group">
+                    <input id="auctionName" name="auction" type="hidden" placeholder="Auction" value="{{auction.id}}">
+                    <input id="auctionBuyer" name="buyer" type="hidden" placeholder="Buyer" value="{{app.user}}">
+                    <div class="input-group">
+                      <span class="input-group-addon">Amount</span>
+                      <input id="auctionProductAmount" name="amount" type="number" placeholder="Amount" value="1" class="form-control" min="1" max="{{auction.productAmount}}">
+                    </div>
+                    <div class="input-group">
+                      <span class="input-group-addon"> Price  </span>
+                      <input id="auctionProductPrice" name="price" type="number" placeholder="Price" name="price" pattern="[0-9]+([\.,][0-9]+)?"
+                      {% if auction.buyNow == 1 %}
+                      min="{{maxPriceInBiddingVsProductPrice}}"
+                      max="{{maxPriceInBiddingVsProductPrice}}"
+                      value="{{maxPriceInBiddingVsProductPrice}}"
+                      {% else %}
+                      step="0.1"
+                      min="{{maxPriceInBiddingVsProductPrice + 0.1}}"
+                      value="{{maxPriceInBiddingVsProductPrice + 0.1}}"
+                      {% endif %}
+                      class="form-control">
+                    </div>
+
+                    </br>
+                    <button type="submit" onSubmit="return buy()" class="btn">
+                      {% if auction.buyNow == 0 %}
+                         Bid
+                      {% else %}
+                       Buy Now
+                      {% endif %}
+                    </button>
+                </div>
+          </form>
+      
     {% endif %}
+
 
 {% endblock %}
 
 
 {% block body -%}
+<div class="col-md-10 col-xs-offset-1">
     <div class="panel-group">
       <div class="panel panel-default">
       <div class="panel-heading">
@@ -46,27 +78,8 @@
             {{ auction.content|raw }}
       </div>
     </div>
-
-
-
-
-                <td>{{ auction.picturePath }}</td>
-                <td>{{ auction.endAuction|date('Y-m-d H:i:s') }}</td>
-
-                <td>{{ auction.productAmount }}</td>
-                <td>{{ auction.productPrice }}</td>
-     
-                <th>Product is new</th>
-                {% if auction.newProduct == 0 %}
-                <td> No </td>
-                {% else %}
-                <td> Yes </td>
-                {% endif %}
-            </tr>
-
-
-        </tbody>
-    </table>
+    </tbody>
+ </table>
 
 
 
@@ -138,7 +151,7 @@
             <tbody>
                 {% for entity in biddings %}
                 <tr>
-                <td> {{ entity.user }} </td>
+                <td> {{ entity.username }} </td>
                 <td> {% if entity.biddingDate %}{{ entity.biddingDate|date('Y-m-d H:i:s') }}{% endif %} </td>
                 <td> {{ entity.amount }} </td>
                 <td> {{ entity.price }} </td>
@@ -150,7 +163,8 @@
     </div>
   {% endif %}
 
-
+  </div>
+   </div>
 {% endblock %}
 
 {% block javascripts %}

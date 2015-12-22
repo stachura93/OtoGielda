@@ -85,6 +85,7 @@ class DefaultController extends Controller
            array('id' => $auction->getId() )));
         }
       }
+     //return $this->redirect($this->generateUrl($this->routeHomePage));
       return $this->render('AppBundle:Default:create_auction.html.twig', array(
         'form' => $form->createView(),
       ));

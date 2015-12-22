@@ -94,6 +94,7 @@ class Auction
 
     /**
      * @ORM\OneToMany(targetEntity="Bidding", mappedBy="auction", cascade={"persist", "remove"})
+     * @ORM\OrderBy({"price" = "DESC"})
      */
     private $bidding;
 
@@ -128,6 +129,14 @@ class Auction
      * @ORM\Column(name="new_product", type="boolean", nullable=true)
      */
     private $newProduct = false;
+
+      /**
+     * @var boolean
+     *
+     * @ORM\Column(name="buy_now", type="boolean", nullable=true)
+     */
+    private $buyNow = false;
+
     /**
      * Constructor
      */
@@ -595,5 +604,29 @@ class Auction
     public function getCategory()
     {
         return $this->category;
+    }
+
+    /**
+     * Set buyNow
+     *
+     * @param boolean $buyNow
+     *
+     * @return Auction
+     */
+    public function setBuyNow($buyNow)
+    {
+        $this->buyNow = $buyNow;
+
+        return $this;
+    }
+
+    /**
+     * Get buyNow
+     *
+     * @return boolean
+     */
+    public function getBuyNow()
+    {
+        return $this->buyNow;
     }
 }

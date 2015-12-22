@@ -7,12 +7,18 @@
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
         <link rel="stylesheet" href="{{ asset('assets/vendor/MyCss/search.css') }}">
         <link rel="stylesheet" href="{{ asset('assets/vendor/MyCss/index.css') }}">
-
+        {% stylesheets '@AppBundle/Resources/vendor/eonasdan-bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.min.css' filter='cssrewrite' %}
+            <link rel="stylesheet" href="{{ asset_url }}" />
+        {% endstylesheets %}
         {% javascripts '@AppBundle/Resources/vendor/jquery/dist/jquery.js' %}
           <script type="text/javascript" src="{{ asset_url }}"></script>
         {% endjavascripts %}
 
          {% javascripts '@AppBundle/Resources/vendor/symfony-collection/jquery.collection.js' %}
+          <script type="text/javascript" src="{{ asset_url }}"></script>
+        {% endjavascripts %}
+
+         {% javascripts '@AppBundle/Resources/vendor/eonasdan-bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js' %}
           <script type="text/javascript" src="{{ asset_url }}"></script>
         {% endjavascripts %}
 

@@ -33,10 +33,15 @@ class AuctionController extends Controller
         $amount = $request->request->get('amount');
         $price = $request->request->get('price');
 
+
         $em = $this->getDoctrine()->getManager();
         $auctionOb= $em->getRepository('AppBundle:Auction')->find($auction);
-        $buyerOb = $this->get('security.token_storage')->getToken()->getUser();
 
+        $buyerOb = $this->get('security.token_storage')->getToken()->getUser();
+        
+        if($auctionOb->getProductAmount() == 0) {
+            $auctionOb->setEnabled(false);
+        }
 
         $bidding = new Bidding();
         $bidding->setUser($buyerOb);
@@ -45,13 +50,31 @@ class AuctionController extends Controller
         $bidding->setPrice($price);
         $bidding->setBiddingDate(new \DateTime('now'));
 
+        if($auctionOb->getBuyNow() == true) {
+            $bidding->setWinning(true);
+            $auctionOb->setProductAmount($auctionOb->getProductAmount() - $amount);
+        }
+
+
         $em->persist($bidding);
         $em->flush();
+        return $this->redirect($this->generateUrl('auction_you_buy', array(
+            'auctionTitle' => $bidding->getAuction()->getTitle(),
+            'auctionIsByNow' => $bidding->getAuction()->getBuyNow(),
+            'amount' => $bidding->getAmount(),
+            'price' => $bidding->getPrice(),
+        )));
+    }
 
-        return $this->render('AppBundle:Auction:buy.html.twig'
-            , array(
-            'bidding' => $bidding,
-        ));
+   /**
+     * Blank change Post .
+     *
+     * @Route("/auction/youBuy", name="auction_you_buy")
+     * @Method("GET")
+     * @Template()
+     */
+    public function blankBuyAction() {
+         return $this->render('AppBundle:Auction:buy.html.twig');
     }
 
 
@@ -203,19 +226,40 @@ class AuctionController extends Controller
 
         $shippings = $auction->getShipping();
         $payments = $auction->getPayment();
-        $biddings = $auction->getBidding();
+
+        $query = $em->createQuery('
+               SELECT u.username, b.biddingDate, b.amount, MAX(b.price) as price
+               FROM AppBundle:Bidding b
+               JOIN b.auction a
+               JOIN b.user u
+               WHERE b.auction = :auction
+               GROUP BY b.user
+               ORDER BY price DESC
+            ');
+        $query->setParameter('auction', $auction);
+
+        $biddings = $query->getResult();
+
+        $maxPriceInBiddingVsProductPrice = 1;
+
+        foreach ($biddings as $bidd) {
+            if($bidd['price'] > $maxPriceInBiddingVsProductPrice)
+                $maxPriceInBiddingVsProductPrice = $bidd['price'];
+        }
+        if($maxPriceInBiddingVsProductPrice < $auction->getProductPrice())
+            $maxPriceInBiddingVsProductPrice = $auction->getProductPrice();
 
         if (!$auction) {
             throw $this->createNotFoundException('Unable to find Auction entity.');
         }
 
         $deleteForm = $this->createDeleteForm($id);
-
         return array(
             'auction'     => $auction,
             'shippings'   => $shippings,
             'payments'    => $payments,
             'biddings'    => $biddings,
+            'maxPriceInBiddingVsProductPrice' => $maxPriceInBiddingVsProductPrice,
             'delete_form' => $deleteForm->createView(),
         );
     }

@@ -21,9 +21,13 @@ class AuctionType extends AbstractType
             ->add('title')
             ->add('content')
             ->add('picturePath')
-            ->add('endAuction')
-            ->add('product_amount')
-            ->add('product_price')
+            ->add('endAuction', 'date')
+            ->add('product_amount', 'integer')
+            ->add('buyNow')
+            ->add('product_price', 'money', array(
+              'pattern' => '[0-9]+([\.,][0-9]+)?',
+              'currency' => 'USD'
+               ))
             ->add('Category', 'entity', array(
                         'class' => 'AppBundle\Entity\Category',
                         'property' => 'name',
