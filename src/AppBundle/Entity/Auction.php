@@ -64,14 +64,9 @@ class Auction
     private $endAuction;
 
     /**
-     * @ORM\OneToOne(targetEntity="Comment", inversedBy="auctionBuyer")
+     *  @ORM\OneToMany(targetEntity="Comment", mappedBy="auction", cascade={"persist", "remove"})
      */
-    private $commentFromBuyer;
-
-    /**
-     * @ORM\OneToOne(targetEntity="Comment", inversedBy="auctionSeller")
-     */
-    private $commentFromSeller;
+    private $comment;
 
     /**
      * @var integer
@@ -399,54 +394,6 @@ class Auction
     }
 
     /**
-     * Set commentFromBuyer
-     *
-     * @param \AppBundle\Entity\Comment $commentFromBuyer
-     *
-     * @return Auction
-     */
-    public function setCommentFromBuyer(\AppBundle\Entity\Comment $commentFromBuyer = null)
-    {
-        $this->commentFromBuyer = $commentFromBuyer;
-
-        return $this;
-    }
-
-    /**
-     * Get commentFromBuyer
-     *
-     * @return \AppBundle\Entity\Comment
-     */
-    public function getCommentFromBuyer()
-    {
-        return $this->commentFromBuyer;
-    }
-
-    /**
-     * Set commentFromSeller
-     *
-     * @param \AppBundle\Entity\Comment $commentFromSeller
-     *
-     * @return Auction
-     */
-    public function setCommentFromSeller(\AppBundle\Entity\Comment $commentFromSeller = null)
-    {
-        $this->commentFromSeller = $commentFromSeller;
-
-        return $this;
-    }
-
-    /**
-     * Get commentFromSeller
-     *
-     * @return \AppBundle\Entity\Comment
-     */
-    public function getCommentFromSeller()
-    {
-        return $this->commentFromSeller;
-    }
-
-    /**
      * Add payment
      *
      * @param \AppBundle\Entity\Payment $payment
@@ -628,5 +575,39 @@ class Auction
     public function getBuyNow()
     {
         return $this->buyNow;
+    }
+
+    /**
+     * Add comment
+     *
+     * @param \AppBundle\Entity\Comment $comment
+     *
+     * @return Auction
+     */
+    public function addComment(\AppBundle\Entity\Comment $comment)
+    {
+        $this->comment[] = $comment;
+        $comment->setAuction($this);
+        return $this;
+    }
+
+    /**
+     * Remove comment
+     *
+     * @param \AppBundle\Entity\Comment $comment
+     */
+    public function removeComment(\AppBundle\Entity\Comment $comment)
+    {
+        $this->comment->removeElement($comment);
+    }
+
+    /**
+     * Get comment
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getComment()
+    {
+        return $this->comment;
     }
 }

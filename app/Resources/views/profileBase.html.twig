@@ -5,8 +5,10 @@
  <td><a href="{{ path('sonata_user_profile_edit') }}">Edit profile</a></td>
  </br>
 
- <td><a href="{{ path('profile_auctions', {'id': app.user.id } ) }}">Auctions</a></td>
- <td><a href="{{ path('profile_auctions', {'id': app.user.id } ) }}">Auctions</a></td>
+ <td><a href="{{ path('profile_auctions', {'id': app.user.id } ) }}">Your Auctions</a></td></br>
+ <td><a href="{{ path('profile_you_win_bidding', {'id': app.user.id } ) }}">You Win</a></td>
+ </br>
+ <td><a href="{{ path('profile_you_lose_bidding', {'id': app.user.id } ) }}">You lose</a></td>
  </br>
  <td><a href="{{ path('profile_comments', {'id': app.user.id, 'routeName': app.request.get('_route') } ) }}">Comment</a></td>
  </br>

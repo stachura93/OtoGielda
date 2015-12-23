@@ -10,13 +10,15 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use AppBundle\Entity\Comment;
 use AppBundle\Form\CommentType;
 
+use AppBundle\Entity\Auction;
+use ApplicationSonataUserBundle\EntityUser;
+
 /**
  * Comment controller.
  *
  */
 class CommentController extends Controller
 {
-
 
     /**
      * Return user comments by ID
@@ -69,8 +71,10 @@ class CommentController extends Controller
      */
     public function createAction(Request $request)
     {
+
         $entity = new Comment();
-        $form = $this->createCreateForm($entity);
+
+        $form = $this->createCreateForm($entity, $request);
         $form->handleRequest($request);
 
         if ($form->isValid()) {
@@ -94,14 +98,62 @@ class CommentController extends Controller
      *
      * @return \Symfony\Component\Form\Form The form
      */
-    private function createCreateForm(Comment $entity)
+    private function createCreateForm(Comment $entity, Request $request)
     {
-        $form = $this->createForm(new CommentType(), $entity, array(
-            'action' => $this->generateUrl('comment_create'),
-            'method' => 'POST',
-        ));
+        $commentForUserRequest = $request->request->get('commentForUser');
+        // $auctionRequest = $request->request->getInt('auction');
 
-        $form->add('submit', 'submit', array('label' => 'Create'));
+
+        $em = $this->getDoctrine()->getManager();
+      //  $auction = $em->getRepository('AppBundle:Auction')->find($auctionRequest);
+
+        $commentForUser = $em->getRepository('ApplicationSonataUserBundle:User')->findOneBy(array('username' => $commentForUserRequest ));
+
+
+        // echo $auctionID;
+       // $auction = $em->getRepository('AppBundle:Auction')->findOneBy(array('id' => $auctionID));
+          // $auction->addComment($entity);
+          // $entity->setAuction($auction);
+
+
+        // $seller = $auction->getUser();
+        // echo "<pre>";
+        // echo print_r($seller);
+        // echo "</pre>";
+        $user = $this->get('security.token_storage')->getToken()->getUser();
+
+        // $entity->setUserSeller($seller);
+        $entity->setUserBuyer($commentForUser);
+
+        // if($user == $seller ) {
+        //     echo "Sprzedawca";
+        //     $entity->setBuyer(false);
+        // } elseif ($user == $commentForUser) {
+        //     echo "Kupujacy";
+        //     $entity->setBuyer(true);
+        // }
+
+
+        // $auctionRequest = $request->request->get('auction');
+        // $commentForUserRequest = $request->request->get('commentForUser');
+
+        $form = $this->createForm(new CommentType());
+ // $entity, array(
+ //            'action' => $this->generateUrl('comment_create'),
+ //            'method' => 'POST',
+ //        ));
+        // $form->add('auction', 'entity', array(
+        //     'class' => 'AppBundle:Auction',
+        //     'property'=> 'title',
+        //     'query_builder' => function(\Doctrine\ORM\EntityRepository $er) use ($auctionRequest) {
+        //                return $er->createQueryBuilder('a')
+        //                      ->where('a.id = :id')
+        //                      ->setParameter('id', $auctionRequest);
+        //             },
+        // ));
+
+         $form->handleRequest($request);
+        // $form->add('submit', 'submit', array('label' => 'Create'));
 
         return $form;
     }
@@ -109,14 +161,31 @@ class CommentController extends Controller
     /**
      * Displays a form to create a new Comment entity.
      *
-     * @Route("/comment/new", name="comment_new")
+     * @Route("/saveComment/", name="comment_new")
      * @Method("GET")
      * @Template()
      */
-    public function newAction()
+    public function newAction(Request $request)
     {
         $entity = new Comment();
-        $form   = $this->createCreateForm($entity);
+
+        $form   = $this->createCreateForm($entity, $request);
+
+
+    
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            // ... perform some action, such as saving the task to the database
+echo "sd";
+            return $this->redirectToRoute('task_success');
+        }
+
+       //     if ($form->isSubmitted() && $form->isValid()) {
+       //  // ... perform some action, such as saving the task to the database
+
+       //  return $this->redirectToRoute('task_success');
+       // }
+
 
         return array(
             'entity' => $entity,
@@ -158,6 +227,7 @@ class CommentController extends Controller
      */
     public function editAction($id)
     {
+
         $em = $this->getDoctrine()->getManager();
 
         $entity = $em->getRepository('AppBundle:Comment')->find($id);

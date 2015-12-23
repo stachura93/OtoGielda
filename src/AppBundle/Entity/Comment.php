@@ -39,19 +39,22 @@ class Comment
 
     /**
      * @ORM\ManyToOne(targetEntity="Application\Sonata\UserBundle\Entity\User", inversedBy="comment")
-     * @ORM\JoinColumn(name="user_id", referencedColumnName="id")
+     * @ORM\JoinColumn(name="userBuyer_id", referencedColumnName="id")
      */
-    private $user;
+    private $userBuyer;
+
+     /**
+     * @ORM\ManyToOne(targetEntity="Application\Sonata\UserBundle\Entity\User", inversedBy="comment")
+     * @ORM\JoinColumn(name="userSeller_id", referencedColumnName="id")
+     */
+    private $userSeller;
 
     /**
-     * @ORM\OneToOne(targetEntity="Auction", mappedBy="commentFromBuyer")
+     *  @ORM\ManyToOne(targetEntity="Auction", inversedBy="comment")
+     *  @ORM\JoinColumn(name="auction_id", referencedColumnName="id")
      */
-    private $auctionBuyer;
+    private $auction;
 
-    /**
-     * @ORM\OneToOne(targetEntity="Auction", mappedBy="commentFromSeller")
-     */
-    private $auctionSeller;
 
 
     /**
@@ -150,39 +153,6 @@ class Comment
         return $this;
     }
 
-    /**
-     * Get auctionBuyer
-     *
-     * @return \AppBundle\Entity\Auction
-     */
-    public function getAuctionBuyer()
-    {
-        return $this->auctionBuyer;
-    }
-
-    /**
-     * Set auctionSeller
-     *
-     * @param \AppBundle\Entity\Auction $auctionSeller
-     *
-     * @return Comment
-     */
-    public function setAuctionSeller(\AppBundle\Entity\Auction $auctionSeller = null)
-    {
-        $this->auctionSeller = $auctionSeller;
-
-        return $this;
-    }
-
-    /**
-     * Get auctionSeller
-     *
-     * @return \AppBundle\Entity\Auction
-     */
-    public function getAuctionSeller()
-    {
-        return $this->auctionSeller;
-    }
 
     /**
      * Set user
@@ -206,5 +176,77 @@ class Comment
     public function getUser()
     {
         return $this->user;
+    }
+
+    /**
+     * Set auction
+     *
+     * @param \AppBundle\Entity\Auction $auction
+     *
+     * @return Comment
+     */
+    public function setAuction(\AppBundle\Entity\Auction $auction = null)
+    {
+        $this->auction = $auction;
+
+        return $this;
+    }
+
+    /**
+     * Get auction
+     *
+     * @return \AppBundle\Entity\Auction
+     */
+    public function getAuction()
+    {
+        return $this->auction;
+    }
+
+    /**
+     * Set userBuyer
+     *
+     * @param \Application\Sonata\UserBundle\Entity\User $userBuyer
+     *
+     * @return Comment
+     */
+    public function setUserBuyer(\Application\Sonata\UserBundle\Entity\User $userBuyer = null)
+    {
+        $this->userBuyer = $userBuyer;
+
+        return $this;
+    }
+
+    /**
+     * Get userBuyer
+     *
+     * @return \Application\Sonata\UserBundle\Entity\User
+     */
+    public function getUserBuyer()
+    {
+        return $this->userBuyer;
+    }
+
+    /**
+     * Set userSeller
+     *
+     * @param \Application\Sonata\UserBundle\Entity\User $userSeller
+     *
+     * @return Comment
+     */
+    public function setUserSeller(\Application\Sonata\UserBundle\Entity\User $userSeller = null)
+    {
+        $this->userSeller = $userSeller;
+
+        return $this;
+    }
+
+    /**
+     * Get userSeller
+     *
+     * @return \Application\Sonata\UserBundle\Entity\User
+     */
+    public function getUserSeller()
+    {
+        return $this->userSeller;
     }
 }

@@ -13,16 +13,67 @@ use AppBundle\Form\BiddingType;
 /**
  * Bidding controller.
  *
- * @Route("/bidding")
+ *
  */
 class BiddingController extends Controller
 {
+
+    /**
+     * Return user comments by ID
+     *
+     * @Route("/profile/auctions/bidding/{auction}", name="bidding_win_in_auction")
+     * @Method("GET")
+     * @Template()
+     */
+    public function giveCommentsToAuctionAction($auction)
+    {
+      $em = $this->getDoctrine()->getManager();
+
+      $entities = $em->getRepository('AppBundle:Bidding')->findBy(array('auction' => $auction, 'winning' => true ));
+
+      return $this->render('AppBundle:Bidding:user_win_bidding_in_auction.html.twig', array(
+            'entities' => $entities,
+      ));
+    }
+    /**
+     * Return lose bidding by User
+     *
+     * @Route("/profile/bidding_you_lost/{id}", name="profile_you_lose_bidding")
+     * @Method("GET")
+     * @Template()
+     */
+    public function loseBiddingByUserAction($id)
+    {
+      $em = $this->getDoctrine()->getManager();
+      $entities = $em->getRepository('AppBundle:Bidding')->findBy(array('user' => $id, 'winning' => false ));
+
+        return $this->render('AppBundle:Bidding:by_user.html.twig', array(
+            'entities' => $entities,
+        ));
+    }
+
+    /**
+     * Return win bidding by User
+     *
+     * @Route("/profile/bidding_you_win/{id}", name="profile_you_win_bidding")
+     * @Method("GET")
+     * @Template()
+     */
+    public function winBiddingByUserAction($id)
+    {
+      $em = $this->getDoctrine()->getManager();
+      $entities = $em->getRepository('AppBundle:Bidding')->findBy(array('user' => $id, 'winning' => true ));
+
+        return $this->render('AppBundle:Bidding:by_user.html.twig', array(
+            'entities' => $entities,
+        ));
+    }
 
 
      /**
      * Return user by ID
      *
-     * @Route("/auction/{id}", name="bidding_in_auction")
+     * @Route("/bidding/auction/{id}", name="bidding_in_auction")
      * @Method("GET")
      * @Template()
      */
@@ -40,7 +91,7 @@ class BiddingController extends Controller
     /**
      * Lists all Bidding entities.
      *
-     * @Route("/", name="bidding")
+     * @Route("/bidding/", name="bidding")
      * @Method("GET")
      * @Template()
      */
@@ -57,7 +108,7 @@ class BiddingController extends Controller
     /**
      * Creates a new Bidding entity.
      *
-     * @Route("/", name="bidding_create")
+     * @Route("/bidding/", name="bidding_create")
      * @Method("POST")
      * @Template("AppBundle:Bidding:new.html.twig")
      */
@@ -103,7 +154,7 @@ class BiddingController extends Controller
     /**
      * Displays a form to create a new Bidding entity.
      *
-     * @Route("/new", name="bidding_new")
+     * @Route("/bidding/new", name="bidding_new")
      * @Method("GET")
      * @Template()
      */
@@ -121,7 +172,7 @@ class BiddingController extends Controller
     /**
      * Finds and displays a Bidding entity.
      *
-     * @Route("/{id}", name="bidding_show")
+     * @Route("/bidding/{id}", name="bidding_show")
      * @Method("GET")
      * @Template()
      */
@@ -146,7 +197,7 @@ class BiddingController extends Controller
     /**
      * Displays a form to edit an existing Bidding entity.
      *
-     * @Route("/{id}/edit", name="bidding_edit")
+     * @Route("/bidding/{id}/edit", name="bidding_edit")
      * @Method("GET")
      * @Template()
      */
@@ -191,7 +242,7 @@ class BiddingController extends Controller
     /**
      * Edits an existing Bidding entity.
      *
-     * @Route("/{id}", name="bidding_update")
+     * @Route("/bidding/{id}", name="bidding_update")
      * @Method("PUT")
      * @Template("AppBundle:Bidding:edit.html.twig")
      */
@@ -224,7 +275,7 @@ class BiddingController extends Controller
     /**
      * Deletes a Bidding entity.
      *
-     * @Route("/{id}", name="bidding_delete")
+     * @Route("/bidding/{id}", name="bidding_delete")
      * @Method("DELETE")
      */
     public function deleteAction(Request $request, $id)

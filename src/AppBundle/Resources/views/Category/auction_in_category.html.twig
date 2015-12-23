@@ -18,12 +18,14 @@
                 </thead>
                 <tbody>
                 {% for entity in entities %}
+                 {% if entity.enabled == 1 %}
                     <tr>
                         <td>{{ entity.picturePath }}</td>
                         <td><a href="{{path('auction_show', {'id': entity.id })}}"> {{ entity.title }} </a></td>
                         <td>{{ entity.endAuction.diff(entity.startAuction).days }}</td>
                         <td>{{ entity.productPrice }}</td>
                     </tr>
+                 {% endif %}
                 {% endfor %}
                 </tbody>
             </table>

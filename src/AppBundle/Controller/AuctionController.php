@@ -20,6 +20,7 @@ use AppBundle\Entity\Bidding;
  */
 class AuctionController extends Controller
 {
+
      /**
      * Finds all Auction using title.
      *
@@ -33,12 +34,11 @@ class AuctionController extends Controller
         $amount = $request->request->get('amount');
         $price = $request->request->get('price');
 
-
         $em = $this->getDoctrine()->getManager();
         $auctionOb= $em->getRepository('AppBundle:Auction')->find($auction);
 
         $buyerOb = $this->get('security.token_storage')->getToken()->getUser();
-        
+
         if($auctionOb->getProductAmount() == 0) {
             $auctionOb->setEnabled(false);
         }
@@ -128,6 +128,7 @@ class AuctionController extends Controller
         return $this->render('AppBundle:Auction:find_by_user.html.twig', array(
             'entities' => $entities,
         ));
+
     }
 
 

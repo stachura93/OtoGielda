@@ -66,9 +66,14 @@ class User extends BaseUser
     protected $message;
 
     /**
-     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Comment", mappedBy="user")
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Comment", mappedBy="userSeller")
      */
-    protected $comment;
+    protected $commentFromSeller;
+
+    /**
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Comment", mappedBy="userBuyer")
+     */
+    protected $commentFromBuyer;
 
 
 
@@ -233,40 +238,120 @@ class User extends BaseUser
         $this->auction = $auction;
         return $this;
     }
+
     /**
-    * Get bidding
-    * @return Bidding
-    */
-    public function getBidding()
+     * Add bidding
+     *
+     * @param \AppBundle\Entity\Bidding $bidding
+     *
+     * @return User
+     */
+    public function addBidding(\AppBundle\Entity\Bidding $bidding)
     {
-        return $this->bidding;
+        $this->bidding[] = $bidding;
+
+        return $this;
     }
 
     /**
-    * Set bidding
-    * @return User
-    */
-    public function setBidding($bidding)
+     * Remove bidding
+     *
+     * @param \AppBundle\Entity\Bidding $bidding
+     */
+    public function removeBidding(\AppBundle\Entity\Bidding $bidding)
     {
-        $this->bidding = $bidding;
-        return $this;
-    }
-    /**
-    * Get message
-    * @return Message
-    */
-    public function getMessage()
-    {
-        return $this->message;
+        $this->bidding->removeElement($bidding);
     }
 
     /**
-    * Set message
-    * @return User
-    */
-    public function setMessage($message)
+     * Add message
+     *
+     * @param \AppBundle\Entity\Message $message
+     *
+     * @return User
+     */
+    public function addMessage(\AppBundle\Entity\Message $message)
     {
-        $this->message = $message;
+        $this->message[] = $message;
+
         return $this;
+    }
+
+    /**
+     * Remove message
+     *
+     * @param \AppBundle\Entity\Message $message
+     */
+    public function removeMessage(\AppBundle\Entity\Message $message)
+    {
+        $this->message->removeElement($message);
+    }
+
+    /**
+     * Add commentFromSeller
+     *
+     * @param \AppBundle\Entity\Comment $commentFromSeller
+     *
+     * @return User
+     */
+    public function addCommentFromSeller(\AppBundle\Entity\Comment $commentFromSeller)
+    {
+        $this->commentFromSeller[] = $commentFromSeller;
+
+        return $this;
+    }
+
+    /**
+     * Remove commentFromSeller
+     *
+     * @param \AppBundle\Entity\Comment $commentFromSeller
+     */
+    public function removeCommentFromSeller(\AppBundle\Entity\Comment $commentFromSeller)
+    {
+        $this->commentFromSeller->removeElement($commentFromSeller);
+    }
+
+    /**
+     * Get commentFromSeller
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getCommentFromSeller()
+    {
+        return $this->commentFromSeller;
+    }
+
+    /**
+     * Add commentFromBuyer
+     *
+     * @param \AppBundle\Entity\Comment $commentFromBuyer
+     *
+     * @return User
+     */
+    public function addCommentFromBuyer(\AppBundle\Entity\Comment $commentFromBuyer)
+    {
+        $this->commentFromBuyer[] = $commentFromBuyer;
+
+        return $this;
+    }
+
+    /**
+     * Remove commentFromBuyer
+     *
+     * @param \AppBundle\Entity\Comment $commentFromBuyer
+     */
+    public function removeCommentFromBuyer(\AppBundle\Entity\Comment $commentFromBuyer)
+    {
+        $this->commentFromBuyer->removeElement($commentFromBuyer);
+    }
+
+    /**
+     * Get commentFromBuyer
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getCommentFromBuyer()
+    {
+        return $this->commentFromBuyer;
     }
 }

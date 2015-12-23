@@ -17,12 +17,11 @@ class CommentType extends AbstractType
         $builder
             ->add('description')
             ->add('buyer')
-            ->add('user')
-            ->add('auctionBuyer')
-            ->add('auctionSeller')
+            ->add('userBuyer')
+            ->add('userSeller')
         ;
     }
-    
+
     /**
      * @param OptionsResolverInterface $resolver
      */
