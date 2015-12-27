@@ -17,8 +17,7 @@ use AppBundle\Form\BiddingType;
  */
 class BiddingController extends Controller
 {
-
-    /**
+   /**
      * Return user comments by ID
      *
      * @Route("/profile/auctions/bidding/{auction}", name="bidding_win_in_auction")
@@ -27,27 +26,48 @@ class BiddingController extends Controller
      */
     public function giveCommentsToAuctionAction($auction)
     {
+      $user = $this->get('security.token_storage')->getToken()->getUser();
+
       $em = $this->getDoctrine()->getManager();
+      $auction = $em->getRepository('AppBundle:Auction')->find($auction);
+
+      if($user != $auction->getUser())
+        return $this->redirect($this->generateUrl('homepage'));
 
       $entities = $em->getRepository('AppBundle:Bidding')->findBy(array('auction' => $auction, 'winning' => true ));
 
-      return $this->render('AppBundle:Bidding:user_win_bidding_in_auction.html.twig', array(
+
+      foreach ($entities as $bidding) {
+          if($em->getRepository('AppBundle:Comment')->findOneBy(array('auction' => $bidding->getAuction(), 'buyer' => true ))) {
+            $commentExist[] = true;
+          } else {
+            $commentExist[] = false;
+          }
+      }
+
+
+      return $this->render('AppBundle:Bidding:by_user.html.twig', array(
             'entities' => $entities,
+            'commentExist' => $commentExist,
+
       ));
     }
+
     /**
      * Return lose bidding by User
      *
-     * @Route("/profile/bidding_you_lost/{id}", name="profile_you_lose_bidding")
+     * @Route("/profile/bidding_you_lost/", name="bidding_user_lost")
      * @Method("GET")
      * @Template()
      */
-    public function loseBiddingByUserAction($id)
+    public function loseBiddingByUserAction()
     {
-      $em = $this->getDoctrine()->getManager();
-      $entities = $em->getRepository('AppBundle:Bidding')->findBy(array('user' => $id, 'winning' => false ));
+      $user = $this->get('security.token_storage')->getToken()->getUser();
 
-        return $this->render('AppBundle:Bidding:by_user.html.twig', array(
+      $em = $this->getDoctrine()->getManager();
+      $entities = $em->getRepository('AppBundle:Bidding')->findBy(array('user' => $user, 'winning' => false ));
+
+        return $this->render('AppBundle:Bidding:index.html.twig', array(
             'entities' => $entities,
         ));
     }
@@ -55,18 +75,29 @@ class BiddingController extends Controller
     /**
      * Return win bidding by User
      *
-     * @Route("/profile/bidding_you_win/{id}", name="profile_you_win_bidding")
+     * @Route("/profile/bidding_you_win/", name="bidding_user_win")
      * @Method("GET")
      * @Template()
      */
-    public function winBiddingByUserAction($id)
+    public function winBiddingByUserAction()
     {
-      $em = $this->getDoctrine()->getManager();
-      $entities = $em->getRepository('AppBundle:Bidding')->findBy(array('user' => $id, 'winning' => true ));
+      $user = $this->get('security.token_storage')->getToken()->getUser();
 
-        return $this->render('AppBundle:Bidding:by_user.html.twig', array(
+      $em = $this->getDoctrine()->getManager();
+      $entities = $em->getRepository('AppBundle:Bidding')->findBy(array('user' => $user, 'winning' => true ));
+
+      foreach ($entities as $bidding) {
+          if($em->getRepository('AppBundle:Comment')->findOneBy(array('auction' => $bidding->getAuction(), 'buyer' => true ))) {
+            $commentExist[] = true;
+          } else {
+            $commentExist[] = false;
+          }
+      }
+
+      return $this->render('AppBundle:Bidding:by_user.html.twig', array(
             'entities' => $entities,
-        ));
+            'commentExist' => $commentExist,
+      ));
     }
 
 
@@ -91,15 +122,16 @@ class BiddingController extends Controller
     /**
      * Lists all Bidding entities.
      *
-     * @Route("/bidding/", name="bidding")
+     * @Route("/profile/bidding/", name="bidding")
      * @Method("GET")
      * @Template()
      */
     public function indexAction()
     {
-        $em = $this->getDoctrine()->getManager();
+        $user = $this->get('security.token_storage')->getToken()->getUser();
 
-        $entities = $em->getRepository('AppBundle:Bidding')->findAll();
+        $em = $this->getDoctrine()->getManager();
+        $entities = $em->getRepository('AppBundle:Bidding')->findBy(array('user' => $user ));
 
         return array(
             'entities' => $entities,

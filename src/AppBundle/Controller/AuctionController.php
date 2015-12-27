@@ -103,51 +103,52 @@ class AuctionController extends Controller
         ));
     }
 
-    /**
-     * Finds all user Auction.
-     *
-     * @Route("/auction/user/{id}", name="auction_by_user")
-     * @Route("/profile/auctions/{id}", name="profile_auctions")
-     * @Method("GET")
-     * @Template()
-     */
-    public function find_by_userAction($id)
-    {
-        $em = $this->getDoctrine()->getManager();
+    // /**
+    //  * Finds all user Auction.
+    //  *
+    //  * @Route("/auction/user/{id}", name="auction_by_user")
+    //  * @Route("/profile/auctions/{id}", name="profile_auctions")
+    //  * @Method("GET")
+    //  * @Template()
+    //  */
+    // public function find_by_userAction($id)
+    // {
+    //     $em = $this->getDoctrine()->getManager();
 
-        $entities = $em->getRepository('AppBundle:Auction')->findBy(array('user' => $id ));
+    //     $entities = $em->getRepository('AppBundle:Auction')->findBy(array('user' => $id ));
 
-        $request = $this->container->get('request');
-        $routeName = $request->get('_route');
-        if($routeName == 'profile_auctions')
-        {
-            return $this->render('AppBundle:Auction:find_by_user_profile.html.twig', array(
-            'entities' => $entities,
-        ));
-        }
-        return $this->render('AppBundle:Auction:find_by_user.html.twig', array(
-            'entities' => $entities,
-        ));
+    //     $request = $this->container->get('request');
+    //     $routeName = $request->get('_route');
+    //     if($routeName == 'profile_auctions')
+    //     {
+    //         return $this->render('AppBundle:Auction:find_by_user_profile.html.twig', array(
+    //         'entities' => $entities,
+    //     ));
+    //     }
+    //     return $this->render('AppBundle:Auction:find_by_user.html.twig', array(
+    //         'entities' => $entities,
+    //     ));
 
-    }
+    // }
 
 
     /**
      * Lists all Auction entities.
      *
-     * @Route("/auction/", name="auction")
+     * @Route("/profile/auctions/", name="auction")
      * @Method("GET")
      * @Template()
      */
     public function indexAction()
     {
+        $user = $this->get('security.token_storage')->getToken()->getUser();
         $em = $this->getDoctrine()->getManager();
 
-        $entities = $em->getRepository('AppBundle:Auction')->findAll();
+        $entities = $em->getRepository('AppBundle:Auction')->findBy(array('user' => $user ));
 
-        return array(
+         return $this->render('AppBundle:Auction:find_by_user_profile.html.twig', array(
             'entities' => $entities,
-        );
+        ));
     }
     /**
      * Creates a new Auction entity.

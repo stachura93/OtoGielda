@@ -64,7 +64,7 @@ class Auction
     private $endAuction;
 
     /**
-     *  @ORM\OneToMany(targetEntity="Comment", mappedBy="auction", cascade={"persist", "remove"})
+     *  @ORM\OneToMany(targetEntity="Comment", mappedBy="auction",  cascade={"persist", "remove"})
      */
     private $comment;
 

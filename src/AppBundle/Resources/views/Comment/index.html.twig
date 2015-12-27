@@ -1,43 +1,50 @@
-{% extends '::base.html.twig' %}
+{% extends '::profileBase.html.twig' %}
 
 {% block body -%}
-    <h1>Comment list</h1>
+    <h1>Comment you sell</h1>
 
-    <table class="records_list">
+    <table class="table">
         <thead>
             <tr>
                 <th>Id</th>
                 <th>Description</th>
                 <th>Buyer</th>
-                <th>Actions</th>
             </tr>
         </thead>
         <tbody>
-        {% for entity in entities %}
+        {% for entity in commentsUserSend %}
             <tr>
                 <td><a href="{{ path('comment_show', { 'id': entity.id }) }}">{{ entity.id }}</a></td>
                 <td>{{ entity.description }}</td>
                 <td>{{ entity.buyer }}</td>
-                <td>
-                <ul>
-                    <li>
-                        <a href="{{ path('comment_show', { 'id': entity.id }) }}">show</a>
-                    </li>
-                    <li>
-                        <a href="{{ path('comment_edit', { 'id': entity.id }) }}">edit</a>
-                    </li>
-                </ul>
-                </td>
             </tr>
         {% endfor %}
         </tbody>
     </table>
 
-        <ul>
-        <li>
-            <a href="{{ path('comment_new') }}">
-                Create a new entry
-            </a>
-        </li>
-    </ul>
+
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Description</th>
+                <th>Buyer</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for entity in commentsUserReceive %}
+            <tr>
+                <td><a href="{{ path('comment_show', { 'id': entity.id }) }}">{{ entity.id }}</a></td>
+                <td>{{ entity.description }}</td>
+                <td>{{ entity.buyer }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+
+    Give comment
+
+
     {% endblock %}

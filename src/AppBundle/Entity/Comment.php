@@ -21,14 +21,12 @@ class Comment
      */
     private $id;
 
-
     /**
      * @var string
      *
      * @ORM\Column(name="description", type="string", length=1024, nullable=false)
      */
     private $description;
-
 
     /**
      * @var boolean
@@ -39,15 +37,15 @@ class Comment
 
     /**
      * @ORM\ManyToOne(targetEntity="Application\Sonata\UserBundle\Entity\User", inversedBy="comment")
-     * @ORM\JoinColumn(name="userBuyer_id", referencedColumnName="id")
+     * @ORM\JoinColumn(name="user_received_comment_id", referencedColumnName="id")
      */
-    private $userBuyer;
+    private $userReceivedComment;
 
      /**
      * @ORM\ManyToOne(targetEntity="Application\Sonata\UserBundle\Entity\User", inversedBy="comment")
-     * @ORM\JoinColumn(name="userSeller_id", referencedColumnName="id")
+     * @ORM\JoinColumn(name="user_send_comment_id", referencedColumnName="id")
      */
-    private $userSeller;
+    private $userSendComment;
 
     /**
      *  @ORM\ManyToOne(targetEntity="Auction", inversedBy="comment")
@@ -202,51 +200,52 @@ class Comment
         return $this->auction;
     }
 
+
     /**
-     * Set userBuyer
+     * Set userReceivedComment
      *
-     * @param \Application\Sonata\UserBundle\Entity\User $userBuyer
+     * @param \Application\Sonata\UserBundle\Entity\User $userReceivedComment
      *
      * @return Comment
      */
-    public function setUserBuyer(\Application\Sonata\UserBundle\Entity\User $userBuyer = null)
+    public function setUserReceivedComment(\Application\Sonata\UserBundle\Entity\User $userReceivedComment = null)
     {
-        $this->userBuyer = $userBuyer;
+        $this->userReceivedComment = $userReceivedComment;
 
         return $this;
     }
 
     /**
-     * Get userBuyer
+     * Get userReceivedComment
      *
      * @return \Application\Sonata\UserBundle\Entity\User
      */
-    public function getUserBuyer()
+    public function getUserReceivedComment()
     {
-        return $this->userBuyer;
+        return $this->userReceivedComment;
     }
 
     /**
-     * Set userSeller
+     * Set userSendComment
      *
-     * @param \Application\Sonata\UserBundle\Entity\User $userSeller
+     * @param \Application\Sonata\UserBundle\Entity\User $userSendComment
      *
      * @return Comment
      */
-    public function setUserSeller(\Application\Sonata\UserBundle\Entity\User $userSeller = null)
+    public function setUserSendComment(\Application\Sonata\UserBundle\Entity\User $userSendComment = null)
     {
-        $this->userSeller = $userSeller;
+        $this->userSendComment = $userSendComment;
 
         return $this;
     }
 
     /**
-     * Get userSeller
+     * Get userSendComment
      *
      * @return \Application\Sonata\UserBundle\Entity\User
      */
-    public function getUserSeller()
+    public function getUserSendComment()
     {
-        return $this->userSeller;
+        return $this->userSendComment;
     }
 }

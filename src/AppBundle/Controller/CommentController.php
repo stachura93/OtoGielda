@@ -20,48 +20,65 @@ use ApplicationSonataUserBundle\EntityUser;
 class CommentController extends Controller
 {
 
+
     /**
-     * Return user comments by ID
+     * Lists all auction when user can add new comment.
      *
-     * @Route("/comment/user/{id}", name="user_comment")
-     * @Route("/profile/comments/{id}", name="profile_comments")
+     * @Route("/profile/comment/addSeller/", name="comment_add_seller")
      * @Method("GET")
      * @Template()
      */
-    public function userCommentsAction($id)
+    public function fidAllAddSellerCommentAction()
     {
-      $em = $this->getDoctrine()->getManager();
-      $entities = $em->getRepository('AppBundle:Comment')->findBy(array('user' => $id ));
-      $request = $this->container->get('request');
-      $routeName = $request->get('_route');
-      if($routeName == 'profile_comments') {
-        return $this->render('AppBundle:Comment:user_comments_profile.html.twig', array(
-            'entities' => $entities,
-        ));
-      }
+        $user = $this->get('security.token_storage')->getToken()->getUser();
 
-      return $this->render('AppBundle:Comment:user_comments_defaults.html.twig', array(
-            'entities' => $entities,
-      ));
+        $em = $this->getDoctrine()->getManager();
+        $biddingUserWinning = $em->getRepository('AppBundle:Bidding')->findBy(array('user'=> $user, 'winning' => true));
+
+     //   $comments = $em->getRepository('AppBundle:Comment')->findBy(array('userBuyer'=> $user, 'auction' => $biddingUserWinning));
+
+
+        // $comment = $biddingUserWinning;
+
+  //      $comments = $em->getRepository('AppBundle:Comment')->findBy(array('userBuyer'=> $user, 'auction' => $biddingUserWinning->getAuction()));
+
+        // if($commentsUserBuyer) {
+        //    return null;
+        // }
+        foreach ($biddingUserWinning as $bidding) {
+        echo "<pre>";
+        echo  print_r($bidding->getAuction());
+        echo "</pre>";
+        }
+
+
+        return $this->render('AppBundle:Comment:add_new_comment_to_seller.html.twig', array(
+                'comments' => $comments,
+        ));
     }
 
     /**
      * Lists all Comment entities.
      *
-     * @Route("/comment/", name="comment")
+     * @Route("/profile/comment/", name="comment")
      * @Method("GET")
      * @Template()
      */
     public function indexAction()
     {
+        $user = $this->get('security.token_storage')->getToken()->getUser();
+
         $em = $this->getDoctrine()->getManager();
+        $commentsUserSend = $em->getRepository('AppBundle:Comment')->findBy(array('userSendComment'=> $user));
+        $commentsUserReceive = $em->getRepository('AppBundle:Comment')->findBy(array('userReceivedComment'=> $user));
 
-        $entities = $em->getRepository('AppBundle:Comment')->findAll();
-
+        // $newComment = $em->getRepository('AppBundle:Bidding')->findBy(array('user' => $user, 'winning' ));
         return array(
-            'entities' => $entities,
+            'commentsUserSend' => $commentsUserSend,
+            'commentsUserReceive' => $commentsUserReceive,
         );
     }
+
     /**
      * Creates a new Comment entity.
      *
@@ -74,7 +91,7 @@ class CommentController extends Controller
 
         $entity = new Comment();
 
-        $form = $this->createCreateForm($entity, $request);
+        $form = $this->createCreateForm($entity);
         $form->handleRequest($request);
 
         if ($form->isValid()) {
@@ -91,106 +108,52 @@ class CommentController extends Controller
         );
     }
 
-    /**
-     * Creates a form to create a Comment entity.
-     *
-     * @param Comment $entity The entity
-     *
-     * @return \Symfony\Component\Form\Form The form
-     */
-    private function createCreateForm(Comment $entity, Request $request)
-    {
-        $commentForUserRequest = $request->request->get('commentForUser');
-        // $auctionRequest = $request->request->getInt('auction');
-
-
-        $em = $this->getDoctrine()->getManager();
-      //  $auction = $em->getRepository('AppBundle:Auction')->find($auctionRequest);
-
-        $commentForUser = $em->getRepository('ApplicationSonataUserBundle:User')->findOneBy(array('username' => $commentForUserRequest ));
-
-
-        // echo $auctionID;
-       // $auction = $em->getRepository('AppBundle:Auction')->findOneBy(array('id' => $auctionID));
-          // $auction->addComment($entity);
-          // $entity->setAuction($auction);
-
-
-        // $seller = $auction->getUser();
-        // echo "<pre>";
-        // echo print_r($seller);
-        // echo "</pre>";
-        $user = $this->get('security.token_storage')->getToken()->getUser();
-
-        // $entity->setUserSeller($seller);
-        $entity->setUserBuyer($commentForUser);
-
-        // if($user == $seller ) {
-        //     echo "Sprzedawca";
-        //     $entity->setBuyer(false);
-        // } elseif ($user == $commentForUser) {
-        //     echo "Kupujacy";
-        //     $entity->setBuyer(true);
-        // }
-
-
-        // $auctionRequest = $request->request->get('auction');
-        // $commentForUserRequest = $request->request->get('commentForUser');
-
-        $form = $this->createForm(new CommentType());
- // $entity, array(
- //            'action' => $this->generateUrl('comment_create'),
- //            'method' => 'POST',
- //        ));
-        // $form->add('auction', 'entity', array(
-        //     'class' => 'AppBundle:Auction',
-        //     'property'=> 'title',
-        //     'query_builder' => function(\Doctrine\ORM\EntityRepository $er) use ($auctionRequest) {
-        //                return $er->createQueryBuilder('a')
-        //                      ->where('a.id = :id')
-        //                      ->setParameter('id', $auctionRequest);
-        //             },
-        // ));
-
-         $form->handleRequest($request);
-        // $form->add('submit', 'submit', array('label' => 'Create'));
-
-        return $form;
-    }
 
     /**
      * Displays a form to create a new Comment entity.
      *
      * @Route("/saveComment/", name="comment_new")
-     * @Method("GET")
+     * @Method("POST")
      * @Template()
      */
     public function newAction(Request $request)
     {
+        $commentForUserRequest = $request->request->get('commentForUser');
+        $auctionRequest = $request->request->getInt('auction');
+        $descriptionRequest = $request->request->get('description');
+
+
+        $em = $this->getDoctrine()->getManager();
+
+        $auction = $em->getRepository('AppBundle:Auction')->find($auctionRequest);
+        $commentForUser = $em->getRepository('ApplicationSonataUserBundle:User')->findOneBy(array('username' => $commentForUserRequest ));
+
         $entity = new Comment();
+        $entity->setDescription($descriptionRequest);
+        $entity->setAuction($auction);
+        $auction->addComment($entity);
 
-        $form   = $this->createCreateForm($entity, $request);
 
+        $user = $this->get('security.token_storage')->getToken()->getUser();
 
-    
+        $entity->setUserSendComment($user);
+        $entity->setUserReceivedComment($commentForUser);
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            // ... perform some action, such as saving the task to the database
-echo "sd";
-            return $this->redirectToRoute('task_success');
+        $seller = $auction->getUser();
+        if($user == $seller ) {
+            echo "Sprzedawca";
+            $entity->setBuyer(false);
+        } else {
+            echo "Kupujacy";
+            $entity->setBuyer(true);
         }
 
-       //     if ($form->isSubmitted() && $form->isValid()) {
-       //  // ... perform some action, such as saving the task to the database
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($entity);
+            $em->flush();
 
-       //  return $this->redirectToRoute('task_success');
-       // }
+            return $this->redirect($this->generateUrl('comment_show', array('id' => $entity->getId())));
 
-
-        return array(
-            'entity' => $entity,
-            'form'   => $form->createView(),
-        );
     }
 
     /**

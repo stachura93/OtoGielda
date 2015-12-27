@@ -37,6 +37,7 @@
                 <th>Picturepath</th>
                 <th>Startauction</th>
                 <th>Endauction</th>
+                <th>Give Comment</th>
             </tr>
         </thead>
         <tbody>
@@ -48,7 +49,7 @@
                 <td>{{ entity.picturePath }}</td>
                 <td>{% if entity.startAuction %}{{ entity.startAuction|date('Y-m-d H:i:s') }}{% endif %}</td>
                 <td>{% if entity.endAuction %}{{ entity.endAuction|date('Y-m-d H:i:s') }}{% endif %}</td>
-                <td><a href={{path('bidding_win_in_auction', {'auction': entity.id})}}> Give comment  </td>
+                <td><a href={{ path ('bidding_win_in_auction', {'auction': entity.id }) }} > Comment </a></td>
                 {% endif %}
             </tr>
         {% endfor %}

@@ -12,9 +12,15 @@ class CommentAdmin extends Admin
     {
         $formMapper->add('description', 'text')
                    ->add('buyer', 'checkbox', array('required' => false))
-                   ->add('user', 'entity', array(
+                   ->add('userSendComment', 'entity', array(
                         'class' => 'Application\Sonata\UserBundle\Entity\User',
                         'property' => 'username',
+                    ))->add('userReceivedComment', 'entity', array(
+                        'class' => 'Application\Sonata\UserBundle\Entity\User',
+                        'property' => 'username',
+                    ))->add('auction', 'entity', array(
+                        'class' => 'AppBundle\Entity\Auction',
+                        'property' => 'title',
                     ));
     }
 
