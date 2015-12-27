@@ -94,7 +94,7 @@ class Auction
     private $bidding;
 
     /**
-     * @ORM\OneToMany(targetEntity="Message", mappedBy="auction")
+     * @ORM\OneToMany(targetEntity="Message", mappedBy="auction", cascade={"persist", "remove"})
      */
     private $message;
 
@@ -505,7 +505,7 @@ class Auction
     public function addMessage(\AppBundle\Entity\Message $message)
     {
         $this->message[] = $message;
-
+        $message->setAuction($this);
         return $this;
     }
 

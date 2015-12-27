@@ -30,9 +30,8 @@ class BiddingAdmin extends Admin
                     ->add('user', 'entity', array(
                         'class' => 'Application\Sonata\UserBundle\Entity\User',
                         'property' => 'username',
-                    ));
+                    ))
                     ;
-
     }
 
     protected function configureDatagridFilters(DatagridMapper $datagridMapper)

@@ -48,7 +48,7 @@ class AuctionController extends Controller
         $bidding->setAuction($auctionOb);
         $bidding->setAmount($amount);
         $bidding->setPrice($price);
-        $bidding->setBiddingDate(new \DateTime('now'));
+        // $bidding->setBiddingDate(new \DateTime('now'));
 
         if($auctionOb->getBuyNow() == true) {
             $bidding->setWinning(true);

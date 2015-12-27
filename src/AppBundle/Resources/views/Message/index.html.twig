@@ -1,4 +1,4 @@
-{% extends '::base.html.twig' %}
+{% extends '::profileBase.html.twig' %}
 
 {% block body -%}
     <h1>Message list</h1>
@@ -8,9 +8,6 @@
             <tr>
                 <th>Content</th>
                 <th>Postdate</th>
-                <th>Id</th>
-                <th>Questioner</th>
-                <th>Actions</th>
             </tr>
         </thead>
         <tbody>
@@ -19,17 +16,6 @@
                 <td><a href="{{ path('message_show', { 'id': entity.id }) }}">{{ entity.content }}</a></td>
                 <td>{% if entity.postDate %}{{ entity.postDate|date('Y-m-d H:i:s') }}{% endif %}</td>
                 <td>{{ entity.id }}</td>
-                <td>{{ entity.questioner }}</td>
-                <td>
-                <ul>
-                    <li>
-                        <a href="{{ path('message_show', { 'id': entity.id }) }}">show</a>
-                    </li>
-                    <li>
-                        <a href="{{ path('message_edit', { 'id': entity.id }) }}">edit</a>
-                    </li>
-                </ul>
-                </td>
             </tr>
         {% endfor %}
         </tbody>

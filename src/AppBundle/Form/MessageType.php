@@ -16,10 +16,10 @@ class MessageType extends AbstractType
     {
         $builder
             ->add('content')
-            ->add('postDate')
-            ->add('questioner')
-            ->add('auction')
-            ->add('user')
+            ->add('postDate', 'date' ,array('disabled' => true, 'data' => new \DateTime()))
+            ->add('userSender')
+            ->add('userRecipient')
+            ->add('auction', 'entity', array('class' => 'AppBundle:Auction', 'property' => 'id'))
         ;
     }
     

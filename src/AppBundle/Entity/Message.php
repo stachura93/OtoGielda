@@ -46,7 +46,7 @@ class Message
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="post_date", type="date", nullable=false)
+     * @ORM\Column(name="post_date", type="datetime", nullable=false)
      */
     private $postDate;
 
@@ -59,6 +59,10 @@ class Message
      */
     private $id;
 
+   public function __construct()
+    {
+        $this->postDate = new \DateTime();
+    }
 
     /**
      * Set content

@@ -3,13 +3,18 @@
 {% block body -%}
     <h1>Message creation</h1>
 
-    {{ form(form) }}
+    Send message to:  {{ app.request.get('userRecipient') }}
+
+    {{ form_start(form) }}
+    <div class="hidden">
+        {{ form_widget(form.userSender) }}
+   	    {{ form_widget(form.auction) }}
+    	{{ form_row(form.userRecipient) }}
+    </div>
+    {{ form_widget(form.content) }}
+
+	{{ form_end(form) }}
 
         <ul class="record_actions">
-    <li>
-        <a href="{{ path('message') }}">
-            Back to the list
-        </a>
-    </li>
 </ul>
 {% endblock %}

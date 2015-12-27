@@ -28,16 +28,6 @@ class AuctionAdmin extends Admin
                         'class' => 'Application\Sonata\UserBundle\Entity\User',
                         'property' => 'username',
                     ))
-                   ->add('commentFromBuyer', 'entity', array(
-                        'class' => 'AppBundle\Entity\Comment',
-                        'property' => 'description',
-                        'required' => false,
-                    ))
-                    ->add('commentFromSeller', 'entity', array(
-                        'class' => 'AppBundle\Entity\Comment',
-                        'property' => 'description',
-                        'required' => false,
-                    ))
                     ->add('category', 'entity', array(
                         'class' => 'AppBundle\Entity\Category',
                         'property' => 'name',
