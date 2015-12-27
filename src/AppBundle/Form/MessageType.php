@@ -15,6 +15,7 @@ class MessageType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
+            ->add('subject')
             ->add('content')
             ->add('postDate', 'date' ,array('disabled' => true, 'data' => new \DateTime()))
             ->add('userSender')

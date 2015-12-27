@@ -16,11 +16,37 @@ use AppBundle\Form\MessageType;
  */
 class MessageController extends Controller
 {
+    /**
+     * Finds and displays a Message entity.
+     *
+     * @Route("/profile/messages/sender/{subject}-{userMessage}", name="message_show_all_sender")
+     * @Route("/profile/messages/recipient/{subject}-{userMessage}", name="message_show_all_recipient")
+     * @Method("GET")
+     * @Template()
+     */
+    public function showAllMessageAction($subject, $userMessage)
+    {
+        $user = $this->get('security.token_storage')->getToken()->getUser();
+
+        $em = $this->getDoctrine()->getManager();
+
+        $userMessage = $em->getRepository('ApplicationSonataUserBundle:User')->findBy(array('username' => $userMessage ));
+
+        $messagesUserSender = $em->getRepository('AppBundle:Message')->findBy(array('subject' => $subject, 'userSender' => $user,  'userRecipient' => $userMessage));
+        $messagesUserRecipient = $em->getRepository('AppBundle:Message')->findBy(array('subject' => $subject, 'userRecipient' => $user, 'userSender' => $userMessage));
+
+        return $this->render('AppBundle:Message:show_recipient_message_auction.html.twig', array(
+            'messagesUserSender' => $messagesUserSender,
+            'messagesUserRecipient' => $messagesUserRecipient,
+        ));
+    }
+
+
      /**
      * Finds user message by ID.
      *
-     * @Route("/profile/messages/sender/", name="messages_sender_by_user")
-     * @Route("/profile/messages/recipient/", name="messages_recipient_by_user")
+     * @Route("/profile/messages/sender/", name="messages_sender")
+     * @Route("/profile/messages/recipient/", name="messages_recipient")
      * @Method("GET")
      * @Template()
      */
@@ -33,17 +59,29 @@ class MessageController extends Controller
         $request = $this->container->get('request');
         $routeName = $request->get('_route');
 
-        if($routeName == 'messages_sender_by_user')
+        if($routeName == 'messages_sender')
         {
-            $entities = $em->getRepository('AppBundle:Message')->findBy(array('userSender' => $user ));
+            $messagesUserSender = $em->getRepository('AppBundle:Message')->createQueryBuilder('m')
+            ->where('m.userSender = :user')->setParameter('user', $user)->orderBy('m.postDate', 'DESC')->getQuery();
+            $messagesUserSender = $messagesUserSender->getResult();
+
             return $this->render('AppBundle:Message:show_sender_message_by_user.html.twig', array(
-            'entities' => $entities));
+                'entities' => $messagesUserSender,
+            ));
         };
 
-        $entities = $em->getRepository('AppBundle:Message')->findBy(array('userRecipient' => $user ));
+
+        $messagesUserRecipient = $em->getRepository('AppBundle:Message')->createQueryBuilder('m')
+        ->where('m.userRecipient = :user')->setParameter('user', $user)->orderBy('m.postDate', 'DESC')->getQuery();
+        $messagesUserRecipient = $messagesUserRecipient->getResult();
+
+
+        // echo "<pre>";
+        // echo print_r($messagesUserSender);
+        // echo "</pre>";
 
         return $this->render('AppBundle:Message:show_recipient_message_by_user.html.twig', array(
-            'entities' => $entities,
+            'entities' => $messagesUserRecipient,
         ));
     }
 
@@ -98,13 +136,16 @@ class MessageController extends Controller
      * Displays a form to create a new Message entity.
      *
      * @Route("/message/new/{userRecipient}-{auction}", name="message_new")
+     * @Route("/message/new/{userRecipient}-{auction}/{subject}", name="message_new_subject")
      * @Method("GET")
      * @Template()
      */
-    public function newAction($userRecipient, $auction)
+    public function newAction($userRecipient, $auction, $subject=null)
     {
         $user = $this->get('security.token_storage')->getToken()->getUser();
         $entity = new Message();
+
+        $entity->setSubject($subject);
         $entity->setUserSender($user);
 
         $em = $this->getDoctrine()->getManager();

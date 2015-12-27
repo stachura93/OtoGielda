@@ -1,31 +1,66 @@
 {% extends '::profileBase.html.twig' %}
 
 {% block body -%}
-    <h1>Message list</h1>
 
-    <table class="records_list">
+  <h1>Message recipt</h1>
+    <table class="table">
         <thead>
             <tr>
+                <th>User Sender </th>
+                <th>Auction</th>
                 <th>Content</th>
                 <th>Postdate</th>
+                <th> ShowMessage </th>
             </tr>
         </thead>
         <tbody>
-        {% for entity in entities %}
+        {% for entity in messagesUserRecipient %}
             <tr>
-                <td><a href="{{ path('message_show', { 'id': entity.id }) }}">{{ entity.content }}</a></td>
+            <td>{{entity.userSender}}</td>
+            <td><a href="{{ path ('auction_show', {'id': entity.auction.id} ) }}">  {{ entity.auction.title }}</a></td>
+                <td>{{ entity.content }}</a></td>
                 <td>{% if entity.postDate %}{{ entity.postDate|date('Y-m-d H:i:s') }}{% endif %}</td>
-                <td>{{ entity.id }}</td>
+                <td><a href="{{path('message_show_all_recipient', {'auction': entity.auction.id,'userMessage': entity.userSender} ) }}" > Message</a></td>
             </tr>
         {% endfor %}
         </tbody>
     </table>
 
-        <ul>
-        <li>
-            <a href="{{ path('message_new') }}">
-                Create a new entry
-            </a>
-        </li>
-    </ul>
-    {% endblock %}
+
+
+
+
+    <h1>Message send</h1>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>User Recipient </th>
+                <th>Auction</th>
+                <th>Content</th>
+                <th>Postdate</th>
+                <th> ShowMessage </th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for entity in messagesUserSender %}
+            <tr>
+            <td>{{entity.userRecipient}}</td>
+            <td><a href="{{ path ('auction_show', {'id': entity.auction.id} ) }}">  {{ entity.auction.title }}</a></td>
+                <td>{{ entity.content }}</a></td>
+                <td>{% if entity.postDate %}{{ entity.postDate|date('Y-m-d H:i:s') }}{% endif %}</td>
+                <td><a href="{{path('message_show_all_sender', {'auction': entity.auction.id, 'userMessage': entity.userRecipient} ) }}" > Message</a></td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+
+
+
+
+
+
+
+
+
+{% endblock %}

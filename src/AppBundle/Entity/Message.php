@@ -51,6 +51,13 @@ class Message
     private $postDate;
 
     /**
+     * @var string
+     *
+     * @ORM\Column(name="subject", type="string", length=255, nullable=false)
+     */
+    private $subject;
+
+    /**
      * @var integer
      *
      * @ORM\Column(name="id", type="integer")
@@ -192,5 +199,29 @@ class Message
     public function getUserRecipient()
     {
         return $this->userRecipient;
+    }
+
+    /**
+     * Set subject
+     *
+     * @param string $subject
+     *
+     * @return Message
+     */
+    public function setSubject($subject)
+    {
+        $this->subject = $subject;
+
+        return $this;
+    }
+
+    /**
+     * Get subject
+     *
+     * @return string
+     */
+    public function getSubject()
+    {
+        return $this->subject;
     }
 }

@@ -122,7 +122,6 @@ class CommentController extends Controller
         $auctionRequest = $request->request->getInt('auction');
         $descriptionRequest = $request->request->get('description');
 
-
         $em = $this->getDoctrine()->getManager();
 
         $auction = $em->getRepository('AppBundle:Auction')->find($auctionRequest);
