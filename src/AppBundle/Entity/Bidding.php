@@ -14,13 +14,15 @@ class Bidding
 {
     /**
      * @var integer
-     * @ORM\OneToOne(targetEntity="Payment", inversedBy="bidding")
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Payment", inversedBy="bidding")
+     * @ORM\JoinColumn(name="payment_id", referencedColumnName="id")
      */
     private $payment;
 
     /**
      * @var integer
-     * @ORM\OneToOne(targetEntity="Shipping", inversedBy="bidding")
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Shipping", inversedBy="bidding")
+     * @ORM\JoinColumn(name="shipping_id", referencedColumnName="id")
      */
     private $shipping;
 
@@ -76,8 +78,6 @@ class Bidding
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
     private $id;
-
-
 
     /**
      * Set amount

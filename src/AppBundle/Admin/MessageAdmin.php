@@ -11,20 +11,20 @@ class MessageAdmin extends Admin
     protected function configureFormFields(FormMapper $formMapper)
     {
         $formMapper->add('content', 'text')
-                   ->add('postDate', 'datetime')
-                   ->add('Auction', 'entity', array(
-                        'class' => 'AppBundle\Entity\Auction',
-                        'property' => 'title',
-                    ))
-                    ->add('userRecipient', 'entity', array(
-                        'class' => 'Application\Sonata\UserBundle\Entity\User',
-                        'property' => 'username',
-                    ))
-                    ->add('userSender', 'entity', array(
-                        'class' => 'Application\Sonata\UserBundle\Entity\User',
-                        'property' => 'username',
-                    ))
-                   ;
+        ->add('postDate', 'datetime')
+        ->add('Auction', 'entity', array(
+            'class' => 'AppBundle\Entity\Auction',
+            'property' => 'title',
+            ))
+        ->add('userRecipient', 'entity', array(
+            'class' => 'Application\Sonata\UserBundle\Entity\User',
+            'property' => 'username',
+            ))
+        ->add('userSender', 'entity', array(
+            'class' => 'Application\Sonata\UserBundle\Entity\User',
+            'property' => 'username',
+            ))
+        ;
     }
 
     protected function configureDatagridFilters(DatagridMapper $datagridMapper)
@@ -37,10 +37,10 @@ class MessageAdmin extends Admin
         $listMapper->addIdentifier('content');
     }
 
-     public function toString($object)
+    public function toString($object)
     {
         return $object instanceof Message
-            ? $object->getTitle()
+        ? $object->getTitle()
             : 'Message'; // shown in the breadcrumb on the create view
     }
 }

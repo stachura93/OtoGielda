@@ -28,8 +28,8 @@ class AuctionController extends Controller
      * @Method("POST")
      * @Template()
      */
-    public function buyAction(Request $request)
-    {
+     public function buyAction(Request $request)
+     {
         $auction = $request->request->get('auction');
         $amount = $request->request->get('amount');
         $price = $request->request->get('price');
@@ -48,13 +48,12 @@ class AuctionController extends Controller
         $bidding->setAuction($auctionOb);
         $bidding->setAmount($amount);
         $bidding->setPrice($price);
-        // $bidding->setBiddingDate(new \DateTime('now'));
+        $bidding->setBiddingDate(new \DateTime('now'));
 
         if($auctionOb->getBuyNow() == true) {
             $bidding->setWinning(true);
             $auctionOb->setProductAmount($auctionOb->getProductAmount() - $amount);
         }
-
 
         $em->persist($bidding);
         $em->flush();
@@ -63,7 +62,7 @@ class AuctionController extends Controller
             'auctionIsByNow' => $bidding->getAuction()->getBuyNow(),
             'amount' => $bidding->getAmount(),
             'price' => $bidding->getPrice(),
-        )));
+            )));
     }
 
    /**
@@ -73,9 +72,9 @@ class AuctionController extends Controller
      * @Method("GET")
      * @Template()
      */
-    public function blankBuyAction() {
-         return $this->render('AppBundle:Auction:buy.html.twig');
-    }
+   public function blankBuyAction() {
+       return $this->render('AppBundle:Auction:buy.html.twig');
+   }
 
 
     /**
@@ -92,7 +91,9 @@ class AuctionController extends Controller
         $repository = $em->getRepository('AppBundle:Auction');
 
         $query = $repository->createQueryBuilder('a')
+        ->where('a.enabled LIKE :enabled')
         ->andWhere('a.title LIKE :title')
+        ->setParameter('enabled', true)
         ->setParameter('title', '%'.$title.'%')
         ->getQuery();
 
@@ -100,37 +101,8 @@ class AuctionController extends Controller
 
         return $this->render('AppBundle:Auction:index.html.twig', array(
             'entities' => $entities,
-        ));
+            ));
     }
-
-    // /**
-    //  * Finds all user Auction.
-    //  *
-    //  * @Route("/auction/user/{id}", name="auction_by_user")
-    //  * @Route("/profile/auctions/{id}", name="profile_auctions")
-    //  * @Method("GET")
-    //  * @Template()
-    //  */
-    // public function find_by_userAction($id)
-    // {
-    //     $em = $this->getDoctrine()->getManager();
-
-    //     $entities = $em->getRepository('AppBundle:Auction')->findBy(array('user' => $id ));
-
-    //     $request = $this->container->get('request');
-    //     $routeName = $request->get('_route');
-    //     if($routeName == 'profile_auctions')
-    //     {
-    //         return $this->render('AppBundle:Auction:find_by_user_profile.html.twig', array(
-    //         'entities' => $entities,
-    //     ));
-    //     }
-    //     return $this->render('AppBundle:Auction:find_by_user.html.twig', array(
-    //         'entities' => $entities,
-    //     ));
-
-    // }
-
 
     /**
      * Lists all Auction entities.
@@ -146,9 +118,9 @@ class AuctionController extends Controller
 
         $entities = $em->getRepository('AppBundle:Auction')->findBy(array('user' => $user ));
 
-         return $this->render('AppBundle:Auction:find_by_user_profile.html.twig', array(
+        return $this->render('AppBundle:Auction:find_by_user_profile.html.twig', array(
             'entities' => $entities,
-        ));
+            ));
     }
     /**
      * Creates a new Auction entity.
@@ -174,7 +146,7 @@ class AuctionController extends Controller
         return array(
             'entity' => $entity,
             'form'   => $form->createView(),
-        );
+            );
     }
 
     /**
@@ -190,7 +162,7 @@ class AuctionController extends Controller
         $form = $this->createForm(new AuctionType(), $entity, array(
             'action' => $this->generateUrl('auction_create'),
             'method' => 'POST',
-        ));
+            ));
         $form->add('submit', 'submit', array('label' => 'Create'));
 
         return $form;
@@ -211,7 +183,7 @@ class AuctionController extends Controller
         return array(
             'entity' => $entity,
             'form'   => $form->createView(),
-        );
+            );
     }
 
     /**
@@ -230,14 +202,14 @@ class AuctionController extends Controller
         $payments = $auction->getPayment();
 
         $query = $em->createQuery('
-               SELECT u.username, b.biddingDate, b.amount, MAX(b.price) as price
-               FROM AppBundle:Bidding b
-               JOIN b.auction a
-               JOIN b.user u
-               WHERE b.auction = :auction
-               GROUP BY b.user
-               ORDER BY price DESC
-            ');
+         SELECT u.username, b.biddingDate, b.amount, MAX(b.price) as price
+         FROM AppBundle:Bidding b
+         JOIN b.auction a
+         JOIN b.user u
+         WHERE b.auction = :auction
+         GROUP BY b.user
+         ORDER BY price DESC
+         ');
         $query->setParameter('auction', $auction);
 
         $biddings = $query->getResult();
@@ -263,7 +235,7 @@ class AuctionController extends Controller
             'biddings'    => $biddings,
             'maxPriceInBiddingVsProductPrice' => $maxPriceInBiddingVsProductPrice,
             'delete_form' => $deleteForm->createView(),
-        );
+            );
     }
 
     /**
@@ -290,7 +262,7 @@ class AuctionController extends Controller
             'entity'      => $entity,
             'edit_form'   => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
-        );
+            );
     }
 
     /**
@@ -305,7 +277,7 @@ class AuctionController extends Controller
         $form = $this->createForm(new AuctionType(), $entity, array(
             'action' => $this->generateUrl('auction_update', array('id' => $entity->getId())),
             'method' => 'PUT',
-        ));
+            ));
 
         $form->add('submit', 'submit', array('label' => 'Update'));
 
@@ -342,7 +314,7 @@ class AuctionController extends Controller
             'entity'      => $entity,
             'edit_form'   => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
-        );
+            );
     }
     /**
      * Deletes a Auction entity.
@@ -380,10 +352,10 @@ class AuctionController extends Controller
     private function createDeleteForm($id)
     {
         return $this->createFormBuilder()
-            ->setAction($this->generateUrl('auction_delete', array('id' => $id)))
-            ->setMethod('DELETE')
-            ->add('submit', 'submit', array('label' => 'Delete'))
-            ->getForm()
+        ->setAction($this->generateUrl('auction_delete', array('id' => $id)))
+        ->setMethod('DELETE')
+        ->add('submit', 'submit', array('label' => 'Delete'))
+        ->getForm()
         ;
     }
 }

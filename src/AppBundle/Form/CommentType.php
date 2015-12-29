@@ -15,10 +15,10 @@ class CommentType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('description')
-            ->add('buyer')
-            ->add('userBuyer')
-            ->add('userSeller')
+        ->add('description')
+        ->add('buyer')
+        ->add('userBuyer')
+        ->add('userSeller')
         ;
     }
     
@@ -29,7 +29,7 @@ class CommentType extends AbstractType
     {
         $resolver->setDefaults(array(
             'data_class' => 'AppBundle\Entity\Comment'
-        ));
+            ));
     }
 
     /**

@@ -66,7 +66,7 @@ class Message
      */
     private $id;
 
-   public function __construct()
+    public function __construct()
     {
         $this->postDate = new \DateTime();
     }

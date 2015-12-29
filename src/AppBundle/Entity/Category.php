@@ -34,7 +34,7 @@ class Category
      /**
      * @ORM\OneToMany(targetEntity="Auction", mappedBy="category")
      */
-    private $auction;
+     private $auction;
 
     /**
      *

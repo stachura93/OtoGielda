@@ -25,16 +25,16 @@ class CategoryController extends Controller
      * @Method("GET")
      * @Template()
      */
-    public function auction_in_categoryAction($category)
-    {
+      public function auction_in_categoryAction($category)
+      {
         $em = $this->getDoctrine()->getManager();
 
         $id  = $em->getRepository('AppBundle:Category')->findBy(array('name' => $category));
         $entity = $em->getRepository('AppBundle:Auction')->findBy(array('category' => $id));
 
         return array(
-            'entities'      => $entity,
-        );
+            'entities' => $entity,
+            );
     }
 
     /**
@@ -51,10 +51,10 @@ class CategoryController extends Controller
       $entities = $em->getRepository('AppBundle:Category')->findBy(array('parent' => $id ));
 
       // $auction
-       return  array(
-            'entities' => $entities,
+      return  array(
+        'entities' => $entities,
         );
-    }
+  }
 
 
     /**
@@ -71,7 +71,7 @@ class CategoryController extends Controller
 
         return array(
             'entities' => $entities,
-        );
+            );
     }
     /**
      * Creates a new Category entity.
@@ -97,7 +97,7 @@ class CategoryController extends Controller
         return array(
             'entity' => $entity,
             'form'   => $form->createView(),
-        );
+            );
     }
 
     /**
@@ -112,7 +112,7 @@ class CategoryController extends Controller
         $form = $this->createForm(new CategoryType(), $entity, array(
             'action' => $this->generateUrl('category_create'),
             'method' => 'POST',
-        ));
+            ));
 
         $form->add('submit', 'submit', array('label' => 'Create'));
 
@@ -134,33 +134,8 @@ class CategoryController extends Controller
         return array(
             'entity' => $entity,
             'form'   => $form->createView(),
-        );
+            );
     }
-
-    // /**
-    //  * Finds and displays a Category entity.
-    //  *
-    //  * @Route("/{id}", name="category_show")
-    //  * @Method("GET")
-    //  * @Template()
-    //  */
-    // public function showAction($id)
-    // {
-    //     $em = $this->getDoctrine()->getManager();
-
-    //     $entity = $em->getRepository('AppBundle:Category')->find($id);
-
-    //     if (!$entity) {
-    //         throw $this->createNotFoundException('Unable to find Category entity.');
-    //     }
-
-    //     $deleteForm = $this->createDeleteForm($id);
-
-    //     return array(
-    //         'entity'      => $entity,
-    //         'delete_form' => $deleteForm->createView(),
-    //     );
-    // }
 
     /**
      * Displays a form to edit an existing Category entity.
@@ -186,7 +161,7 @@ class CategoryController extends Controller
             'entity'      => $entity,
             'edit_form'   => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
-        );
+            );
     }
 
     /**
@@ -201,7 +176,7 @@ class CategoryController extends Controller
         $form = $this->createForm(new CategoryType(), $entity, array(
             'action' => $this->generateUrl('category_update', array('id' => $entity->getId())),
             'method' => 'PUT',
-        ));
+            ));
 
         $form->add('submit', 'submit', array('label' => 'Update'));
 
@@ -238,7 +213,7 @@ class CategoryController extends Controller
             'entity'      => $entity,
             'edit_form'   => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
-        );
+            );
     }
     /**
      * Deletes a Category entity.
@@ -276,10 +251,10 @@ class CategoryController extends Controller
     private function createDeleteForm($id)
     {
         return $this->createFormBuilder()
-            ->setAction($this->generateUrl('category_delete', array('id' => $id)))
-            ->setMethod('DELETE')
-            ->add('submit', 'submit', array('label' => 'Delete'))
-            ->getForm()
+        ->setAction($this->generateUrl('category_delete', array('id' => $id)))
+        ->setMethod('DELETE')
+        ->add('submit', 'submit', array('label' => 'Delete'))
+        ->getForm()
         ;
     }
 }

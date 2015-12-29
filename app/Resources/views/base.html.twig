@@ -1,96 +1,98 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta charset="UTF-8" />
-        <title>{% block title %}Welcome!{% endblock %}</title>
-        <link rel="stylesheet" href="{{ asset('assets/vendor/bootstrap/dist/css/bootstrap.min.css') }}">
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
-        <link rel="stylesheet" href="{{ asset('assets/vendor/MyCss/search.css') }}">
-        <link rel="stylesheet" href="{{ asset('assets/vendor/MyCss/index.css') }}">
-        {% stylesheets '@AppBundle/Resources/vendor/eonasdan-bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.min.css' filter='cssrewrite' %}
-            <link rel="stylesheet" href="{{ asset_url }}" />
-        {% endstylesheets %}
-        {% javascripts '@AppBundle/Resources/vendor/jquery/dist/jquery.js' %}
-          <script type="text/javascript" src="{{ asset_url }}"></script>
-        {% endjavascripts %}
+<head>
+  <meta charset="UTF-8" />
+  <title>{% block title %}Welcome!{% endblock %}</title>
+  <link rel="stylesheet" href="{{ asset('assets/vendor/bootstrap/dist/css/bootstrap.min.css') }}">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="{{ asset('assets/vendor/MyCss/search.css') }}">
+  <link rel="stylesheet" href="{{ asset('assets/vendor/MyCss/index.css') }}">
+  {% stylesheets '@AppBundle/Resources/vendor/eonasdan-bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.min.css' filter='cssrewrite' %}
+  <link rel="stylesheet" href="{{ asset_url }}" />
+  {% endstylesheets %}
+  {% javascripts '@AppBundle/Resources/vendor/eonasdan-bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js' %}
+  <script type="text/javascript" src="{{ asset_url }}"></script>
+  {% endjavascripts %}
 
-         {% javascripts '@AppBundle/Resources/vendor/symfony-collection/jquery.collection.js' %}
-          <script type="text/javascript" src="{{ asset_url }}"></script>
-        {% endjavascripts %}
+  {% javascripts '@AppBundle/Resources/vendor/jquery/dist/jquery.js' %}
+  <script type="text/javascript" src="{{ asset_url }}"></script>
+  {% endjavascripts %}
+  {% javascripts '@AppBundle/Resources/vendor/symfony-collection/jquery.collection.js' %}
+  <script type="text/javascript" src="{{ asset_url }}"></script>
+  {% endjavascripts %}
 
-         {% javascripts '@AppBundle/Resources/vendor/eonasdan-bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js' %}
-          <script type="text/javascript" src="{{ asset_url }}"></script>
-        {% endjavascripts %}
+  {% stylesheets '@AppBundle/Resources/vendor/datatables.net-dt/css/jquery.dataTables.css' filter='cssrewrite'%}
+  <link rel="stylesheet" href="{{ asset_url }}" />
+  {% endstylesheets %}
+  {% javascripts '@AppBundle/Resources/vendor/datatables.net/js/jquery.dataTables.js' %}
+  <script type="text/javascript" src="{{ asset_url }}"></script>
+  {% endjavascripts %}
 
-        <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
- </head>
-    <body>
-<style type="text/css">
+  <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
+</head>
+<body>
+  <style type="text/css">
     body {
-    padding-top:80px;
-}
-</style>
-
-<nav class="navbar navbar-default navbar-fixed-top" role="banner">
-  <div class="container">
-    <div class="navbar-header">
-      <button class="navbar-toggle" type="button" data-toggle="collapse" data-target=".navbar-collapse">
-        <span class="sr-only">Toggle navigation</span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-      </button>
+      padding-top:80px;
+    }
+  </style>
+  <nav class="navbar navbar-default navbar-fixed-top" role="banner">
+    <div class="container">
+      <div class="navbar-header">
+        <button class="navbar-toggle" type="button" data-toggle="collapse" data-target=".navbar-collapse">
+          <span class="sr-only">Toggle navigation</span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
         <li>
           {% if app.user %}
-                <a href="{{path('homepage')}}logout" class="navbar-brand">LogOut</a>
+          <a href="{{path('homepage')}}logout" class="navbar-brand">LogOut</a>
           {%  elseif  app.request.attributes.get('_route') != 'fos_user_security_login' %}
-                <a href="{{path('homepage')}}login" class="navbar-brand">LogIn</a>
+          <a href="{{path('homepage')}}login" class="navbar-brand">LogIn</a>
           {% endif %}
-         </li>
+        </li>
+      </div>
+      <nav class="collapse navbar-collapse" role="navigation">
+        <ul class="nav navbar-nav">
+          <li>
+            <a href="{{path('homepage')}}">Home</a>
+          </li>
+          {% if app.user %}
+          <li>
+            <a href="{{ path('newAuction') }}">New Auction</a>
+          </li>
+          {% endif %}
+        </ul>
+        <nav class="nav navbar-nav navbar-right">
+
+          <a href="{{path('homepage')}}profile">
+            <li class="navbar-brand">
+              {% if app.user %}
+              {{app.user.username}}
+              {% endif %}
+            </li>
+          </a>
+        </nav>
+      </nav>
     </div>
-    <nav class="collapse navbar-collapse" role="navigation">
-      <ul class="nav navbar-nav">
-        <li>
-          <a href="{{path('homepage')}}">Home</a>
-        </li>
-        {% if app.user %}
-        <li>
-          <a href="{{ path('newAuction') }}">New Auction</a>
-        </li>
-        {% endif %}
-      </ul>
-    <nav class="nav navbar-nav navbar-right">
-
-      <a href="{{path('homepage')}}profile">
-        <li class="navbar-brand">
-                {% if app.user %}
-                {{app.user.username}}
-                {% endif %}
-        </li>
-      </a>
-    </nav>
-    </nav>
-  </div>
-</nav>
-
-<div id="masthead">
-  <div class="container">
-    {% block upPanel %}{% endblock %}
+  </nav>
+  <div id="masthead">
+    <div class="container">
+      {% block upPanel %}{% endblock %}
+      <div class="row">
+       {% block leftMenu %}
+       <div class="col-md-1">
+       </div>
+       {% endblock %}
+       <div class="col-md-10">
+         <span class="pull-center">
+          {% block body %}{% endblock %}
+        </span>
+      </div>
+    </div>
   </div>
 </div>
-    <div class="container">
-        <div class="row">
-            <div class="row">
-              <div class="col-md-2">
-                {% block leftMenu %}{% endblock %}
-              </div>
-              <div class="col-md-10">
-                {% block body %}{% endblock %}
-              </div>
-            </div>
-        </div>
-    </div>
-
-       {% block javascripts %}{% endblock %}
-    </body>
+{% block javascripts %}{% endblock %}
+</body>
 </html>

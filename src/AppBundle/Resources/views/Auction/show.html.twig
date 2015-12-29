@@ -1,177 +1,190 @@
 {% extends '::base.html.twig' %}
 {% block leftMenu %}
-       <input type="hidden" id="refreshed" value="no">
-        <h4>
-            <span class="inline">Salesman</span>
-            <a href="{{ path('userinformation', { 'id': auction.user.id }) }}" class="inline"> {{ auction.user }}</a>
-        </h4>
+<div class="col-md-2">
 
-        <h3> Product: </h3>
-         <h5>price: {{ maxPriceInBiddingVsProductPrice }}</h5>
-         <h5>amount: {{ auction.productAmount }}</h5>
-         <h5>new
-                {% if auction.newProduct == 0 %}
-                <td> no </td>
-                {% else %}
-                <td> yes </td>
-                {% endif %}
-          </h5>
+ <input type="hidden" id="refreshed" value="no">
+ <h4>
+  <span class="inline">Salesman</span>
+  <a href="{{ path('userinformation', { 'id': auction.user.id }) }}" class="inline"> {{ auction.user }}</a>
+</h4>
+<h3> Product: </h3>
+<h5>price: {{ maxPriceInBiddingVsProductPrice }}</h5>
+<h5>amount: {{ auction.productAmount }}</h5>
+<h5>new
+  {% if auction.newProduct == 0 %}
+  <td> no </td>
+  {% else %}
+  <td> yes </td>
+  {% endif %}
+</h5>
+{% if(app.user != auction.user) %}
+<form id="buy" method="POST" action="{{ path('auction_buy') }}" >
 
-    {% if(app.user != auction.user) %}
-       <form id="buy" method="POST" action="{{ path('auction_buy') }}" >
+  <div class="form-group">
+    <input id="auctionName" name="auction" type="hidden" placeholder="Auction" value="{{auction.id}}">
+    <input id="auctionBuyer" name="buyer" type="hidden" placeholder="Buyer" value="{{app.user}}">
+    <div class="input-group">
+      <span class="input-group-addon">Amount</span>
+      <input id="auctionProductAmount" name="amount" type="number" placeholder="Amount" value="1" class="form-control" min="1" max="{{auction.productAmount}}">
+    </div>
+    <div class="input-group">
+      <span class="input-group-addon"> Price  </span>
+      <input id="auctionProductPrice" name="price" type="number" placeholder="Price" name="price" pattern="[0-9]+([\.,][0-9]+)?"
+      {% if auction.buyNow == 1 %}
+      min="{{maxPriceInBiddingVsProductPrice}}"
+      max="{{maxPriceInBiddingVsProductPrice}}"
+      value="{{maxPriceInBiddingVsProductPrice}}"
+      {% else %}
+      step="0.1"
+      min="{{maxPriceInBiddingVsProductPrice + 0.1}}"
+      value="{{maxPriceInBiddingVsProductPrice + 0.1}}"
+      {% endif %}
+      class="form-control">
+    </div>
 
-                <div class="form-group">
-                    <input id="auctionName" name="auction" type="hidden" placeholder="Auction" value="{{auction.id}}">
-                    <input id="auctionBuyer" name="buyer" type="hidden" placeholder="Buyer" value="{{app.user}}">
-                    <div class="input-group">
-                      <span class="input-group-addon">Amount</span>
-                      <input id="auctionProductAmount" name="amount" type="number" placeholder="Amount" value="1" class="form-control" min="1" max="{{auction.productAmount}}">
-                    </div>
-                    <div class="input-group">
-                      <span class="input-group-addon"> Price  </span>
-                      <input id="auctionProductPrice" name="price" type="number" placeholder="Price" name="price" pattern="[0-9]+([\.,][0-9]+)?"
-                      {% if auction.buyNow == 1 %}
-                      min="{{maxPriceInBiddingVsProductPrice}}"
-                      max="{{maxPriceInBiddingVsProductPrice}}"
-                      value="{{maxPriceInBiddingVsProductPrice}}"
-                      {% else %}
-                      step="0.1"
-                      min="{{maxPriceInBiddingVsProductPrice + 0.1}}"
-                      value="{{maxPriceInBiddingVsProductPrice + 0.1}}"
-                      {% endif %}
-                      class="form-control">
-                    </div>
-
-                    </br>
-                    <button type="submit" onSubmit="return buy()" class="btn">
-                      {% if auction.buyNow == 0 %}
-                         Bid
-                      {% else %}
-                       Buy Now
-                      {% endif %}
-                    </button>
-                </div>
-          </form>
-
-
-
-    <a href={{path('message_new', {'userRecipient': auction.user, 'auction': auction.id }) }} > SEND MESSAGE </a>
-
+  </br>
+  <button type="submit" onSubmit="return buy()" class="btn">
+    {% if auction.buyNow == 0 %}
+    Bid
+    {% else %}
+    Buy Now
     {% endif %}
+  </button>
+</div>
+</form>
 
+<a href={{path('message_new', {'userRecipient': auction.user, 'auction': auction.id }) }} > SEND MESSAGE </a>
+
+{% endif %}
+
+</div>
 {% endblock %}
 
 
 {% block body -%}
+
+
 <div class="col-md-10 col-xs-offset-1">
-    <div class="panel-group">
-      <div class="panel panel-default">
+  <div class="panel-group">
+    <div class="panel panel-default">
       <div class="panel-heading">
         <div class="row">
-            <div class="col-md-4">Aucrion</div>
-           <div class="col-md-4 col-md-offset-1">
-                  {{ auction.title }}
-       </div>
-            <div class="col-md-3"><span class="pull-right">
-                  Time left: {{ auction.endAuction.diff(auction.startAuction).days }}
-            </span></div>
+          <div class="col-md-4">Aucrion</div>
+          <div class="col-md-4 col-md-offset-1">
+            {{ auction.title }}
           </div>
+          <div class="col-md-3"><span class="pull-right">
+            Time left: {{ auction.endAuction.diff(auction.startAuction).days }}
+          </span></div>
+        </div>
       </div>
       <div class="panel-body">
+        <div class="row">
+          <div class="col-md-7">
             {{ auction.content|raw }}
+          </div>
+          <div class="col-md-5">
+            <span class="pull-right">
+              <div class="image">
+                <img src="{{ asset('images/'~ app.user.id ~ '/' ~ auction.picturePath) }}" width="300" />
+              </div>
+            </span>
+          </div>
+        </div>
       </div>
     </div>
-    </tbody>
- </table>
+  </tbody>
+</table>
 
 
 
-   <div class="panel-group">
-      <div class="panel panel-default">
-      <div class="panel-heading">
-        <div class="row">
-            <div class="col-md-4">Information</div>
-           <div class="col-md-4 col-md-offset-1">
+<div class="panel-group">
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <div class="row">
+        <div class="col-md-4">Information</div>
+        <div class="col-md-4 col-md-offset-1">
 
-           </div>
-            <div class="col-md-3"><span class="pull-right">
+        </div>
+        <div class="col-md-3"><span class="pull-right">
 
-            </span></div>
-          </div>
+        </span></div>
       </div>
-      <div class="panel-body">
+    </div>
+    <div class="panel-body">
 
-<div class="row">
-  <div class="col-md-6">
+      <div class="row">
+        <div class="col-md-6">
 
-    <h3> Payment </h3>
-    {% for entity in payments %}
-           Method name: {{ entity.methodName }} </br>
-           Description: {{ entity.description }} </br>
-    {% endfor %}
+          <h3> Payment </h3>
+          {% for entity in payments %}
+          Method name: {{ entity.methodName }} </br>
+          Description: {{ entity.description }} </br>
+          {% endfor %}
 
-  </div>
-  <div class="col-md-6"> <span class="pull-right">
+        </div>
+        <div class="col-md-6"> <span class="pull-right">
 
-  <h3> Shipping </h3>
-  {% for entity in shippings %}
-        Title: {{ entity.title }} </br>
-        Price: {{ entity.price }} </br>
-        Time to send: {{ entity.waitingTimeToSendDays }} </br>
-        Approximate waiting time: {{ entity.approximateWaitingTimeDays }} </br></br>
-  {% endfor %}
+          <h3> Shipping </h3>
+          {% for entity in shippings %}
+          Title: {{ entity.title }} </br>
+          Price: {{ entity.price }} </br>
+          Time to send: {{ entity.waitingTimeToSendDays }} </br>
+          Approximate waiting time: {{ entity.approximateWaitingTimeDays }} </br></br>
+          {% endfor %}
 
-    </span>
+        </span>
+      </div>
+    </div>
   </div>
 </div>
 
+{% if biddings != null %}
+<div class="panel-group">
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <div class="row">
+        <div class="col-md-4">Bidding</div>
+        <div class="col-md-4 col-md-offset-1">
+
+        </div>
+        <div class="col-md-3"><span class="pull-right">
+        </span></div>
       </div>
     </div>
-
- {% if biddings != null %}
-   <div class="panel-group">
-      <div class="panel panel-default">
-      <div class="panel-heading">
-        <div class="row">
-            <div class="col-md-4">Bidding</div>
-           <div class="col-md-4 col-md-offset-1">
-
-           </div>
-            <div class="col-md-3"><span class="pull-right">
-            </span></div>
-          </div>
-      </div>
-      <div class="panel-body">
-        <table class="table">
-            <thead>
-                <tr>
-                    <th>User</th>
-                    <th>Date</th>
-                    <th>Amount</th>
-                    <th>Price</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for entity in biddings %}
-                <tr>
-                <td> {{ entity.username }} </td>
-                <td> {% if entity.biddingDate %}{{ entity.biddingDate|date('Y-m-d H:i:s') }}{% endif %} </td>
-                <td> {{ entity.amount }} </td>
-                <td> {{ entity.price }} </td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-      </div>
+    <div class="panel-body">
+      <table class="table">
+        <thead>
+          <tr>
+            <th>User</th>
+            <th>Date</th>
+            <th>Amount</th>
+            <th>Price</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for entity in biddings %}
+          <tr>
+            <td> {{ entity.username }} </td>
+            <td> {% if entity.biddingDate %}{{ entity.biddingDate|date('Y-m-d H:i:s') }}{% endif %} </td>
+            <td> {{ entity.amount }} </td>
+            <td> {{ entity.price }} </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
     </div>
+  </div>
   {% endif %}
 
-  </div>
-   </div>
+</div>
+</div>
 {% endblock %}
 
 {% block javascripts %}
-     <script src="{{ asset('assets/vendor/MyJS/test.js') }}"></script>
+<script src="{{ asset('assets/vendor/MyJS/test.js') }}"></script>
 {% endblock %}
+
+
 
 

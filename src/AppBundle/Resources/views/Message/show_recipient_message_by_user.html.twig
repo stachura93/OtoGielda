@@ -1,28 +1,28 @@
 {% extends '::profileBase.html.twig' %}
 
 {% block body -%}
-  <h1>Message recipient</h1>
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Auction</th>
-                <th>Subject</th>
-                <th>Postdate</th>
-                <th>User Sender</th>
-                <th> ShowMessage </th>
-            </tr>
-        </thead>
-        <tbody>
+<h1>Message recipient</h1>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Auction</th>
+            <th>Subject</th>
+            <th>Postdate</th>
+            <th>User Sender</th>
+            <th> ShowMessage </th>
+        </tr>
+    </thead>
+    <tbody>
         {% for entity in entities %}
-            <tr>
+        <tr>
             <td><a href="{{ path ('auction_show', {'id': entity.auction.id} ) }}">  {{ entity.auction.title }}</a></td>
-                <td>{{ entity.subject }}</a></td>
-                <td>{% if entity.postDate %}{{ entity.postDate|date('Y-m-d H:i:s') }}{% endif %}</td>
-                <td>{{entity.userSender}}</td>
-                <td><a href="{{path('message_show_all_recipient', {'subject': entity.subject, 'userMessage': entity.userSender})}}" > Messages </a></td>
-            </tr>
+            <td>{{ entity.subject }}</a></td>
+            <td>{% if entity.postDate %}{{ entity.postDate|date('Y-m-d H:i:s') }}{% endif %}</td>
+            <td>{{entity.userSender}}</td>
+            <td><a href="{{path('message_show_all_recipient', {'subject': entity.subject, 'userMessage': entity.userSender})}}" > Messages </a></td>
+        </tr>
         {% endfor %}
-        </tbody>
-    </table>
+    </tbody>
+</table>
 
 {% endblock %}

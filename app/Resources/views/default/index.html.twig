@@ -1,36 +1,31 @@
 {% extends 'base.html.twig' %}
 
 {% block leftMenu %}
-
-
+<div class="col-md-1">
+</div>
 {% endblock %}
 
 {% block body %}
-
-
-  <div class="span12">
-        <form id="custom-search-form" class="form-search form-horizontal pull-right"
-        role="title" method="GET" action="{{ path('auction_by_title') }}"
-        >
-                <div class="input-append span12">
-                    <input name="title" type="text" class="search-query mac-style" placeholder="Search auction">
-                    <button type="submit" class="btn">
-                    <i class="fa fa-search"></i></button>
-                </div>
-            </form>
-        </div>
-
-        <h1> Category</h1>
-        </br>
-
-             <div id="category" class="col-xs-4 col-sm-6">
+<div class="col-md-7">
+    <h1> Category</h1></br>
+    <div id="category" class="col-xs-4 col-sm-6">
         {% for entity in entities %}
-                <td><a href="{{ path('parent_category', { 'name': entity.name }) }}" class="btn btn-info">{{ entity.name }}</a></td>
+        <td><a href="{{ path('parent_category', { 'name': entity.name }) }}" class="btn btn-info">{{ entity.name }}</a></td>
         {% endfor %}
-               </div>
-        </tbody>
-
+    </div>
+</div>
+<div class="col-md-5">
+  <div class="span12">
+    <form id="custom-search-form" class="form-search form-horizontal pull-right"
+    role="title" method="GET" action="{{ path('auction_by_title') }}">
+    <div class="input-append span12">
+        <input name="title" type="text" class="search-query mac-style" placeholder="Search auction">
+        <button type="submit" class="btn">
+            <i class="fa fa-search"></i></button>
+        </div>
+    </form>
+  </div>
+</div>
 {% endblock %}
-
 
 

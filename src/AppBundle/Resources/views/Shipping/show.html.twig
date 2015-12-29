@@ -2,27 +2,27 @@
 
 {% block body -%}
 {% if entity != null %}
-    <h1>Shipping</h1>
+<h1>Shipping</h1>
 
-    <table class="record_properties">
-        <tbody>
-            <tr>
-                <th>Title</th>
-                <td>{{ entity.title }}</td>
-            </tr>
-            <tr>
-                <th>Price</th>
-                <td>{{ entity.price }}</td>
-            </tr>
-            <tr>
-                <th>Waitingtimetosenddays</th>
-                <td>{{ entity.waitingTimeToSendDays }}</td>
-            </tr>
-            <tr>
-                <th>Approximatewaitingtimedays</th>
-                <td>{{ entity.approximateWaitingTimeDays }}</td>
-            </tr>
-        </tbody>
-    </table>
+<table class="record_properties">
+    <tbody>
+        <tr>
+            <th>Title</th>
+            <td>{{ entity.title }}</td>
+        </tr>
+        <tr>
+            <th>Price</th>
+            <td>{{ entity.price }}</td>
+        </tr>
+        <tr>
+            <th>Waitingtimetosenddays</th>
+            <td>{{ entity.waitingTimeToSendDays }}</td>
+        </tr>
+        <tr>
+            <th>Approximatewaitingtimedays</th>
+            <td>{{ entity.approximateWaitingTimeDays }}</td>
+        </tr>
+    </tbody>
+</table>
 {% endif %}
 {% endblock %}

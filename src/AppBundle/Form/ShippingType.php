@@ -17,11 +17,11 @@ class ShippingType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('title')
-            ->add('price')
-            ->add('waitingTimeToSendDays')
-            ->add('approximateWaitingTimeDays')
-            ;
+        ->add('title')
+        ->add('price')
+        ->add('waitingTimeToSendDays')
+        ->add('approximateWaitingTimeDays')
+        ;
     }
 
     /**
@@ -31,7 +31,7 @@ class ShippingType extends AbstractType
     {
         $resolver->setDefaults(array(
             'data_class' => 'AppBundle\Entity\Shipping'
-        ));
+            ));
     }
 
     /**

@@ -1,29 +1,29 @@
 {% extends '::base.html.twig' %}
 {% block body -%}
 {% if entities != null %}
-    <h1>Bidding</h1>
+<h1>Bidding</h1>
 
-    <table class="record_properties">
-        <tbody>
-            {% for entity in entities %}
-                <tr>
-                    <th>Amount</th>
-                    <td>{{ entity.amount }}</td>
-                </tr>
-                <tr>
-                    <th>Biddingdate</th>
-                    <td>{{ entity.biddingDate|date('Y-m-d H:i:s') }}</td>
-                </tr>
-                <tr>
-                    <th>Winning</th>
-                    <td>{{ entity.winning }}</td>
-                </tr>
-                <tr>
-                <th>User</th>
-                    <td> <a href="{{ path('userinformation', { 'id': entity.user.id }) }}"> {{ entity.user }}</a></td>
-                </tr>
-            {% endfor %}
-        </tbody>
-    </table>
+<table class="record_properties">
+    <tbody>
+        {% for entity in entities %}
+        <tr>
+            <th>Amount</th>
+            <td>{{ entity.amount }}</td>
+        </tr>
+        <tr>
+            <th>Biddingdate</th>
+            <td>{{ entity.biddingDate|date('Y-m-d H:i:s') }}</td>
+        </tr>
+        <tr>
+            <th>Winning</th>
+            <td>{{ entity.winning }}</td>
+        </tr>
+        <tr>
+            <th>User</th>
+            <td> <a href="{{ path('userinformation', { 'id': entity.user.id }) }}"> {{ entity.user }}</a></td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
 {% endif %}
 {% endblock %}

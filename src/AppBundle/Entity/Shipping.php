@@ -3,6 +3,7 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Shipping
@@ -23,6 +24,7 @@ class Shipping
      * @var integer
      *
      * @ORM\Column(name="price", type="decimal", precision=7, scale=2, nullable=false)
+     * @Assert\Range(min=1, minMessage = "Shipping price should be {{ limit }} or more")
      */
     private $price;
 
@@ -30,6 +32,7 @@ class Shipping
      * @var integer
      *
      * @ORM\Column(name="waiting_time_to_send_days", type="integer", nullable=true)
+     * @Assert\Range(min=1, minMessage = "Shipping waiting time to send should be {{ limit }} or more")
      */
     private $waitingTimeToSendDays;
 
@@ -37,6 +40,7 @@ class Shipping
      * @var integer
      *
      * @ORM\Column(name="approximate_waiting_time_days", type="integer", nullable=true)
+     * @Assert\Range(min=1, minMessage = "Approximate waiting to shipping should be {{ limit }} or more")
      */
     private $approximateWaitingTimeDays;
 
@@ -56,7 +60,7 @@ class Shipping
     private $auction;
 
     /**
-     * @ORM\OneToOne(targetEntity="Bidding", mappedBy="shipping")
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Bidding", mappedBy="shipping")
      */
     private $bidding;
 
@@ -67,12 +71,12 @@ class Shipping
     public function __construct()
     {
         $this->auction = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->bidding = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
     public function __toString() {
         return $this->title;
     }
-
     /**
      * Set title
      *
@@ -100,7 +104,7 @@ class Shipping
     /**
      * Set price
      *
-     * @param integer $price
+     * @param string $price
      *
      * @return Shipping
      */
@@ -114,7 +118,7 @@ class Shipping
     /**
      * Get price
      *
-     * @return integer
+     * @return string
      */
     public function getPrice()
     {
@@ -214,23 +218,33 @@ class Shipping
     }
 
     /**
-     * Set bidding
+     * Add bidding
      *
-     * @param \AppBundle\Entity\Bidding $bidding
+     * @param \AppBundle\Entity\Shipping $bidding
      *
      * @return Shipping
      */
-    public function setBidding(\AppBundle\Entity\Bidding $bidding = null)
+    public function addBidding(\AppBundle\Entity\Shipping $bidding)
     {
-        $this->bidding = $bidding;
+        $this->bidding[] = $bidding;
 
         return $this;
     }
 
     /**
+     * Remove bidding
+     *
+     * @param \AppBundle\Entity\Shipping $bidding
+     */
+    public function removeBidding(\AppBundle\Entity\Shipping $bidding)
+    {
+        $this->bidding->removeElement($bidding);
+    }
+
+    /**
      * Get bidding
      *
-     * @return \AppBundle\Entity\Bidding
+     * @return \Doctrine\Common\Collections\Collection
      */
     public function getBidding()
     {

@@ -5,9 +5,7 @@ onload=function(){
     }
 }
 $( document ).ready(function() {
-    // var productPrice = auction.productPrice
-    // var wio = $('#auctionProductPrice').val("2");
-    // alert(wio);
+
 });
 
 $('#newAuction').submit(function() {
@@ -15,17 +13,17 @@ var date = new Date();
 var day = date.getDate();
 var monthIndex = date.getMonth()+1;
 var year = date.getFullYear();
-
 var actualTime = day + '' + monthIndex + '' + year;
-    var myEndTimeDay = $('#appbundle_auction_endAuction_date_day').val();
-    var myEndTimeMonth = $('#appbundle_auction_endAuction_date_month').val();
-    var myEndTimeYear = $('#appbundle_auction_endAuction_date_year').val();
+    var myEndTimeDay = $('#appbundle_auction_endAuction_day').val();
+    var myEndTimeMonth = $('#appbundle_auction_endAuction_month').val();
+    var myEndTimeYear = $('#appbundle_auction_endAuction_year').val();
     var endTime = myEndTimeDay + '' + myEndTimeMonth + '' + myEndTimeYear;
     if( parseInt(endTime) <= parseInt(actualTime))
     {
         alert("Change the end date of auction")
         return false;
     }
+
 });
         $('.shipping-selector').collection({
             add: '<a href="#" class="btn btn-default"><span class="glyphicon glyphicon-plus-sign"></span></a>',
@@ -65,3 +63,4 @@ $('#buy').submit(function() {
 
 
 
+$('.my-slider').unslider();

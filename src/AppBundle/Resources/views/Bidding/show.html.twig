@@ -2,30 +2,30 @@
 
 {% block body -%}
 
-    <h1>Bidding</h1>
+<h1>Bidding</h1>
 
-    <table class="record_properties">
-        <tbody>
-            <tr>
-                <th>Amount</th>
-                <td>{{ entity.amount }}</td>
-            </tr>
-            <tr>
-                <th>Biddingdate</th>
-                <td>{{ entity.biddingDate|date('Y-m-d H:i:s') }}</td>
-            </tr>
-            <tr>
-                <th>Winning</th>
-                <td>{{ entity.winning }}</td>
-            </tr>
-            <tr>
-                <th>Id</th>
-                <td>{{ entity.id }}</td>
-            </tr>
-        </tbody>
-    </table>
+<table class="record_properties">
+    <tbody>
+        <tr>
+            <th>Amount</th>
+            <td>{{ entity.amount }}</td>
+        </tr>
+        <tr>
+            <th>Biddingdate</th>
+            <td>{{ entity.biddingDate|date('Y-m-d H:i:s') }}</td>
+        </tr>
+        <tr>
+            <th>Winning</th>
+            <td>{{ entity.winning }}</td>
+        </tr>
+        <tr>
+            <th>Id</th>
+            <td>{{ entity.id }}</td>
+        </tr>
+    </tbody>
+</table>
 
-        <ul class="record_actions">
+<ul class="record_actions">
     <li>
         <a href="{{ path('bidding') }}">
             Back to the list

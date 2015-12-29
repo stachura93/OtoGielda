@@ -35,26 +35,9 @@ class CommentController extends Controller
         $em = $this->getDoctrine()->getManager();
         $biddingUserWinning = $em->getRepository('AppBundle:Bidding')->findBy(array('user'=> $user, 'winning' => true));
 
-     //   $comments = $em->getRepository('AppBundle:Comment')->findBy(array('userBuyer'=> $user, 'auction' => $biddingUserWinning));
-
-
-        // $comment = $biddingUserWinning;
-
-  //      $comments = $em->getRepository('AppBundle:Comment')->findBy(array('userBuyer'=> $user, 'auction' => $biddingUserWinning->getAuction()));
-
-        // if($commentsUserBuyer) {
-        //    return null;
-        // }
-        foreach ($biddingUserWinning as $bidding) {
-        echo "<pre>";
-        echo  print_r($bidding->getAuction());
-        echo "</pre>";
-        }
-
-
         return $this->render('AppBundle:Comment:add_new_comment_to_seller.html.twig', array(
-                'comments' => $comments,
-        ));
+            'comments' => $comments,
+            ));
     }
 
     /**
@@ -76,7 +59,7 @@ class CommentController extends Controller
         return array(
             'commentsUserSend' => $commentsUserSend,
             'commentsUserReceive' => $commentsUserReceive,
-        );
+            );
     }
 
     /**
@@ -105,7 +88,7 @@ class CommentController extends Controller
         return array(
             'entity' => $entity,
             'form'   => $form->createView(),
-        );
+            );
     }
 
 
@@ -140,18 +123,16 @@ class CommentController extends Controller
 
         $seller = $auction->getUser();
         if($user == $seller ) {
-            echo "Sprzedawca";
             $entity->setBuyer(false);
         } else {
-            echo "Kupujacy";
             $entity->setBuyer(true);
         }
 
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($entity);
-            $em->flush();
+        $em = $this->getDoctrine()->getManager();
+        $em->persist($entity);
+        $em->flush();
 
-            return $this->redirect($this->generateUrl('comment_show', array('id' => $entity->getId())));
+        return $this->redirect($this->generateUrl('comment_show', array('id' => $entity->getId())));
 
     }
 
@@ -177,7 +158,7 @@ class CommentController extends Controller
         return array(
             'entity'      => $entity,
             'delete_form' => $deleteForm->createView(),
-        );
+            );
     }
 
     /**
@@ -205,7 +186,7 @@ class CommentController extends Controller
             'entity'      => $entity,
             'edit_form'   => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
-        );
+            );
     }
 
     /**
@@ -220,7 +201,7 @@ class CommentController extends Controller
         $form = $this->createForm(new CommentType(), $entity, array(
             'action' => $this->generateUrl('comment_update', array('id' => $entity->getId())),
             'method' => 'PUT',
-        ));
+            ));
 
         $form->add('submit', 'submit', array('label' => 'Update'));
 
@@ -257,7 +238,7 @@ class CommentController extends Controller
             'entity'      => $entity,
             'edit_form'   => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
-        );
+            );
     }
     /**
      * Deletes a Comment entity.
@@ -295,10 +276,9 @@ class CommentController extends Controller
     private function createDeleteForm($id)
     {
         return $this->createFormBuilder()
-            ->setAction($this->generateUrl('comment_delete', array('id' => $id)))
-            ->setMethod('DELETE')
-            ->add('submit', 'submit', array('label' => 'Delete'))
-            ->getForm()
-        ;
+        ->setAction($this->generateUrl('comment_delete', array('id' => $id)))
+        ->setMethod('DELETE')
+        ->add('submit', 'submit', array('label' => 'Delete'))
+        ->getForm();
     }
 }

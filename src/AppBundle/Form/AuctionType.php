@@ -17,40 +17,40 @@ class AuctionType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder
-            ->add('title')
-            ->add('content')
-            ->add('picturePath')
-            ->add('endAuction', 'date')
-            ->add('product_amount', 'integer')
-            ->add('buyNow')
-            ->add('product_price', 'money', array(
-              'pattern' => '[0-9]+([\.,][0-9]+)?',
-              'currency' => 'USD'
-               ))
-            ->add('Category', 'entity', array(
-                        'class' => 'AppBundle\Entity\Category',
-                        'property' => 'name',
-            ))
-            ->add('Shipping', 'collection', array(
-                  'type' => new ShippingType(),
-                  'allow_add' => true,
-                  'allow_delete' => true,
-                  'by_reference' => false,
-                    'attr' => array(
-                            'class' => 'shipping-selector',
-                    ),
-                ))
-            ->add('Payment', 'collection', array(
-                  'type' => new PaymentType(),
-                  'allow_add' => true,
-                  'allow_delete' => true,
-                  'by_reference' => false,
-                    'attr' => array(
-                            'class' => 'payment-selector',
-                    ),
-                ))
-            ;
+      $builder
+      ->add('title')
+      ->add('content')
+      ->add('picturePath', 'file', array('required' => false ))
+      ->add('endAuction', 'date')
+      ->add('product_amount', 'integer')
+      ->add('buyNow')
+      ->add('product_price', 'money', array(
+        'pattern' => '[0-9]+([\.,][0-9]+)?',
+        'currency' => 'USD'
+        ))
+      ->add('Category', 'entity', array(
+        'class' => 'AppBundle\Entity\Category',
+        'property' => 'name',
+        ))
+      ->add('Shipping', 'collection', array(
+        'type' => new ShippingType(),
+        'allow_add' => true,
+        'allow_delete' => true,
+        'by_reference' => false,
+        'attr' => array(
+          'class' => 'shipping-selector',
+          ),
+        ))
+      ->add('Payment', 'collection', array(
+        'type' => new PaymentType(),
+        'allow_add' => true,
+        'allow_delete' => true,
+        'by_reference' => false,
+        'attr' => array(
+          'class' => 'payment-selector',
+          ),
+        ))
+      ;
 
     }
 
@@ -59,8 +59,8 @@ class AuctionType extends AbstractType
      */
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
-        $resolver->setDefaults(array(
-            'data_class' => 'AppBundle\Entity\Auction'
+      $resolver->setDefaults(array(
+        'data_class' => 'AppBundle\Entity\Auction'
         ));
     }
 
@@ -69,6 +69,6 @@ class AuctionType extends AbstractType
      */
     public function getName()
     {
-        return 'appbundle_auction';
-    }
+      return 'appbundle_auction';
+  }
 }

@@ -1,50 +1,44 @@
 {% extends '::profileBase.html.twig' %}
 
 {% block body -%}
-    <h1>Comment you sell</h1>
+<h1>Comment you sell</h1>
 
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>Description</th>
-                <th>Buyer</th>
-            </tr>
-        </thead>
-        <tbody>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>Description</th>
+            <th>Buyer</th>
+        </tr>
+    </thead>
+    <tbody>
         {% for entity in commentsUserSend %}
-            <tr>
-                <td><a href="{{ path('comment_show', { 'id': entity.id }) }}">{{ entity.id }}</a></td>
-                <td>{{ entity.description }}</td>
-                <td>{{ entity.buyer }}</td>
-            </tr>
+        <tr>
+            <td><a href="{{ path('comment_show', { 'id': entity.id }) }}">{{ entity.id }}</a></td>
+            <td>{{ entity.description }}</td>
+            <td>{{ entity.buyer }}</td>
+        </tr>
         {% endfor %}
-        </tbody>
-    </table>
+    </tbody>
+</table>
 
-
-
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>Description</th>
-                <th>Buyer</th>
-            </tr>
-        </thead>
-        <tbody>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>Description</th>
+            <th>Buyer</th>
+        </tr>
+    </thead>
+    <tbody>
         {% for entity in commentsUserReceive %}
-            <tr>
-                <td><a href="{{ path('comment_show', { 'id': entity.id }) }}">{{ entity.id }}</a></td>
-                <td>{{ entity.description }}</td>
-                <td>{{ entity.buyer }}</td>
-            </tr>
+        <tr>
+            <td><a href="{{ path('comment_show', { 'id': entity.id }) }}">{{ entity.id }}</a></td>
+            <td>{{ entity.description }}</td>
+            <td>{{ entity.buyer }}</td>
+        </tr>
         {% endfor %}
-        </tbody>
-    </table>
+    </tbody>
+</table>
 
-
-    Give comment
-
-
-    {% endblock %}
+{% endblock %}

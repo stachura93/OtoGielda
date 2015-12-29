@@ -20,7 +20,7 @@
             </tr>
         </thead>
         <tbody>
-        {% for entity in entities %}
+            {% for entity in entities %}
             <tr>
                 <td>{{ entity.enabled }}</td>
                 <td><a href={{path('auction_show', {'id': entity.id}) }} > {{ entity.title }}</td>
@@ -30,14 +30,14 @@
                 <td>{% if entity.endAuction %}{{ entity.endAuction|date('Y-m-d H:i:s') }}{% endif %}</td>
                 <td>{{ entity.id }}</td>
             </tr>
-        {% endfor %}
+            {% endfor %}
         </tbody>
     </table>
-  </div>
-  <div class="col-md-5">
-   {{ include('AppBundle:Auction:search_auction_by_title.html.twig') }}
-  </div>
+</div>
+<div class="col-md-5">
+ {{ include('AppBundle:Auction:search_auction_by_title.html.twig') }}
+</div>
 </div>
 
 
-    {% endblock %}
+{% endblock %}

@@ -15,13 +15,12 @@ class BiddingType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('amount')
-            ->add('biddingDate')
-            ->add('winning')
-            ->add('payment')
-            ->add('shipping')
-            // ->add('user')
-            // ->add('auction')
+        ->add('price')
+        ->add('amount')
+        ->add('biddingDate')
+        ->add('winning')
+        ->add('payment')
+        ->add('shipping')
         ;
     }
     
@@ -32,7 +31,7 @@ class BiddingType extends AbstractType
     {
         $resolver->setDefaults(array(
             'data_class' => 'AppBundle\Entity\Bidding'
-        ));
+            ));
     }
 
     /**

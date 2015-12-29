@@ -17,6 +17,7 @@ use AppBundle\Form\BiddingType;
  */
 class BiddingController extends Controller
 {
+
    /**
      * Return user comments by ID
      *
@@ -24,8 +25,8 @@ class BiddingController extends Controller
      * @Method("GET")
      * @Template()
      */
-    public function giveCommentsToAuctionAction($auction)
-    {
+   public function giveCommentsToAuctionAction($auction)
+   {
       $user = $this->get('security.token_storage')->getToken()->getUser();
 
       $em = $this->getDoctrine()->getManager();
@@ -34,24 +35,24 @@ class BiddingController extends Controller
       if($user != $auction->getUser())
         return $this->redirect($this->generateUrl('homepage'));
 
-      $entities = $em->getRepository('AppBundle:Bidding')->findBy(array('auction' => $auction, 'winning' => true ));
+    $entities = $em->getRepository('AppBundle:Bidding')->findBy(array('auction' => $auction, 'winning' => true ));
 
 
-      foreach ($entities as $bidding) {
-          if($em->getRepository('AppBundle:Comment')->findOneBy(array('auction' => $bidding->getAuction(), 'buyer' => true ))) {
-            $commentExist[] = true;
-          } else {
-            $commentExist[] = false;
-          }
-      }
-
-
-      return $this->render('AppBundle:Bidding:by_user.html.twig', array(
-            'entities' => $entities,
-            'commentExist' => $commentExist,
-
-      ));
+    foreach ($entities as $bidding) {
+      if($em->getRepository('AppBundle:Comment')->findOneBy(array('auction' => $bidding->getAuction(), 'buyer' => true ))) {
+        $commentExist[] = true;
+    } else {
+        $commentExist[] = false;
     }
+}
+
+
+return $this->render('AppBundle:Bidding:by_user.html.twig', array(
+    'entities' => $entities,
+    'commentExist' => $commentExist,
+
+    ));
+}
 
     /**
      * Return lose bidding by User
@@ -67,10 +68,10 @@ class BiddingController extends Controller
       $em = $this->getDoctrine()->getManager();
       $entities = $em->getRepository('AppBundle:Bidding')->findBy(array('user' => $user, 'winning' => false ));
 
-        return $this->render('AppBundle:Bidding:index.html.twig', array(
-            'entities' => $entities,
+      return $this->render('AppBundle:Bidding:index.html.twig', array(
+        'entities' => $entities,
         ));
-    }
+  }
 
     /**
      * Return win bidding by User
@@ -89,16 +90,16 @@ class BiddingController extends Controller
       foreach ($entities as $bidding) {
           if($em->getRepository('AppBundle:Comment')->findOneBy(array('auction' => $bidding->getAuction(), 'buyer' => true ))) {
             $commentExist[] = true;
-          } else {
+        } else {
             $commentExist[] = false;
-          }
-      }
-
-      return $this->render('AppBundle:Bidding:by_user.html.twig', array(
-            'entities' => $entities,
-            'commentExist' => $commentExist,
-      ));
+        }
     }
+
+    return $this->render('AppBundle:Bidding:by_user.html.twig', array(
+        'entities' => $entities,
+        'commentExist' => $commentExist,
+        ));
+}
 
 
      /**
@@ -108,16 +109,16 @@ class BiddingController extends Controller
      * @Method("GET")
      * @Template()
      */
-    public function in_auctionAction($id)
-    {
+     public function in_auctionAction($id)
+     {
       $em = $this->getDoctrine()->getManager();
       $entities = $em->getRepository('AppBundle:Bidding')->findBy(array('auction' => $id ));
 
       // // replace this example code with whatever you need
-         return array(
-            'entities' => $entities,
+      return array(
+        'entities' => $entities,
         );
-    }
+  }
 
     /**
      * Lists all Bidding entities.
@@ -135,7 +136,7 @@ class BiddingController extends Controller
 
         return array(
             'entities' => $entities,
-        );
+            );
     }
     /**
      * Creates a new Bidding entity.
@@ -161,7 +162,7 @@ class BiddingController extends Controller
         return array(
             'entity' => $entity,
             'form'   => $form->createView(),
-        );
+            );
     }
 
     /**
@@ -176,7 +177,7 @@ class BiddingController extends Controller
         $form = $this->createForm(new BiddingType(), $entity, array(
             'action' => $this->generateUrl('bidding_create'),
             'method' => 'POST',
-        ));
+            ));
 
         $form->add('submit', 'submit', array('label' => 'Create'));
 
@@ -198,7 +199,7 @@ class BiddingController extends Controller
         return array(
             'entity' => $entity,
             'form'   => $form->createView(),
-        );
+            );
     }
 
     /**
@@ -223,7 +224,7 @@ class BiddingController extends Controller
         return array(
             'entity'      => $entity,
             'delete_form' => $deleteForm->createView(),
-        );
+            );
     }
 
     /**
@@ -235,22 +236,55 @@ class BiddingController extends Controller
      */
     public function editAction($id)
     {
+        $user = $this->get('security.token_storage')->getToken()->getUser();
         $em = $this->getDoctrine()->getManager();
 
         $entity = $em->getRepository('AppBundle:Bidding')->find($id);
+
+        if($user != $entity->getUser())
+            return $this->redirect($this->generateUrl('bidding_user_win'));
+
 
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find Bidding entity.');
         }
 
+
         $editForm = $this->createEditForm($entity);
+
+        $where = $entity->getAuction();
+        $editForm->add('payment', 'entity', array(
+            'class' => 'AppBundle:Payment',
+            'property' => 'methodName',
+            'query_builder' => function(\Doctrine\ORM\EntityRepository $er) use ($where){
+                return $er->createQueryBuilder('p')
+                ->select('p')
+                ->join('p.auction', 'a')
+                ->where('a.id = ?1')
+                ->setParameter(1, $where->getId());
+            }
+            ) );
+
+        $editForm->add('shipping', 'entity', array(
+            'class' => 'AppBundle:Shipping',
+            'property' => 'title',
+            'query_builder' => function(\Doctrine\ORM\EntityRepository $er) use ($where){
+                return $er->createQueryBuilder('s')
+                ->select('s')
+                ->join('s.auction', 'a')
+                ->where('a.id = ?1')
+                ->setParameter(1, $where->getId());
+            }
+            ) );
+
+
         $deleteForm = $this->createDeleteForm($id);
 
         return array(
             'entity'      => $entity,
             'edit_form'   => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
-        );
+            );
     }
 
     /**
@@ -265,7 +299,7 @@ class BiddingController extends Controller
         $form = $this->createForm(new BiddingType(), $entity, array(
             'action' => $this->generateUrl('bidding_update', array('id' => $entity->getId())),
             'method' => 'PUT',
-        ));
+            ));
 
         $form->add('submit', 'submit', array('label' => 'Update'));
 
@@ -302,7 +336,7 @@ class BiddingController extends Controller
             'entity'      => $entity,
             'edit_form'   => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
-        );
+            );
     }
     /**
      * Deletes a Bidding entity.
@@ -340,10 +374,10 @@ class BiddingController extends Controller
     private function createDeleteForm($id)
     {
         return $this->createFormBuilder()
-            ->setAction($this->generateUrl('bidding_delete', array('id' => $id)))
-            ->setMethod('DELETE')
-            ->add('submit', 'submit', array('label' => 'Delete'))
-            ->getForm()
+        ->setAction($this->generateUrl('bidding_delete', array('id' => $id)))
+        ->setMethod('DELETE')
+        ->add('submit', 'submit', array('label' => 'Delete'))
+        ->getForm()
         ;
     }
 }

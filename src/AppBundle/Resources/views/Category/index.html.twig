@@ -1,23 +1,23 @@
 {% extends '::base.html.twig' %}
 
 {% block body -%}
-    <h1>Category list</h1>
+<h1>Category list</h1>
 
-    <table class="records_list">
-        <thead>
-            <tr>
-                <th>Name</th>
-                <th>Id</th>
-                <th>Actions</th>
-            </tr>
-        </thead>
-        <tbody>
+<table class="records_list">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Id</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
         {% for entity in entities %}
-            <tr>
-                <td>{{ entity.name }}</td>
-                <td>{{ entity.id }}</td>
-            </tr>
+        <tr>
+            <td>{{ entity.name }}</td>
+            <td>{{ entity.id }}</td>
+        </tr>
         {% endfor %}
-        </tbody>
-    </table>
-    {% endblock %}
+    </tbody>
+</table>
+{% endblock %}

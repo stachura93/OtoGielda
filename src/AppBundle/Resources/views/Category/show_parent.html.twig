@@ -2,20 +2,22 @@
 
 
 {% block leftMenu %}
-    {% if entities != null %}
-    <h3>Subcategory</h3>
-        {% for entity in entities %}
-            <tr>
-                <td><a href="{{ path('parent_category', { 'name': entity.name }) }}">{{ entity.name }}</a></td>
-             </tr>
-        {% endfor %}
-    {% endif %}
+<div class="col-md-1">
+	{% if entities != null %}
+	<h3>Subcategory</h3>
+	{% for entity in entities %}
+	<tr>
+		<td><a href="{{ path('parent_category', { 'name': entity.name }) }}">{{ entity.name }}</a></td>
+	</tr>
+	{% endfor %}
+	{% endif %}
+</div>
 {% endblock %}
 
 {% block body %}
-
-        {{ render(controller('AppBundle:Category:auction_in_category', { 'category': app.request.get('name') })) }}
-
+<span class="pull-left">
+	{{ render(controller('AppBundle:Category:auction_in_category', { 'category': app.request.get('name') })) }}
+</span>
 {% endblock %}
 
 

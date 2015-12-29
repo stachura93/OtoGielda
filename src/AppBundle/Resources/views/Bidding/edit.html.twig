@@ -1,16 +1,23 @@
 {% extends '::base.html.twig' %}
 
 {% block body -%}
-    <h1>Bidding edit</h1>
+<h1>Bidding edit</h1>
+{{form_start(edit_form)}}
 
-    {{ form(edit_form) }}
+{{ form_row(edit_form.payment) }}
+{{ form_row(edit_form.shipping) }}
 
-        <ul class="record_actions">
-    <li>
-        <a href="{{ path('bidding') }}">
-            Back to the list
-        </a>
-    </li>
-    <li>{{ form(delete_form) }}</li>
+{{ form_row(edit_form.submit) }}
+<div class="hidden">
+   {{ form_end(edit_form) }}
+</div>
+
+
+<li>
+    <a href="{{ path('bidding_user_win') }}">
+        Back to the list
+    </a>
+</li>
+
 </ul>
 {% endblock %}

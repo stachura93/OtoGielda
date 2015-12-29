@@ -38,7 +38,7 @@ class MessageController extends Controller
         return $this->render('AppBundle:Message:show_recipient_message_auction.html.twig', array(
             'messagesUserSender' => $messagesUserSender,
             'messagesUserRecipient' => $messagesUserRecipient,
-        ));
+            ));
     }
 
 
@@ -50,8 +50,8 @@ class MessageController extends Controller
      * @Method("GET")
      * @Template()
      */
-    public function find_by_userAction()
-    {
+     public function find_by_userAction()
+     {
         $user = $this->get('security.token_storage')->getToken()->getUser();
 
         $em = $this->getDoctrine()->getManager();
@@ -67,22 +67,16 @@ class MessageController extends Controller
 
             return $this->render('AppBundle:Message:show_sender_message_by_user.html.twig', array(
                 'entities' => $messagesUserSender,
-            ));
+                ));
         };
-
 
         $messagesUserRecipient = $em->getRepository('AppBundle:Message')->createQueryBuilder('m')
         ->where('m.userRecipient = :user')->setParameter('user', $user)->orderBy('m.postDate', 'DESC')->getQuery();
         $messagesUserRecipient = $messagesUserRecipient->getResult();
 
-
-        // echo "<pre>";
-        // echo print_r($messagesUserSender);
-        // echo "</pre>";
-
         return $this->render('AppBundle:Message:show_recipient_message_by_user.html.twig', array(
             'entities' => $messagesUserRecipient,
-        ));
+            ));
     }
 
 
@@ -110,7 +104,7 @@ class MessageController extends Controller
         return array(
             'entity' => $entity,
             'form'   => $form->createView(),
-        );
+            );
     }
 
     /**
@@ -125,7 +119,7 @@ class MessageController extends Controller
         $form = $this->createForm(new MessageType(), $entity, array(
             'action' => $this->generateUrl('message_create'),
             'method' => 'POST',
-        ));
+            ));
 
         $form->add('submit', 'submit', array('label' => 'Create'));
 
@@ -153,7 +147,6 @@ class MessageController extends Controller
         $auction = $em->getRepository('AppBundle:Auction')->findOneBy(array('id' => $auction));
 
         $entity->setUserRecipient($userRecipient);
-
         $entity->setAuction($auction);
         $auction->addMessage($entity);
 
@@ -162,7 +155,7 @@ class MessageController extends Controller
         return array(
             'entity' => $entity,
             'form'   => $form->createView(),
-        );
+            );
     }
 
     /**
@@ -187,7 +180,7 @@ class MessageController extends Controller
         return array(
             'entity'      => $entity,
             'delete_form' => $deleteForm->createView(),
-        );
+            );
     }
 
     /**
@@ -214,7 +207,7 @@ class MessageController extends Controller
             'entity'      => $entity,
             'edit_form'   => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
-        );
+            );
     }
 
     /**
@@ -229,7 +222,7 @@ class MessageController extends Controller
         $form = $this->createForm(new MessageType(), $entity, array(
             'action' => $this->generateUrl('message_update', array('id' => $entity->getId())),
             'method' => 'PUT',
-        ));
+            ));
 
         $form->add('submit', 'submit', array('label' => 'Update'));
 
@@ -266,7 +259,7 @@ class MessageController extends Controller
             'entity'      => $entity,
             'edit_form'   => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
-        );
+            );
     }
     /**
      * Deletes a Message entity.
@@ -304,10 +297,10 @@ class MessageController extends Controller
     private function createDeleteForm($id)
     {
         return $this->createFormBuilder()
-            ->setAction($this->generateUrl('message_delete', array('id' => $id)))
-            ->setMethod('DELETE')
-            ->add('submit', 'submit', array('label' => 'Delete'))
-            ->getForm()
+        ->setAction($this->generateUrl('message_delete', array('id' => $id)))
+        ->setMethod('DELETE')
+        ->add('submit', 'submit', array('label' => 'Delete'))
+        ->getForm()
         ;
     }
 }

@@ -45,7 +45,7 @@ class Comment
      * @ORM\ManyToOne(targetEntity="Application\Sonata\UserBundle\Entity\User", inversedBy="comment")
      * @ORM\JoinColumn(name="user_send_comment_id", referencedColumnName="id")
      */
-    private $userSendComment;
+     private $userSendComment;
 
     /**
      *  @ORM\ManyToOne(targetEntity="Auction", inversedBy="comment")

@@ -3,6 +3,7 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Auction
@@ -102,12 +103,13 @@ class Auction
      * @ORM\ManyToOne(targetEntity="Category", inversedBy="auction")
      * @ORM\JoinColumn(name="category", referencedColumnName="id")
      */
-    private $category;
+     private $category;
 
     /**
      * @var integer
      *
      * @ORM\Column(name="product_amount", type="integer", nullable=false)
+     * @Assert\Range(min=1, minMessage = "Number of Products should be {{ limit }} or more")
      */
     private $productAmount;
 
@@ -115,6 +117,7 @@ class Auction
      * @var integer
      *
      * @ORM\Column(name="product_price", type="decimal", precision=12, scale=2, nullable=false)
+     * @Assert\Range(min=1, minMessage = "Product price should be {{ limit }} or more")
      */
     private $productPrice;
 
@@ -130,7 +133,7 @@ class Auction
      *
      * @ORM\Column(name="buy_now", type="boolean", nullable=true)
      */
-    private $buyNow = false;
+      private $buyNow = false;
 
     /**
      * Constructor
@@ -141,6 +144,28 @@ class Auction
         $this->shipping = new \Doctrine\Common\Collections\ArrayCollection();
         $this->bidding = new \Doctrine\Common\Collections\ArrayCollection();
         $this->message = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
+    public function getAbsolutePath($userId)
+    {
+        return null === $this->picturePath ? null : $this->getUploadRootDir().'/'.$userId.'/';
+    }
+
+    public function getWebPath()
+    {
+        return null === $this->picturePath ? null : $this->getUploadDir().'/'.$this->picturePath;
+    }
+
+    protected function getUploadRootDir()
+    {
+        // the absolute directory path where uploaded documents should be saved
+        return __DIR__.'/../../../../OtoGielda/web'.$this->getUploadDir();
+    }
+
+    protected function getUploadDir()
+    {
+        // get rid of the __DIR__ so it doesn't screw when displaying uploaded doc/image in the view.
+        return '/images';
     }
 
     /**

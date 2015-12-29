@@ -42,9 +42,10 @@ class Payment
     private $auction;
 
     /**
-     * @ORM\OneToOne(targetEntity="Bidding", mappedBy="payment")
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Bidding", mappedBy="payment")
      */
     private $bidding;
+
 
     /**
      * Constructor
@@ -52,11 +53,13 @@ class Payment
     public function __construct()
     {
         $this->auction = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->bidding = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
     public function __toString() {
         return $this->methodName;
     }
+
     /**
      * Set methodName
      *
@@ -150,23 +153,33 @@ class Payment
     }
 
     /**
-     * Set bidding
+     * Add bidding
      *
      * @param \AppBundle\Entity\Bidding $bidding
      *
      * @return Payment
      */
-    public function setBidding(\AppBundle\Entity\Bidding $bidding = null)
+    public function addBidding(\AppBundle\Entity\Bidding $bidding)
     {
-        $this->bidding = $bidding;
+        $this->bidding[] = $bidding;
 
         return $this;
     }
 
     /**
+     * Remove bidding
+     *
+     * @param \AppBundle\Entity\Bidding $bidding
+     */
+    public function removeBidding(\AppBundle\Entity\Bidding $bidding)
+    {
+        $this->bidding->removeElement($bidding);
+    }
+
+    /**
      * Get bidding
      *
-     * @return \AppBundle\Entity\Bidding
+     * @return \Doctrine\Common\Collections\Collection
      */
     public function getBidding()
     {

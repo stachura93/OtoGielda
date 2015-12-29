@@ -15,15 +15,15 @@ class MessageType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('subject')
-            ->add('content')
-            ->add('postDate', 'date' ,array('disabled' => true, 'data' => new \DateTime()))
-            ->add('userSender')
-            ->add('userRecipient')
-            ->add('auction', 'entity', array('class' => 'AppBundle:Auction', 'property' => 'id'))
+        ->add('subject')
+        ->add('content')
+        ->add('postDate', 'date' ,array('disabled' => true, 'data' => new \DateTime()))
+        ->add('userSender')
+        ->add('userRecipient')
+        ->add('auction', 'entity', array('class' => 'AppBundle:Auction', 'property' => 'id'))
         ;
     }
-    
+
     /**
      * @param OptionsResolverInterface $resolver
      */
@@ -31,7 +31,7 @@ class MessageType extends AbstractType
     {
         $resolver->setDefaults(array(
             'data_class' => 'AppBundle\Entity\Message'
-        ));
+            ));
     }
 
     /**

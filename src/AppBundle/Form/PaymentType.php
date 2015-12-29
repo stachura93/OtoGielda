@@ -16,8 +16,8 @@ class PaymentType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('methodName')
-            ->add('description')
+        ->add('methodName')
+        ->add('description')
         ;
     }
 
@@ -28,7 +28,7 @@ class PaymentType extends AbstractType
     {
         $resolver->setDefaults(array(
             'data_class' => 'AppBundle\Entity\Payment'
-        ));
+            ));
     }
 
     /**

@@ -33,7 +33,7 @@ class PaymentController extends Controller
 
         return array(
             'entities' => $entities,
-        );
+            );
     }
     /**
      * Creates a new Payment entity.
@@ -59,7 +59,7 @@ class PaymentController extends Controller
         return array(
             'entity' => $entity,
             'form'   => $form->createView(),
-        );
+            );
     }
 
     /**
@@ -74,7 +74,7 @@ class PaymentController extends Controller
         $form = $this->createForm(new PaymentType(), $entity, array(
             'action' => $this->generateUrl('payment_create'),
             'method' => 'POST',
-        ));
+            ));
 
         $form->add('submit', 'submit', array('label' => 'Create'));
 
@@ -96,7 +96,7 @@ class PaymentController extends Controller
         return array(
             'entity' => $entity,
             'form'   => $form->createView(),
-        );
+            );
     }
 
     /**
@@ -121,7 +121,7 @@ class PaymentController extends Controller
         return array(
             'entity'      => $entity,
             'delete_form' => $deleteForm->createView(),
-        );
+            );
     }
 
     /**
@@ -148,7 +148,7 @@ class PaymentController extends Controller
             'entity'      => $entity,
             'edit_form'   => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
-        );
+            );
     }
 
     /**
@@ -163,7 +163,7 @@ class PaymentController extends Controller
         $form = $this->createForm(new PaymentType(), $entity, array(
             'action' => $this->generateUrl('payment_update', array('id' => $entity->getId())),
             'method' => 'PUT',
-        ));
+            ));
 
         $form->add('submit', 'submit', array('label' => 'Update'));
 
@@ -200,7 +200,7 @@ class PaymentController extends Controller
             'entity'      => $entity,
             'edit_form'   => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
-        );
+            );
     }
     /**
      * Deletes a Payment entity.
@@ -238,10 +238,10 @@ class PaymentController extends Controller
     private function createDeleteForm($id)
     {
         return $this->createFormBuilder()
-            ->setAction($this->generateUrl('payment_delete', array('id' => $id)))
-            ->setMethod('DELETE')
-            ->add('submit', 'submit', array('label' => 'Delete'))
-            ->getForm()
+        ->setAction($this->generateUrl('payment_delete', array('id' => $id)))
+        ->setMethod('DELETE')
+        ->add('submit', 'submit', array('label' => 'Delete'))
+        ->getForm()
         ;
     }
 }

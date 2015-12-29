@@ -1,19 +1,19 @@
 {% extends '::base.html.twig' %}
 
 {% block body -%}
-    <h1>Message</h1>
+<h1>Message</h1>
 
-    <table class="table">
-        <tbody>
-            <tr>
-                <th>Content</th>
-                <td>{{ entity.content }}</td>
-            </tr>
-            <tr>
-                <th>Postdate</th>
-                <td>{{ entity.postDate|date('Y-m-d H:i:s') }}</td>
-            </tr>
-        </tbody>
-    </table>
+<table class="table">
+    <tbody>
+        <tr>
+            <th>Content</th>
+            <td>{{ entity.content }}</td>
+        </tr>
+        <tr>
+            <th>Postdate</th>
+            <td>{{ entity.postDate|date('Y-m-d H:i:s') }}</td>
+        </tr>
+    </tbody>
+</table>
 
 {% endblock %}

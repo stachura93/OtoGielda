@@ -11,16 +11,16 @@ class ShippingAdmin extends Admin
     protected function configureFormFields(FormMapper $formMapper)
     {
         $formMapper->add('title', 'text')
-                   ->add('price', 'integer')
-                   ->add('waitingTimeToSendDays', 'text')
-                   ->add('approximateWaitingTimeDays', 'text')
-                   ->add('Auction', 'entity', array(
-                        'class' => 'AppBundle\Entity\Auction',
-                        'property' => 'title',
-                        'multiple' => 'true',
-                        'required' => false,
-                    ));
-                   ;
+        ->add('price', 'integer')
+        ->add('waitingTimeToSendDays', 'text')
+        ->add('approximateWaitingTimeDays', 'text')
+        ->add('Auction', 'entity', array(
+            'class' => 'AppBundle\Entity\Auction',
+            'property' => 'title',
+            'multiple' => 'true',
+            'required' => false,
+            ));
+        ;
     }
 
     protected function configureDatagridFilters(DatagridMapper $datagridMapper)
@@ -36,7 +36,7 @@ class ShippingAdmin extends Admin
     public function toString($object)
     {
         return $object instanceof Category
-            ? $object->getTitle()
+        ? $object->getTitle()
             : 'Category'; // shown in the breadcrumb on the create view
     }
 }

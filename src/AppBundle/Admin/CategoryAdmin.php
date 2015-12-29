@@ -11,11 +11,11 @@ class CategoryAdmin extends Admin
     protected function configureFormFields(FormMapper $formMapper)
     {
         $formMapper->add('name', 'text')
-                   ->add('parent', 'entity', array(
-                        'class' => 'AppBundle\Entity\Category',
-                        'property' => 'name',
-                        'required' => false,
-                    ));
+        ->add('parent', 'entity', array(
+            'class' => 'AppBundle\Entity\Category',
+            'property' => 'name',
+            'required' => false,
+            ));
     }
 
     protected function configureDatagridFilters(DatagridMapper $datagridMapper)
@@ -31,7 +31,7 @@ class CategoryAdmin extends Admin
     public function toString($object)
     {
         return $object instanceof Category
-            ? $object->getTitle()
+        ? $object->getTitle()
             : 'Category'; // shown in the breadcrumb on the create view
     }
 }

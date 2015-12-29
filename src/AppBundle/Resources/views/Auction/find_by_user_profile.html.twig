@@ -1,61 +1,61 @@
 {% extends '::profileBase.html.twig' %}
 {% block body -%}
 
-    <h2>Your Auction</h2>
+<h2>Your Auction</h2>
 
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Title</th>
-                <th>Content</th>
-                <th>Picturepath</th>
-                <th>Startauction</th>
-                <th>Endauction</th>
-            </tr>
-        </thead>
-        <tbody>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Title</th>
+            <th>Content</th>
+            <th>Picturepath</th>
+            <th>Startauction</th>
+            <th>Endauction</th>
+        </tr>
+    </thead>
+    <tbody>
         {% for entity in entities %}
-            <tr>
-                {% if entity.enabled == 1 %}
-                <td><a href={{path('auction_show', {'id': entity.id } ) }}>{{ entity.title }}</td>
-                <td>{{ entity.content }}</td>
-                <td>{{ entity.picturePath }}</td>
-                <td>{% if entity.startAuction %}{{ entity.startAuction|date('Y-m-d H:i:s') }}{% endif %}</td>
-                <td>{% if entity.endAuction %}{{ entity.endAuction|date('Y-m-d H:i:s') }}{% endif %}</td>
-                {% endif %}
-            </tr>
+        <tr>
+            {% if entity.enabled == 1 %}
+            <td><a href={{path('auction_show', {'id': entity.id } ) }}>{{ entity.title }}</td>
+            <td>{{ entity.content }}</td>
+            <td>{{ entity.picturePath }}</td>
+            <td>{% if entity.startAuction %}{{ entity.startAuction|date('Y-m-d H:i:s') }}{% endif %}</td>
+            <td>{% if entity.endAuction %}{{ entity.endAuction|date('Y-m-d H:i:s') }}{% endif %}</td>
+            {% endif %}
+        </tr>
         {% endfor %}
-        </tbody>
-    </table>
+    </tbody>
+</table>
 
-    <h3>Auctions completed</h3>
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Title</th>
-                <th>Content</th>
-                <th>Picturepath</th>
-                <th>Startauction</th>
-                <th>Endauction</th>
-                <th>Give Comment</th>
-            </tr>
-        </thead>
-        <tbody>
+<h3>Auctions completed</h3>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Title</th>
+            <th>Content</th>
+            <th>Picturepath</th>
+            <th>Startauction</th>
+            <th>Endauction</th>
+            <th>Give Comment</th>
+        </tr>
+    </thead>
+    <tbody>
         {% for entity in entities %}
-            <tr>
-                {% if entity.enabled == 0 %}
-                <td><a href={{path('auction_show', {'id': entity.id } ) }}>{{ entity.title }}</td>
-                <td>{{ entity.content }}</td>
-                <td>{{ entity.picturePath }}</td>
-                <td>{% if entity.startAuction %}{{ entity.startAuction|date('Y-m-d H:i:s') }}{% endif %}</td>
-                <td>{% if entity.endAuction %}{{ entity.endAuction|date('Y-m-d H:i:s') }}{% endif %}</td>
-                <td><a href={{ path ('bidding_win_in_auction', {'auction': entity.id }) }} > Comment </a></td>
-                {% endif %}
-            </tr>
+        <tr>
+            {% if entity.enabled == 0 %}
+            <td><a href={{path('auction_show', {'id': entity.id } ) }}>{{ entity.title }}</td>
+            <td>{{ entity.content }}</td>
+            <td>{{ entity.picturePath }}</td>
+            <td>{% if entity.startAuction %}{{ entity.startAuction|date('Y-m-d H:i:s') }}{% endif %}</td>
+            <td>{% if entity.endAuction %}{{ entity.endAuction|date('Y-m-d H:i:s') }}{% endif %}</td>
+            <td><a href={{ path ('bidding_win_in_auction', {'auction': entity.id }) }} > Comment </a></td>
+            {% endif %}
+        </tr>
         {% endfor %}
-        </tbody>
-    </table>
+    </tbody>
+</table>
 
 
 
-    {% endblock %}
+{% endblock %}

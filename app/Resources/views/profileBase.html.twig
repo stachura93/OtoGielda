@@ -1,22 +1,19 @@
 {% extends 'base.html.twig' %}
 
 {% block leftMenu %}
-
- <td><a href="{{ path('sonata_user_profile_edit') }}">Edit profile</a></td>
- </br>
-
- <td><a href="{{ path('auction') }}">Your Auctions</a></td></br>
- <td><a href="{{ path('bidding') }}">Bidding you all</a></td></br>
- <td><a href="{{ path('bidding_user_win') }}">Bidding you win</a></td></br>
- <td><a href="{{ path('bidding_user_lost') }}">Bidding you lose</a></td></br>
- <td><a href="{{ path('comment')}}">Comment</a></td></br>
-
- <td><a href="{{ path('messages_sender') }}">Messages you send</a></td></br>
- <td><a href="{{ path('messages_recipient') }}">Messages recipient</a></td></br>
-
+<div class="col-md-2">
+	<td><a href="{{ path('sonata_user_profile_edit') }}">Edit profile</a></td></br>
+	<td><a href="{{ path('auction') }}">Your Auctions</a></td></br>
+	<td><a href="{{ path('bidding') }}">Bidding you all</a></td></br>
+	<td><a href="{{ path('bidding_user_win') }}">Bidding you win</a></td></br>
+	<td><a href="{{ path('bidding_user_lost') }}">Bidding you lose</a></td></br>
+	<td><a href="{{ path('comment')}}">Comment</a></td></br>
+	<td><a href="{{ path('messages_sender') }}">Messages you send</a></td></br>
+	<td><a href="{{ path('messages_recipient') }}">Messages recipient</a></td></br>
+</div>
 {% endblock %}
 
 {% block javascripts %}
-     <script src="{{ asset('assets/vendor/MyJS/test.js') }}"></script>
+	<script src="{{ asset('assets/vendor/MyJS/test.js') }}"></script>
 {% endblock %}
 
