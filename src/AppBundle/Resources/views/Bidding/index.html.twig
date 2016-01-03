@@ -3,27 +3,39 @@
 {% block body -%}
 <h1>Bidding list</h1>
 
-<table class="table">
+<table id="myTable" class="table">
     <thead>
         <tr>
+            <th>Auction</th>
+            <th>Price</th>
             <th>Amount</th>
             <th>Biddingdate</th>
             <th>Winning</th>
-            <th>Id</th>
-            <th>Actions</th>
         </tr>
     </thead>
     <tbody>
         {% for entity in entities %}
         <tr>
-            <td><a href="{{ path('bidding_show', { 'id': entity.id }) }}">{{ entity.amount }}</a></td>
+            <td><a href="{{path('auction_show', {'id': entity.auction.id} )}}"> {{entity.auction.title}}</td>
+            <td>{{entity.price}}</td>
+            <td>{{ entity.amount }}</td>
             <td>{% if entity.biddingDate %}{{ entity.biddingDate|date('Y-m-d H:i:s') }}{% endif %}</td>
-            <td>{{ entity.winning }}</td>
-            <td>{{ entity.id }}</td>
+            {% if entity.winning == 1 %}
+            <td>YES</td>
+            {% else %}
+            <td>NO</td>
+            {% endif %}
         </tr>
         {% endfor %}
     </tbody>
 </table>
 
 
+{% endblock %}
+{% block javascripts %}
+<script language="JavaScript" type="text/javascript">
+    $('#myTable').DataTable({
+        "iDisplayLength": 25
+    });
+</script>
 {% endblock %}

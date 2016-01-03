@@ -1,36 +1,27 @@
 {% extends '::base.html.twig' %}
 
 {% block body -%}
-<h1>Comment</h1>
+<h1>Comment</h1></br>
 
-<table class="record_properties">
-    <tbody>
-        <tr>
-            <th>Id</th>
-            <td>{{ entity.id }}</td>
-        </tr>
-        <tr>
-            <th>Description</th>
-            <td>{{ entity.description }}</td>
-        </tr>
-        <tr>
-            <th>Buyer</th>
-            <td>{{ entity.buyer }}</td>
-        </tr>
-    </tbody>
-</table>
+<h3>Comment description</h3>
+<ul>
+  <li>Number <b>{{entity.id}}</b></li>
+  <li>Description <b>{{entity.description}}</b></li>
+  <li>Buyer <b>{%if entity.buyer == 1%} YES {% else %} NO {% endif %}</b></li>
+</ul></br>
 
-<ul class="record_actions">
-    <li>
-        <a href="{{ path('comment') }}">
-            Back to the list
-        </a>
-    </li>
-    <li>
-        <a href="{{ path('comment_edit', { 'id': entity.id }) }}">
-            Edit
-        </a>
-    </li>
-    <li>{{ form(delete_form) }}</li>
-</ul>
+<h3>Auction description</h3>
+<ul>
+  <li>Title <b>{{entity.auction.title}}</b></li>
+  <li>Seller <b>{{entity.auction.user}}</b></li>
+  <li>New product <b>{%if entity.auction.newProduct == 1%} YES {% else %} NO {% endif %}</b></li>
+  <li>Comment number <b>{{entity.id}}</b></li>
+</ul></br>
+
+<h4>
+    <a href="{{ path('comment') }}">
+        Back to the list
+    </a>
+</h4>
+
 {% endblock %}

@@ -241,19 +241,25 @@ class AuctionController extends Controller
     /**
      * Displays a form to edit an existing Auction entity.
      *
-     * @Route("/auction/{id}/edit", name="auction_edit")
+     * @Route("/profile/auctions/{id}/edit", name="auction_edit")
      * @Method("GET")
      * @Template()
      */
     public function editAction($id)
     {
+        $user = $this->get('security.token_storage')->getToken()->getUser();
+
         $em = $this->getDoctrine()->getManager();
 
         $entity = $em->getRepository('AppBundle:Auction')->find($id);
 
+
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find Auction entity.');
         }
+
+        if($entity->getUser() != $user)
+            return $this->redirect($this->generateUrl('auction'));
 
         $editForm = $this->createEditForm($entity);
         $deleteForm = $this->createDeleteForm($id);

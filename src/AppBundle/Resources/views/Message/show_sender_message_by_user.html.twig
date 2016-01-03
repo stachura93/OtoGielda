@@ -2,14 +2,14 @@
 
 {% block body -%}
 <h1>Message you send</h1>
-<table class="table">
+<table id="myTable" class="table">
     <thead>
         <tr>
             <th>Auction</th>
             <th>Subject</th>
             <th>Postdate</th>
-            <th>UserRecipient</th>
-            <th> ShowMessage </th>
+            <th>User Recipient</th>
+            <th>ShowMessage</th>
         </tr>
     </thead>
     <tbody>
@@ -25,4 +25,11 @@
     </tbody>
 </table>
 
+{% endblock %}
+{% block javascripts %}
+<script language="JavaScript" type="text/javascript">
+    $('#myTable').DataTable({
+        "iDisplayLength": 15
+    });
+</script>
 {% endblock %}

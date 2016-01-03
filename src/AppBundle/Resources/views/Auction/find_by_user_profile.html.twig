@@ -3,7 +3,7 @@
 
 <h2>Your Auction</h2>
 
-<table class="table">
+<table id="myTable" class="table">
     <thead>
         <tr>
             <th>Title</th>
@@ -11,25 +11,31 @@
             <th>Picturepath</th>
             <th>Startauction</th>
             <th>Endauction</th>
+            <th>Edit Auction</th>
         </tr>
     </thead>
     <tbody>
         {% for entity in entities %}
+        {% if entity.enabled == 1 %}
         <tr>
-            {% if entity.enabled == 1 %}
-            <td><a href={{path('auction_show', {'id': entity.id } ) }}>{{ entity.title }}</td>
-            <td>{{ entity.content }}</td>
-            <td>{{ entity.picturePath }}</td>
-            <td>{% if entity.startAuction %}{{ entity.startAuction|date('Y-m-d H:i:s') }}{% endif %}</td>
-            <td>{% if entity.endAuction %}{{ entity.endAuction|date('Y-m-d H:i:s') }}{% endif %}</td>
-            {% endif %}
-        </tr>
-        {% endfor %}
-    </tbody>
+         <td><a href={{path('auction_show', {'id': entity.id } ) }}>{{ entity.title }}</td>
+         <td>{{ entity.content }}</td>
+         <td>
+             {% if entity.picturePath is not null %}
+             <img src="{{ asset('images/'~ entity.user.id ~ '/' ~ entity.picturePath) }}" width="50" />
+             {% endif %}
+         </td>
+         <td>{% if entity.startAuction %}{{ entity.startAuction|date('Y-m-d H:i:s') }}{% endif %}</td>
+         <td>{% if entity.endAuction %}{{ entity.endAuction|date('Y-m-d H:i:s') }}{% endif %}</td>
+         <td><a href={{path('auction_edit', {'id': entity.id} ) }}>EDIT</td>
+     </tr>
+     {% endif %}
+     {% endfor %}
+ </tbody>
 </table>
 
 <h3>Auctions completed</h3>
-<table class="table">
+<table id="myTable2" class="table">
     <thead>
         <tr>
             <th>Title</th>
@@ -42,20 +48,30 @@
     </thead>
     <tbody>
         {% for entity in entities %}
+        {% if entity.enabled == 0 %}
         <tr>
-            {% if entity.enabled == 0 %}
             <td><a href={{path('auction_show', {'id': entity.id } ) }}>{{ entity.title }}</td>
             <td>{{ entity.content }}</td>
             <td>{{ entity.picturePath }}</td>
             <td>{% if entity.startAuction %}{{ entity.startAuction|date('Y-m-d H:i:s') }}{% endif %}</td>
             <td>{% if entity.endAuction %}{{ entity.endAuction|date('Y-m-d H:i:s') }}{% endif %}</td>
             <td><a href={{ path ('bidding_win_in_auction', {'auction': entity.id }) }} > Comment </a></td>
-            {% endif %}
         </tr>
+        {% endif %}
         {% endfor %}
     </tbody>
 </table>
 
+{% endblock %}
 
+{% block javascripts %}
+<script language="JavaScript" type="text/javascript">
+    $('#myTable').DataTable({
+        "iDisplayLength": 15
+    });
 
+     $('#myTable2').DataTable({
+        "iDisplayLength": 20
+    });
+</script>
 {% endblock %}

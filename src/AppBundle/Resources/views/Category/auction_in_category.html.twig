@@ -4,7 +4,7 @@
 
 {% if entities != null %}
 <h1>Auction list</h1>
-<table id="example" class="table table-striped table-bordered dt-responsive nowrap">
+<table id="myTable" class="table table-striped table-bordered dt-responsive nowrap">
   <thead>
     <tr>
       <th>Title</th>
@@ -26,13 +26,11 @@
       <td>NO</td>
       {% endif %}
       <td>{{ entity.endAuction.diff(entity.startAuction).days }}</td>
-      {% if entity.picturePath is not null %}
       <td>
+      {% if entity.picturePath is not null %}
        <img src="{{ asset('images/'~ entity.user.id ~ '/' ~ entity.picturePath) }}" width="50" />
-     </td>
-     {% else %}
-     <td> </td>
      {% endif %}
+     </td>
    </tr>
    {% endif %}
    {% endfor %}
@@ -47,7 +45,7 @@
 {% endblock %}
 {% block javascripts %}
 <script language="JavaScript" type="text/javascript">
-  $('#example').DataTable({
+  $('#myTable').DataTable({
     "iDisplayLength": 25
   });
 </script>

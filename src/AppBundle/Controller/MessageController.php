@@ -35,6 +35,16 @@ class MessageController extends Controller
         $messagesUserSender = $em->getRepository('AppBundle:Message')->findBy(array('subject' => $subject, 'userSender' => $user,  'userRecipient' => $userMessage));
         $messagesUserRecipient = $em->getRepository('AppBundle:Message')->findBy(array('subject' => $subject, 'userRecipient' => $user, 'userSender' => $userMessage));
 
+        $request = $this->container->get('request');
+        $routeName = $request->get('_route');
+
+        if($routeName == 'message_show_all_sender')
+        {
+            return $this->render('AppBundle:Message:show_sender_message_auction.html.twig', array(
+                 'messagesUserSender' => $messagesUserSender,
+                 'messagesUserRecipient' => $messagesUserRecipient,
+            ));
+        };
         return $this->render('AppBundle:Message:show_recipient_message_auction.html.twig', array(
             'messagesUserSender' => $messagesUserSender,
             'messagesUserRecipient' => $messagesUserRecipient,

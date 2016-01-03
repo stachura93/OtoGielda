@@ -1,31 +1,12 @@
 {% extends '::profileBase.html.twig' %}
 
 {% block body -%}
-<h1>Comment you sell</h1>
 
-<table class="table">
+<h1>Comment you Receive</h1>
+<table id="myTable" class="table">
     <thead>
         <tr>
-            <th>Id</th>
-            <th>Description</th>
-            <th>Buyer</th>
-        </tr>
-    </thead>
-    <tbody>
-        {% for entity in commentsUserSend %}
-        <tr>
-            <td><a href="{{ path('comment_show', { 'id': entity.id }) }}">{{ entity.id }}</a></td>
-            <td>{{ entity.description }}</td>
-            <td>{{ entity.buyer }}</td>
-        </tr>
-        {% endfor %}
-    </tbody>
-</table>
-
-<table class="table">
-    <thead>
-        <tr>
-            <th>Id</th>
+            <th>Comment</th>
             <th>Description</th>
             <th>Buyer</th>
         </tr>
@@ -33,12 +14,43 @@
     <tbody>
         {% for entity in commentsUserReceive %}
         <tr>
-            <td><a href="{{ path('comment_show', { 'id': entity.id }) }}">{{ entity.id }}</a></td>
+            <td><a href="{{ path('comment_show', { 'id': entity.id }) }}">Show</a></td>
             <td>{{ entity.description }}</td>
-            <td>{{ entity.buyer }}</td>
+            <td>{% if entity.buyer == 1 %} YES {% else %} NO {% endif %}</td>
         </tr>
         {% endfor %}
     </tbody>
 </table>
 
+<h1>Comment you Send</h1>
+<table id="myTable2" class="table">
+    <thead>
+        <tr>
+            <th>Show comment</th>
+            <th>Description</th>
+            <th>Buyer</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for entity in commentsUserSend %}
+        <tr>
+            <td><a href="{{ path('comment_show', { 'id': entity.id }) }}">Show</a></td>
+            <td>{{ entity.description }}</td>
+            <td>{% if entity.buyer == 1 %} YES {% else %} NO {% endif %}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+
+{% endblock %}
+{% block javascripts %}
+<script language="JavaScript" type="text/javascript">
+    $('#myTable').DataTable({
+        "iDisplayLength": 10
+    });
+    $('#myTable2').DataTable({
+        "iDisplayLength": 10
+    });
+</script>
 {% endblock %}
