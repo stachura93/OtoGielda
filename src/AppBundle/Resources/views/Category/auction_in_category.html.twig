@@ -9,6 +9,7 @@
     <tr>
       <th>Title</th>
       <th>Price</th>
+      <th>Amount</th>
       <th>Buy now</th>
       <th>Days</th>
       <th>Picture</th>
@@ -20,6 +21,7 @@
     <tr>
       <td><a href="{{path('auction_show', {'id': entity.id })}}"> {{ entity.title }} </a></td>
       <td>{{ entity.productPrice }}</td>
+      <td>{{entity.productAmount}}</td>
       {% if entity.buyNow == 1 %}
       <td>YES</td>
       {% else %}

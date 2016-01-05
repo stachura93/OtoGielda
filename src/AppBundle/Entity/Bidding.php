@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * Bidding
  *
- * @ORM\Table(name="bidding", uniqueConstraints={@ORM\UniqueConstraint(name="id", columns={"id"})})
+ * @ORM\Table(name="bidding")
  * @ORM\Entity
  */
 class Bidding

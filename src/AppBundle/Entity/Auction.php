@@ -8,7 +8,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 /**
  * Auction
  *
- * @ORM\Table(name="auction", uniqueConstraints={@ORM\UniqueConstraint(name="id", columns={"id"})})
+ * @ORM\Table(name="auction")
  * @ORM\Entity
  */
 class Auction

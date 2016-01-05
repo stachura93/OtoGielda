@@ -32,11 +32,13 @@ class BiddingController extends Controller
       $em = $this->getDoctrine()->getManager();
       $auction = $em->getRepository('AppBundle:Auction')->find($auction);
 
-      if($user != $auction->getUser())
+      if($user != $auction->getUser() )
         return $this->redirect($this->generateUrl('homepage'));
 
     $entities = $em->getRepository('AppBundle:Bidding')->findBy(array('auction' => $auction, 'winning' => true ));
 
+    if(!$entities)
+        return $this->redirect($this->generateUrl('homepage'));
 
     foreach ($entities as $bidding) {
       if($em->getRepository('AppBundle:Comment')->findOneBy(array('auction' => $bidding->getAuction(), 'buyer' => true ))) {

@@ -202,7 +202,7 @@ class AuctionController extends Controller
         $payments = $auction->getPayment();
 
         $query = $em->createQuery('
-         SELECT u.username, b.biddingDate, b.amount, MAX(b.price) as price
+         SELECT u.username, b.biddingDate, SUM(b.amount) as amount, MAX(b.price) as price
          FROM AppBundle:Bidding b
          JOIN b.auction a
          JOIN b.user u
