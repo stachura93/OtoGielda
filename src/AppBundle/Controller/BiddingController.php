@@ -37,6 +37,7 @@ class BiddingController extends Controller
 
     $entities = $em->getRepository('AppBundle:Bidding')->findBy(array('auction' => $auction, 'winning' => true ));
 
+    $commentExist = [];
     foreach ($entities as $bidding) {
         $comment = $em->getRepository('AppBundle:Comment')->findOneBy(array('auction' => $bidding->getAuction(), 'buyer' => false, 'userReceivedComment' => $bidding->getUser()));
         if($comment) {
@@ -45,6 +46,7 @@ class BiddingController extends Controller
             $commentExist[] = 0;
         }
     }
+
     return $this->render('AppBundle:Bidding:by_user.html.twig', array(
         'entities' => $entities,
         'commentExist' => $commentExist,
@@ -83,7 +85,7 @@ class BiddingController extends Controller
 
       $em = $this->getDoctrine()->getManager();
       $entities = $em->getRepository('AppBundle:Bidding')->findBy(array('user' => $user, 'winning' => true ));
-
+      $commentExist = [];
       foreach ($entities as $bidding) {
           if($em->getRepository('AppBundle:Comment')->findOneBy(array('auction' => $bidding->getAuction(), 'buyer' => true ))) {
             $commentExist[] = true;
