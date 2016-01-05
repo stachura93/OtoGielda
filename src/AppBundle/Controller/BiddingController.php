@@ -45,7 +45,6 @@ class BiddingController extends Controller
             $commentExist[] = 0;
         }
     }
-
     return $this->render('AppBundle:Bidding:by_user.html.twig', array(
         'entities' => $entities,
         'commentExist' => $commentExist,
