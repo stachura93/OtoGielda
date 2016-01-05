@@ -30,7 +30,11 @@ class ShippingAdmin extends Admin
 
     protected function configureListFields(ListMapper $listMapper)
     {
-        $listMapper->addIdentifier('title');
+        $listMapper->addIdentifier('title')
+            ->add('price')
+            ->add('waitingTimeToSendDays')
+            ->add('approximateWaitingTimeDays')
+        ;
     }
 
     public function toString($object)

@@ -12,16 +12,17 @@ class AuctionAdmin extends Admin
   protected function configureFormFields(FormMapper $formMapper)
   {
     $formMapper->add('enabled', 'checkbox', array('required' => false))
+      ->add('buyNow', 'checkbox', array('required' => false))
+      ->add('newProduct', 'checkbox', array('required' => false))
       ->add('title', 'text')
       ->add('content', 'text')
       ->add('product_price', 'integer')
       ->add('product_amount', 'integer')
-      ->add('new_product', 'checkbox', array('required' => false ))
-      ->add('picturePath', 'text', array('required' => false))
-      ->add('startAuction', 'sonata_type_datetime_picker', array(
+      ->add('picturePath', 'file', array('required' => false))
+      ->add('startAuction', 'datetime', array(
         'format' => 'dd.MM.yyyy, HH:mm',
         ))
-      ->add('endAuction', 'sonata_type_datetime_picker', array(
+      ->add('endAuction', 'datetime', array(
         'format' => 'dd.MM.yyyy, HH:mm',
         ))
       ->add('user', 'entity', array(
@@ -43,7 +44,16 @@ class AuctionAdmin extends Admin
 
   protected function configureListFields(ListMapper $listMapper)
   {
-    $listMapper->addIdentifier('title');
+    $listMapper->addIdentifier('title')
+               ->add('product_price')
+               ->add('product_amount')
+               ->add('user')
+               ->add('startAuction')
+               ->add('endAuction')
+               ->add('newProduct')
+               ->add('buyNow')
+               ->add('enabled')
+               ;
   }
 
   public function toString($object)

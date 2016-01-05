@@ -32,7 +32,11 @@ class CommentAdmin extends Admin
 
     protected function configureListFields(ListMapper $listMapper)
     {
-        $listMapper->addIdentifier('description');
+        $listMapper->addIdentifier('description')
+            ->add('buyer')
+            ->add('userSendComment')
+            ->add('userReceivedComment')
+        ;
     }
 
     public function toString($object)

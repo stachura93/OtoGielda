@@ -23,7 +23,7 @@ class BiddingType extends AbstractType
         ->add('shipping')
         ;
     }
-    
+
     /**
      * @param OptionsResolverInterface $resolver
      */

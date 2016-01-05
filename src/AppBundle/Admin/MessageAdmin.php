@@ -10,7 +10,8 @@ class MessageAdmin extends Admin
 {
     protected function configureFormFields(FormMapper $formMapper)
     {
-        $formMapper->add('content', 'text')
+        $formMapper->add('subject', 'text')
+        ->add('content', 'text')
         ->add('postDate', 'datetime')
         ->add('Auction', 'entity', array(
             'class' => 'AppBundle\Entity\Auction',
@@ -29,12 +30,17 @@ class MessageAdmin extends Admin
 
     protected function configureDatagridFilters(DatagridMapper $datagridMapper)
     {
-        $datagridMapper->add('content');
+        $datagridMapper->add('subject');
     }
 
     protected function configureListFields(ListMapper $listMapper)
     {
-        $listMapper->addIdentifier('content');
+        $listMapper->addIdentifier('subject')
+            ->add('content')
+            ->add('postDate')
+            ->add('userRecipient')
+            ->add('userSender')
+            ;
     }
 
     public function toString($object)

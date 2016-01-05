@@ -27,7 +27,7 @@ class PaymentAdmin extends Admin
 
     protected function configureListFields(ListMapper $listMapper)
     {
-        $listMapper->addIdentifier('description');
+        $listMapper->addIdentifier('method_name')->add('description');
     }
 
     public function toString($object)

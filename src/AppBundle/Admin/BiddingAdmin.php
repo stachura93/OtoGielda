@@ -41,7 +41,13 @@ class BiddingAdmin extends Admin
 
     protected function configureListFields(ListMapper $listMapper)
     {
-        $listMapper->addIdentifier('amount');
+        $listMapper->addIdentifier('user')
+        ->add('price')
+        ->add('amount')
+        ->add('biddingDate')
+        ->add('winning')
+        ->add('payment')
+        ->add('shipping');
     }
 
     public function toString($object)
