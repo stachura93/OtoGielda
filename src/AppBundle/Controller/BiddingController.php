@@ -37,22 +37,18 @@ class BiddingController extends Controller
 
     $entities = $em->getRepository('AppBundle:Bidding')->findBy(array('auction' => $auction, 'winning' => true ));
 
-    if(!$entities)
-        return $this->redirect($this->generateUrl('homepage'));
-
     foreach ($entities as $bidding) {
-      if($em->getRepository('AppBundle:Comment')->findOneBy(array('auction' => $bidding->getAuction(), 'buyer' => true ))) {
-        $commentExist[] = true;
-    } else {
-        $commentExist[] = false;
+        $comment = $em->getRepository('AppBundle:Comment')->findOneBy(array('auction' => $bidding->getAuction(), 'buyer' => false, 'userReceivedComment' => $bidding->getUser()));
+        if($comment) {
+            $commentExist[] = 1;
+        } else {
+            $commentExist[] = 0;
+        }
     }
-}
 
-
-return $this->render('AppBundle:Bidding:by_user.html.twig', array(
-    'entities' => $entities,
-    'commentExist' => $commentExist,
-
+    return $this->render('AppBundle:Bidding:by_user.html.twig', array(
+        'entities' => $entities,
+        'commentExist' => $commentExist,
     ));
 }
 

@@ -39,7 +39,7 @@ class AuctionController extends Controller
 
         $buyerOb = $this->get('security.token_storage')->getToken()->getUser();
 
-        if($auctionOb->getProductAmount() == 0) {
+        if(($auctionOb->getProductAmount() - $amount) == 0) {
             $auctionOb->setEnabled(false);
         }
 
