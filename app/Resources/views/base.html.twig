@@ -63,9 +63,13 @@
             <a href="{{ path('newAuction') }}">New Auction</a>
           </li>
           {% endif %}
+          {% if is_granted('ROLE_ADMIN') %} 
+          <li>
+            <a href="{{ path('homepage') }}admin">Admin</a>
+          </li>
+           {% endif %}
         </ul>
         <nav class="nav navbar-nav navbar-right">
-
           <a href="{{path('homepage')}}profile">
             <li class="navbar-brand">
               {% if app.user %}
