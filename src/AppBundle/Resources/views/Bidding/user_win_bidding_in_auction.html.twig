@@ -1,0 +1,39 @@
+{% extends '::profileBase.html.twig' %}
+
+{% block body -%}
+<table class="table">
+    <tr>
+        <th>User</th>
+        <th>Amount</th>
+        <th>Price</th>
+        <th>Date</th>
+        <th>Winning</th>
+        <th>Comment</th>
+        <tr>
+            <thead>
+            </thead>
+            <tbody>
+                {% for entity in entities %}
+                <tr>
+                    <td> {{entity.user}} </td>
+                    <td> {{ entity.amount }} </td>
+                    <td> {{ entity.price }} </td>
+                    <td>{% if entity.biddingDate %}{{ entity.biddingDate|date('Y-m-d H:i:s') }}{% endif %}</td>
+                    <td>{{ entity.winning }}</td>
+                    {% if ( commentExist[key] == 0) %}
+                    <td>
+                        <form id="comments" method="POST" action="{{ path('comment_new') }}" >
+                            <input id="description" name="description" type="text" placeholder="description" value="">
+                            <input id="auction" name="auction" type="hidden" value="{{entity.auction.id}}">
+                            <input id="commentForUserW" name="commentForUser" type="hidden" value="{{entity.auction.user}}">
+                            <button type="submit" class="btn">
+                                Give comment
+                            </button>
+                        </form>
+                    </td>
+                    {% endif %}
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% endblock %}

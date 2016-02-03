@@ -1,0 +1,17 @@
+{% extends '::base.html.twig' %}
+
+{% block body -%}
+
+You  {% if  app.request.get('auctionIsByNow')  == 0 %}
+<b>bid</b>
+{% else %}
+<b>buy now</b>
+{% endif %}
+product on auction
+<b>{{ app.request.get('auctionTitle') }} </b> </br>
+you pay <b>{{ app.request.get('price') }} </b>
+for <b>{{ app.request.get('amount') }}</b> pieces
+</ul>
+{% endblock %}
+
+

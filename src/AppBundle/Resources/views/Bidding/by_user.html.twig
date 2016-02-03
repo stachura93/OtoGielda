@@ -1,0 +1,63 @@
+{% extends '::profileBase.html.twig' %}
+
+{% block body -%}
+
+<table id="myTable" class="table">
+	<thead>
+		<tr>
+			<th> Auction title </th>
+			<th> Price </th>
+			<th> Amount </th>
+			<th> Date </th>
+			<th> User </th>
+			{% if app.request.attributes.get('_route') == 'bidding_user_win' %}
+			<th> Bidding </th>
+			{% endif %}
+			<th> Comment </th>
+		</tr>
+	</thead>
+	{% for key,entity in entities %}
+	<tr>
+		<td>{{entity.auction.title }}</td>
+		<td>{{entity.price}}</td>
+		<td>{{ entity.amount }}</td>
+		<td>{% if entity.biddingDate %}{{ entity.biddingDate|date('Y-m-d H:i:s') }}{% endif %}</td>
+		<td>
+			{% if app.request.attributes.get('_route') == 'bidding_win_in_auction' %}
+			{{entity.user}}
+			{% else %}
+			{{entity.auction.user}}
+			{% endif %}
+		</td>
+		{% if app.request.attributes.get('_route') == 'bidding_user_win' %}
+		<td> <a href="{{path('bidding_edit', {'id': entity.id } ) }}">  edit </a></td>
+		{% endif %}
+		<td>
+			{% if ( commentExist[key] == 0) %}
+			<form id="comments" method="POST" action="{{ path('comment_new') }}" >
+				<input id="description" name="description" type="text" placeholder="description" value="">
+				<input id="auction" name="auction" type="hidden" value="{{entity.auction.id}}">
+				{% if app.request.attributes.get('_route') == 'bidding_win_in_auction' %}
+				<input id="commentForUserW" name="commentForUser" type="" value="{{entity.user}}">
+				{% else %}
+				<input id="commentForUserW" name="commentForUser" type="" value="{{entity.auction.user}}">
+				{% endif %}
+				<button type="submit" class="btn">
+				Give comment
+				</button>
+			</form>
+			{% endif %}
+		</td>
+	</tr>
+	{% endfor %}
+	<tbody>
+	</tbody>
+</table>
+{% endblock %}
+{% block javascripts %}
+<script language="JavaScript" type="text/javascript">
+	$('#myTable').DataTable({
+		"iDisplayLength": 25
+	});
+</script>
+{% endblock %}

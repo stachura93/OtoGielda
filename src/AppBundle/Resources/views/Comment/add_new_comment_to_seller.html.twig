@@ -1,0 +1,21 @@
+{% extends '::profileBase.html.twig' %}
+
+{% block body -%}
+<table class="table">
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>Description</th>
+            <th>Buyer</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for entity in comments %}
+        <tr>
+            <td> {{ entity.auction.title }} </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+{% endblock %}

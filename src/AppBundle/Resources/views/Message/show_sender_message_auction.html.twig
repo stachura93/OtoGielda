@@ -1,0 +1,43 @@
+{% extends '::profileBase.html.twig' %}
+
+{% block body -%}
+<h1>Message Auction</h1>
+
+<table id="myTable" class="table">
+    <thead>
+        <tr>
+            <th>User send</th>
+            <th>Content</th>
+            <th>Postdate</th>
+            <th>Return Message</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for entity in messagesUserRecipient %}
+        <tr>
+            <td>{{entity.userSender}}</td>
+            <td><a href="{{ path('message_show', { 'id': entity.id }) }}">{{ entity.content }}</a></td>
+            <td>{% if entity.postDate %}{{ entity.postDate|date('Y-m-d H:i:s') }}{% endif %}</td>
+            <td><a href="{{path('message_new_subject', {'userRecipient': entity.userSender, 'auction': entity.auction.id, 'subject': entity.subject } ) }}"> Send to {{ entity.userSender }}</a></td>
+        </tr>
+        {% endfor %}
+        {% for entity in messagesUserSender %}
+        <tr>
+            <td>{{entity.userSender}}</td>
+            <td><a href="{{ path('message_show', { 'id': entity.id }) }}">{{ entity.content }}</a></td>
+            <td>{% if entity.postDate %}{{ entity.postDate|date('Y-m-d H:i:s') }}{% endif %}</td>
+            <td> Send to {{ entity.userSender }}</a></td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+{% endblock %}
+{% block javascripts %}
+    <script language="JavaScript" type="text/javascript">
+        $('#myTable').DataTable({
+            "order": [[ 2, "asc" ]],
+            "iDisplayLength": 15
+        });
+    </script>
+{% endblock %}

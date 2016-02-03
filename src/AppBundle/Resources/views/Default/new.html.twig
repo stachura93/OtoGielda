@@ -1,0 +1,14 @@
+{% extends '::base.html.twig' %}
+
+{% block body -%}
+<h1>Auction creation</h1>
+
+<ul class="tags" data-prototype="{{ form_widget(form.Shipping.vars.prototype)|e }}">
+
+
+</ul>
+
+{{ form(form) }}
+
+
+{% endblock %}
