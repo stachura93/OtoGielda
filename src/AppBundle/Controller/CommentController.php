@@ -20,6 +20,27 @@ use ApplicationSonataUserBundle\EntityUser;
 class CommentController extends Controller
 {
 
+    /**
+     * Finds comments by user id.
+     *
+     * @Route("/comments/user/{id}", name="user_comments")
+     * @Method("GET")
+     * @Template()
+     */
+    public function user_comments_defaultsAction($id)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $user = $em->getRepository('ApplicationSonataUserBundle:User')->find($id);
+
+        $entities = $em->getRepository('AppBundle:Comment')->findBy(array('userReceivedComment' => $user));
+
+        if (!$entities) {
+            throw $this->createNotFoundException('Unable to find Comment entity.');
+        }
+       return $this->render('AppBundle:Comment:user_comments_defaults.html.twig', array(
+            'entities' => $entities,
+       ));
+    }
 
     /**
      * Lists all auction when user can add new comment.

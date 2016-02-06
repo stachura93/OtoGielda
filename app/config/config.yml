@@ -58,13 +58,15 @@ assetic:
 # Doctrine Configuration
 doctrine:
     dbal:
-        driver:   pdo_mysql
+        driver:   oci8
         host:     "%database_host%"
         port:     "%database_port%"
         dbname:   "%database_name%"
         user:     "%database_user%"
         password: "%database_password%"
-        charset:  UTF8
+        service: %database_service%
+        servicename: %database_servicename%
+        charset:  AL32UTF8
         types:
             json: Sonata\Doctrine\Types\JsonType
 

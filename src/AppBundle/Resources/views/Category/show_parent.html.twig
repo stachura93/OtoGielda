@@ -1,13 +1,26 @@
 {% extends 'base.html.twig' %}
 
+{% block upPanel %}
 
+	{% if category != null %}
+		You're:
+		{% for cat in category|reverse %}
+			{% if cat != null %}
+			 / <a href="{{ path('parent_category', { 'name': cat }) }}">{{ cat }}</a>
+			{% endif %}
+		{% endfor %}
+		/ <- here
+	{% endif %}
+{% endblock %}
 {% block leftMenu %}
 <div class="col-md-1">
 	{% if entities != null %}
 	<h3>Subcategory</h3>
 	{% for entity in entities %}
 	<tr>
+		<hr>
 		<td><a href="{{ path('parent_category', { 'name': entity.name }) }}">{{ entity.name }}</a></td>
+		<hr>
 	</tr>
 	{% endfor %}
 	{% endif %}

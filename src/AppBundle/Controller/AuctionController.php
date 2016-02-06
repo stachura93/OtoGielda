@@ -207,7 +207,7 @@ class AuctionController extends Controller
          JOIN b.auction a
          JOIN b.user u
          WHERE b.auction = :auction
-         GROUP BY b.user
+         GROUP BY b.user, u.username, b.biddingDate
          ORDER BY price DESC
          ');
         $query->setParameter('auction', $auction);

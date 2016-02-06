@@ -19,7 +19,7 @@
         {% if entity.enabled == 1 %}
         <tr>
          <td><a href={{path('auction_show', {'id': entity.id } ) }}>{{ entity.title }}</td>
-         <td>{{ entity.content }}</td>
+         <td>{{ entity.content | slice(0,80) }}</td>
          <td>
              {% if entity.picturePath is not null %}
              <img src="{{ asset('images/'~ entity.user.id ~ '/' ~ entity.picturePath) }}" width="50" />
@@ -51,8 +51,12 @@
         {% if entity.enabled == 0 %}
         <tr>
             <td><a href={{path('auction_show', {'id': entity.id } ) }}>{{ entity.title }}</td>
-            <td>{{ entity.content }}</td>
-            <td>{{ entity.picturePath }}</td>
+            <td>{{ entity.content | slice(0,80) }}</td>
+            <td>
+             {% if entity.picturePath is not null %}
+                <img src="{{ asset('images/'~ entity.user.id ~ '/' ~ entity.picturePath) }}" width="50" />
+             {% endif %}
+            </td>
             <td>{% if entity.startAuction %}{{ entity.startAuction|date('Y-m-d H:i:s') }}{% endif %}</td>
             <td>{% if entity.endAuction %}{{ entity.endAuction|date('Y-m-d H:i:s') }}{% endif %}</td>
             <td><a href={{ path ('bidding_win_in_auction', {'auction': entity.id }) }} > Comment </a></td>

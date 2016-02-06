@@ -38,9 +38,9 @@
 				<input id="description" name="description" type="text" placeholder="description" value="">
 				<input id="auction" name="auction" type="hidden" value="{{entity.auction.id}}">
 				{% if app.request.attributes.get('_route') == 'bidding_win_in_auction' %}
-				<input id="commentForUserW" name="commentForUser" type="" value="{{entity.user}}">
+				<input id="commentForUserW" name="commentForUser" type="hidden" value="{{entity.user}}">
 				{% else %}
-				<input id="commentForUserW" name="commentForUser" type="" value="{{entity.auction.user}}">
+				<input id="commentForUserW" name="commentForUser" type="hidden" value="{{entity.auction.user}}">
 				{% endif %}
 				<button type="submit" class="btn">
 				Give comment

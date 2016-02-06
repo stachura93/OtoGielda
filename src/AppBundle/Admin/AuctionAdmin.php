@@ -18,7 +18,7 @@ class AuctionAdmin extends Admin
       ->add('content', 'text')
       ->add('product_price', 'integer')
       ->add('product_amount', 'integer')
-      ->add('picturePath', 'file', array('required' => false))
+      ->add('picturePath', 'file', array('data_class' => 'Symfony\Component\HttpFoundation\File\File','required' => false))
       ->add('startAuction', 'datetime', array(
         'format' => 'dd.MM.yyyy, HH:mm',
         ))

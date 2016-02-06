@@ -32,8 +32,12 @@ class CategoryController extends Controller
         $id  = $em->getRepository('AppBundle:Category')->findBy(array('name' => $category));
         $entity = $em->getRepository('AppBundle:Auction')->findBy(array('category' => $id));
 
+        //Show auction + subcategory auction
+        $subCategory = $em->getRepository('AppBundle:Category')->findBy(array('parent' => $id));
+        $entityInSubCategory = $em->getRepository('AppBundle:Auction')->findBy(array('category' => $subCategory));
+
         return array(
-            'entities' => $entity,
+            'entities' => $entity + $entityInSubCategory,
             );
     }
 
@@ -47,11 +51,21 @@ class CategoryController extends Controller
     public function show_parentAction($name) {
       $em = $this->getDoctrine()->getManager();
 
-      $id = $em->getRepository('AppBundle:Category')->findBy(array('name' => $name ));
+      $id = $em->getRepository('AppBundle:Category')->findOneBy(array('name' => $name ));
       $entities = $em->getRepository('AppBundle:Category')->findBy(array('parent' => $id ));
 
-      // $auction
+      $parentSource[] = null;
+      $parentTitle = $name;
+      while ( $parentTitle != null) {
+          $parent = $em->getRepository('AppBundle:Category')->findOneBy(array('name' => $parentTitle));
+          $parentTitle = null;
+          if($parent->getParent() != null)
+            $parentTitle = $parent->getParent()->getName();
+          $parentSource[] = $parent->getName();
+      }
+
       return  array(
+        'category' => $parentSource,
         'entities' => $entities,
         );
   }

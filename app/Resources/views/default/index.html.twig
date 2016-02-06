@@ -8,11 +8,11 @@
 {% block body %}
 <div class="col-md-7">
     <h1> Category</h1></br>
-    <div id="category" class="col-xs-4 col-sm-6">
+    
         {% for entity in entities %}
-        <td><a href="{{ path('parent_category', { 'name': entity.name }) }}" class="btn btn-info">{{ entity.name }}</a></td>
+        <td><a href="{{ path('parent_category', { 'name': entity.name }) }}" class="btn btn-info">{{ entity.name }}</a></td> </br> </br>
         {% endfor %}
-    </div>
+  
 </div>
 <div class="col-md-5">
   <div class="span12">

@@ -6,6 +6,10 @@
     <tbody>
         {% for entity in entities %}
         <tr>
+            <th>Auction</th>
+            <td>{{ entity.auction.title }} </td>
+        </tr>
+        <tr>
             <th>Description</th>
             <td>{{ entity.description }}</td>
         </tr>

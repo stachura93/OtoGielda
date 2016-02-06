@@ -20,10 +20,10 @@ class AuctionType extends AbstractType
       $builder
       ->add('title')
       ->add('content')
-      ->add('picturePath', 'file', array('required' => false ))
       ->add('endAuction', 'date')
       ->add('product_amount', 'integer')
       ->add('buyNow')
+      ->add('newProduct')
       ->add('product_price', 'money', array(
         'pattern' => '[0-9]+([\.,][0-9]+)?',
         'currency' => 'USD'

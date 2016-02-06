@@ -61,6 +61,14 @@ $('#buy').submit(function() {
     }
 });
 
+function message() {
+   if( $('#auctionBuyer').val() == '')
+    {
+     alert("You can't sand message -> Please LogIn");
+     return false;
+    }
+}
+
 
 
 $('.my-slider').unslider();

@@ -30,7 +30,9 @@
     </tbody>
 </table>
 
+</br>
+</br>
 
-{{ render(controller('AppBundle:Comment:userComments', { 'id': entity.id })) }}
+{{ render(controller('AppBundle:Comment:user_comments_defaults', { 'id': entity.id })) }}
 
 {% endblock %}

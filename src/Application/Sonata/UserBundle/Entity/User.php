@@ -45,7 +45,7 @@ class User extends BaseUser
     /**
      * @var string
      *
-     * @ORM\Column(name="other_description", type="string", length=65535, nullable=true)
+     * @ORM\Column(name="other_description", type="string", length=4000, nullable=true)
      */
     protected $other_description;
 
@@ -85,6 +85,13 @@ class User extends BaseUser
         $this->comment = new \Doctrine\Common\Collections\ArrayCollection();
         $this->auction = new \Doctrine\Common\Collections\ArrayCollection();
         parent::init();
+    }
+
+    /**
+     * @ORM\PrePersist()
+     */
+    public function setDefaultRole(){
+        $this->addRole( 'ROLE_USER' );
     }
 
     /**
