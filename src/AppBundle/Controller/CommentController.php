@@ -34,9 +34,6 @@ class CommentController extends Controller
 
         $entities = $em->getRepository('AppBundle:Comment')->findBy(array('userReceivedComment' => $user));
 
-        if (!$entities) {
-            throw $this->createNotFoundException('Unable to find Comment entity.');
-        }
        return $this->render('AppBundle:Comment:user_comments_defaults.html.twig', array(
             'entities' => $entities,
        ));
