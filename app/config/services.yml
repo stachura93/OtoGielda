@@ -3,10 +3,6 @@
 parameters:
 #    parameter_name: value
 services:
-    oracle.listener:
-        class: Doctrine\DBAL\Event\Listeners\OracleSessionInit
-        tags:
-            - { name: doctrine.event_listener, event: postConnect }
     admin.auction:
         class: AppBundle\Admin\AuctionAdmin
         arguments: [~, AppBundle\Entity\Auction, ~]
