@@ -8,11 +8,53 @@
 {% block body %}
 <div class="col-md-7">
     <h1> Category</h1></br>
-    
         {% for entity in entities %}
         <td><a href="{{ path('parent_category', { 'name': entity.name }) }}" class="btn btn-info">{{ entity.name }}</a></td> </br> </br>
         {% endfor %}
-  
+    </br>
+    </br>
+    </br>
+        <table border="1" width="80%">
+            <thead>
+               <tr>
+                <td style='padding:5px 10px 5px 5px'><b> Permission </b></td>
+                <td style='padding:5px 10px 5px 5px'><b> Login </b></td>
+                <td style='padding:5px 10px 5px 5px'><b> Password </b></td>
+               </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td style='padding:5px 10px 5px 5px'> Administrator </td>
+                    <td style='padding:5px 10px 5px 5px'> root1 </td>
+                    <td style='padding:5px 10px 5px 5px'> root1 </td>
+                </tr>
+                <tr>
+                    <td style='padding:5px 10px 5px 5px'> Administrator </td>
+                    <td style='padding:5px 10px 5px 5px'> root2 </td>
+                    <td style='padding:5px 10px 5px 5px'> root2 </td>
+                </tr>
+                <tr>
+                    <td style='padding:5px 10px 5px 5px'> User </td>
+                    <td style='padding:5px 10px 5px 5px'> user1 </td>
+                    <td style='padding:5px 10px 5px 5px'> user1 </td>
+                </tr>
+                <tr>
+                    <td style='padding:5px 10px 5px 5px'> User </td>
+                    <td style='padding:5px 10px 5px 5px'> user2 </td>
+                    <td style='padding:5px 10px 5px 5px'> user2 </td>
+               </tr>
+            </tbody>
+        </table>
+    </span>
+
+    </br>
+    </br>
+    </br>
+
+                  <div class="image">
+                    <img src="{{ asset('images/home_site/showDatabase.JPG') }}" width="900" />
+                  </div>
+
 </div>
 <div class="col-md-5">
   <div class="span12">
@@ -26,6 +68,7 @@
     </form>
   </div>
 </div>
+
 {% endblock %}
 
 
