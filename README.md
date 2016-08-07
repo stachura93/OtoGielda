@@ -1,3 +1,3 @@
 # OtoGielda
 
-[OtoGielda website] (http://stachura.it/OtoGielda/)
+[OtoGielda website] (http://stachura.it/)
